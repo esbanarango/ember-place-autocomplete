@@ -1,7 +1,7 @@
 {
   "name": "ember-place-autocomplete",
   "version": "0.0.0",
-  "description": "The default blueprint for ember-cli addons.",
+  "description": "Ember cli addon to provide a component that uses Google Places API to autocomplete place information when people write their address.",
   "directories": {
     "doc": "doc",
     "test": "tests"
@@ -15,7 +15,7 @@
   "engines": {
     "node": ">= 0.10.0"
   },
-  "author": "",
+  "author": "Daniel Múnera Sánchez",
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.0.2",
@@ -36,7 +36,9 @@
     "ember-try": "0.0.4"
   },
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "google places api",
+    "autcomplete"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.0.0"
