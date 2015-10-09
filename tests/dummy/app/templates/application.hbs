@@ -1,3 +1,20 @@
-<h2 id="title">Welcome to Ember.js</h2>
-
+<h2 id="title">Welcome to Ember.js - Place Autocomplete Dummy Test</h2>
+<p id="message">Message: {{message}}</p>
+<div class="test-place-autocomplete-container">
+  {{place-autocomplete-field
+    value= model.address
+    label= "Model Address"
+    error= model.errors.address
+    showErrors= true
+    contr= this
+    containerClass= 'place-autocomplete--container'
+    labelClass= 'place-autocomplete--label'
+    errorClass= 'place-autocomplete--error'
+    inputClass= 'place-autocomplete--input'
+    requiredDetails= requiredInformation
+    focusOutCallback="done"
+  }}
+</div>
 {{outlet}}
+
+
