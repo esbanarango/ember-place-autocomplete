@@ -1,1 +1,31 @@
-{{yield}}
+<div class="{{containerClass}}">
+  <label class="{{labelClass}}">{{label}}</label>
+  <div class="form--field-container">
+    {{input value=value id=inputId classBinding="inputClass" disabled=disabled focus-out='focusOut'}}
+  </div>
+  {{#if showErrors}}
+    {{#each error in errors}}
+      <small class="{{errorClass}}">{{error.message}}</small>
+    {{/each}}
+  {{/if}}
+</div>
+{{#if  showDetailsContainer }}
+  <div class="place-autocomplete--details-container">
+    {{#each detail in placeInformation}}
+      <label class="{{labelClass}}">{{detail.name}}</label>
+      <div class="form--field-container">
+        {{input value=detail.value classBinding="inputClass" disabled=detailsDisabled}}
+      </div>
+    {{/each}}
+    {{#if showLocationDetails}}
+      <label class="{{labelClass}}">Lat</label>
+      <div class="form--field-container">
+        {{input value=locationDetails.lat classBinding="inputClass" disabled=detailsDisabled}}
+      </div>
+      <label class="{{labelClass}}">Long</label>
+      <div class="form--field-container">
+        {{input value=locationDetails.lng classBinding="inputClass" disabled=detailsDisabled}}
+      </div>
+    {{/if}}
+  </div>
+{{/if}}
