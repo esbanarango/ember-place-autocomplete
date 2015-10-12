@@ -45,7 +45,7 @@ showDetails      | Boolean: to know if google Details described in **requiredDet
 detailsDisable   | Boolean: to indicate if the details fields should be disabled or not.
 focusOutCallback | String : Name of the function that is going to be executed after focus out in the address input
 
-#### requitedDetails
+#### requiredDetails
 
 you can defined a variable in you controller to tell the component which google Details you want to display and the style you want to use. Ex:
 ```js
@@ -60,18 +60,21 @@ you can defined a variable in you controller to tell the component which google 
    }
  });
 ```
-You have to styles:
+You have two styles:
 * 'long_name'
 * 'short_name'
 
-#### requitedDetails
+#### requiredDetails
 
-Location details are the Lat and Lng of the place.
+Location details are the Lat and Long of the place.
 
 ## Collaborating
 
-
-This README outlines the details of collaborating on this Ember addon.
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
 
 ## Installation
 
