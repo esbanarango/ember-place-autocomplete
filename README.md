@@ -1,5 +1,7 @@
 # Ember Place Autocomplete
 
+[![Build Status](https://travis-ci.org/dmuneras/ember-place-autocomplete.svg?branch=master)](https://travis-ci.org/dmuneras/ember-place-autocomplete)
+
 ## Description
 
 Ember cli addon to provide a component that uses Google Places API to autocomplete place information when someone writes an address

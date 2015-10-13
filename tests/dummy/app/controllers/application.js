@@ -10,7 +10,6 @@ export default Ember.Controller.extend({
   },
   actions:{
     done: function(){
-      var self = this;
       Ember.$('#message').fadeOut(500, () => {
         this.set('message', 'Doing something after focus out');
       }).fadeIn(500);
