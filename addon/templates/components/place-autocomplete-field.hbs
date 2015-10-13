@@ -4,14 +4,14 @@
     {{input value=value id=inputId classBinding="inputClass" disabled=disabled focus-out='focusOut'}}
   </div>
   {{#if showErrors}}
-    {{#each error in errors}}
+    {{#each errors as |error|}}
       <small class="{{errorClass}}">{{error.message}}</small>
     {{/each}}
   {{/if}}
 </div>
 {{#if  showDetailsContainer }}
   <div class="place-autocomplete--details-container">
-    {{#each detail in placeInformation}}
+    {{#each placeInformation as |detail|}}
       <label class="{{labelClass}}">{{detail.name}}</label>
       <div class="form--field-container">
         {{input value=detail.value classBinding="inputClass" disabled=detailsDisabled}}
