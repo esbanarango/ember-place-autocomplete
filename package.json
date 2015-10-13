@@ -11,7 +11,7 @@
     "start": "ember server",
     "test": "ember try:testall"
   },
-  "repository": "",
+  "repository": "https://github.com/dmuneras/ember-place-autocomplete",
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -43,8 +43,7 @@
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.3",
-    "ember-cli-htmlbars": "0.7.9",
-    "ember-cli-sass": "^5.0.1"
+    "ember-cli-htmlbars": "0.7.9"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

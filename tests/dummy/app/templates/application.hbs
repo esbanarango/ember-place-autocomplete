@@ -11,10 +11,13 @@
     labelClass= 'place-autocomplete--label'
     errorClass= 'place-autocomplete--error'
     inputClass= 'place-autocomplete--input'
-    requiredDetails= requiredInformation
     focusOutCallback="done"
+    placeChangedCallback="placeChanged"
   }}
 </div>
+<pre>
+  {{placeJSON}}
+</pre>
 {{outlet}}
 
 

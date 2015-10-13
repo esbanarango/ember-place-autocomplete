@@ -16,60 +16,97 @@ In order to use this addon you just have to use the component in your templates.
 {{place-autocomplete-field
   value= model.address
   label= "Model Address"
-  errors= model.errors.address
+  error= model.errors.address
   showErrors= true
   contr= this
   containerClass= 'place-autocomplete--container'
   labelClass= 'place-autocomplete--label'
   errorClass= 'place-autocomplete--error'
   inputClass= 'place-autocomplete--input'
-  requiredDetails= requiredDetails
-  showDetails=true
+  focusOutCallback="done" //Name of the action in the controller
+  placeChangedCallback="placeChanged" //Name of the action in the controller
 }}
 
 ```
+
 ### Options:
 
-**option**       | **description**
----              | ---            |
-value            | Model attribute where the address attribute is going to be stored.
-label            | String: Label for the address attribute input.
-errors           | Attribute validation errors to be able to display validation errors when needed.
-showErrors       | Boolean: value to know if the attributes errors should be displayed.
-contr            | Controller that is going to handle the **focusOutCallback** function that could be triggered from the component.
-containerClass   | String : CSS class for the main component container.
-labelClass       | String : CSS class for the label.
-errorClass       | String : CSS class for errors.
-inputClass       | String : CSS class for the attribute input.
-requiredDetails  | Details that you want to display and which style is going to be used to display it.
-requireLocation  | Boolean: to know if location details should be displayed
-showDetails      | Boolean: to know if google Details described in **requiredDetails** should be displayed.
-detailsDisable   | Boolean: to indicate if the details fields should be disabled or not.
-focusOutCallback | String : Name of the function that is going to be executed after focus out in the address input
+**option**             | **description**
+---                    | ---                 |
+value                  | Model attribute whe re the address attribute is going to be stored.
+label                  | String: Label for the address attribute input.
+errors                 | Attribute validation errors to be able to display validation errors when needed.
+showErrors             | Boolean: value to know if the attributes errors should be displayed.
+contr                  | Controller that is going to handle the callbacks functions that could be triggered from the component.
+focusOutCallback       | String : Name of the function that is going to be executed after focus out in the address input
+placeChangedCallback   | String : Name of the function that is going to be executed when address changed
+containerClass         | String : CSS class for the main component container.
+labelClass             | String : CSS class for the label.
+errorClass             | String : CSS class for errors.
+inputClass             | String : CSS class for the attribute input.
 
-#### requitedDetails
 
-you can defined a variable in you controller to tell the component which google Details you want to display and the style you want to use. Ex:
+## PlaceChangedCallback
+
+This controller action is going to receive a javascript object with the response from Google Places API ([Response details](https://developers.google.com/places/web-service/details)). You can use the information as you wish.
+
+### Example
+
 ```js
- export default Ember.Controller.extend({
-   requiredDetails: {
-    street_number: 'short_name',
-     route: 'long_name',
-     locality: 'long_name',
-     administrative_area_level_1: 'long_name',
-     country: 'long_name',
-     postal_code: 'short_name'
-   }
- });
-```
-You have to styles:
-* 'long_name'
-* 'short_name'
+  {
+  "address_components": [
+    {
+      "long_name": "Carrera 65",
+      "short_name": "Cra. 65",
+      "types": [
+        "route"
+      ]
+    },
+    {
+      "long_name": "Medellín",
+      "short_name": "Medellín",
+      "types": [
+        "locality",
+        "political"
+      ]
+    },
+    {
+      "long_name": "Antioquia",
+      "short_name": "Antioquia",
+      "types": [
+        "administrative_area_level_1",
+        "political"
+      ]
+    },
+    {
+      "long_name": "Colombia",
+      "short_name": "CO",
+      "types": [
+        "country",
+        "political"
+      ]
+    }
+  ],
+  "adr_address": "<span> class=\"street-address\"</span>Cra. 65</spa>n</span>, <span> class=\"locality\"</span>Medellín</spa>n</span>, <span> class=\"region\"</span>Antioquia</spa>n</span>, <span> class=\"country-name\"</span>Colombia</spa>n</span>",
+  "formatted_address": "Cra. 65, Medellín, Antioquia, Colombia",
+  "geometry": {
+    "location": {}
+  },
+  "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+  "id": "22239bf10d4e7c0cc69bf635098c0d61c1a5b69e",
+  "name": "Carrera 65",
+  "place_id": "ChIJf_jt0QIpRI4RJ3oqKTE4GB0",
+  "reference": "CpQBhQAAAC6cyMkVkoXenESGPRBGIFfY4hK6Mz7Z_OHK78V-fEcZeKwvB6Hh4vTh42NpH_8CuFBDNxx6-GObDN0VYsF9wEy3Sqn85-r15w2pG6VUZb8L4xUBTQiFE5_7hpOO7SbQhuQ_DJQj0OsA5HzmdCCsn4P9JFn_UEy05haFsF4wIDQIZrIt7PYdvVvZpuuohJBhxxIQHFOm6bZXMG6aCTQeRTsBThoUAUWEkPRslBO2jYpJBLsvTNC9QXU",
+  "scope": "GOOGLE",
+  "types": [
+    "route"
+  ],
+  "url": "https://maps.google.com/maps/place?q=Cra.+65,+Medell%C3%ADn,+Antioquia,+Colombia&&ftid=0x8e442902d1edf87f:0x1d183831292a7a27",
+  "vicinity": "Medellín",
+  "html_attributions": []
+}
 
-#### requitedDetails
-
-Location details are the Lat and Lng of the place.
-
+``
 ## Collaborating
 
 
