@@ -9,23 +9,3 @@
     {{/each}}
   {{/if}}
 </div>
-{{#if  showDetailsContainer }}
-  <div class="place-autocomplete--details-container">
-    {{#each placeInformation as |detail|}}
-      <label class="{{labelClass}}">{{detail.name}}</label>
-      <div class="form--field-container">
-        {{input value=detail.value classBinding="inputClass" disabled=detailsDisabled}}
-      </div>
-    {{/each}}
-    {{#if showLocationDetails}}
-      <label class="{{labelClass}}">Lat</label>
-      <div class="form--field-container">
-        {{input value=locationDetails.lat classBinding="inputClass" disabled=detailsDisabled}}
-      </div>
-      <label class="{{labelClass}}">Long</label>
-      <div class="form--field-container">
-        {{input value=locationDetails.lng classBinding="inputClass" disabled=detailsDisabled}}
-      </div>
-    {{/if}}
-  </div>
-{{/if}}

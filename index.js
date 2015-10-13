@@ -16,8 +16,5 @@ module.exports = {
       content = '<script type="text/javascript" src="' + src + '"></script>';
     }
     return content;
-  },
-  included: function(app) {
-    this._super.included(app);
   }
 };
