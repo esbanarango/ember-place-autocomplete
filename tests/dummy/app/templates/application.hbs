@@ -3,13 +3,7 @@
 <div class="test-place-autocomplete-container">
   {{place-autocomplete-field
     value= model.address
-    label= "Model Address"
-    error= model.errors.address
-    showErrors= true
     contr= this
-    containerClass= 'place-autocomplete--container'
-    labelClass= 'place-autocomplete--label'
-    errorClass= 'place-autocomplete--error'
     inputClass= 'place-autocomplete--input'
     focusOutCallback="done"
     placeChangedCallback="placeChanged"
