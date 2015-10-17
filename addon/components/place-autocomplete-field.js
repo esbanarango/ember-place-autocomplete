@@ -4,26 +4,17 @@ import layout from '../templates/components/place-autocomplete-field';
 export default Ember.Component.extend({
   layout: layout,
   disabled: false,
-  showErrors: true,
-  containerClass: 'place-autocomplete--container',
-  labelClass: 'place-autocomplete--label',
-  errorClass: 'place-autocomplete--error',
   inputClass: 'place-autocomplete--input',
-  inputId: 'place-autocomplete',
 
-  didInsertElement: function(){
-    this.autocompleteCallback();
-  },
-
-  autocompleteCallback: function(){
+  autocompleteCallback: Ember.on('didInsertElement', function() {
     this.getAutocomplete();
     this.get('autocomplete').addListener('place_changed', () => { this.placeChanged(); });
-  },
+  }),
 
   getAutocomplete: function(){
     if( Ember.isEmpty(this.get('autocomplete')) ){
-      var inputElement = document.getElementById(this.get('inputId')),
-        google = this.get('google') || window.google; //TODO: check how to use the inyected google object
+      let inputElement = document.getElementsByTagName('input')[0],
+          google = this.get('google') || window.google; //TODO: check how to use the inyected google object
       this.set('autocomplete', new google.maps.places.Autocomplete(inputElement,{types: ['geocode']}));
     }
   },
@@ -37,7 +28,7 @@ export default Ember.Component.extend({
   },
 
   _callCallback: function(callback){
-    var actionName = this.get(callback);
+    let actionName = this.get(callback);
     if( !Ember.isEmpty(actionName) && !Ember.isEmpty(this.get('contr')) && this._isString(actionName) ){
       this.get('contr').send(actionName, this.get('autocomplete').get('place'));
     }

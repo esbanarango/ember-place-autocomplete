@@ -1,11 +1,1 @@
-<div class="{{containerClass}}">
-  <label class="{{labelClass}}">{{label}}</label>
-  <div class="form--field-container">
-    {{input value=value id=inputId classBinding="inputClass" disabled=disabled focus-out='focusOut'}}
-  </div>
-  {{#if showErrors}}
-    {{#each errors as |error|}}
-      <small class="{{errorClass}}">{{error.message}}</small>
-    {{/each}}
-  {{/if}}
-</div>
+{{input value=value classBinding="inputClass" disabled=disabled focus-out='focusOut'}}
