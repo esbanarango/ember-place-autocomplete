@@ -1,5 +1,6 @@
 {
   "predef": [
+    "Ember",
     "document",
     "window",
     "location",
@@ -22,8 +23,12 @@
     "currentURL",
     "currentPath",
     "currentRouteName",
-    "Ember",
-    "mocha"
+    "ok",
+    "equal",
+    "module",
+    "test",
+    "expect",
+    "context"
   ],
   "node": false,
   "browser": false,
