@@ -16,7 +16,7 @@ using a callback function in your controller.
 
 In order to use this addon you just have to use the component in your templates.
 
-````js
+```js
 
 {{place-autocomplete-field
   value= model.address
