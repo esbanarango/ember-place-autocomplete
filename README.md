@@ -7,6 +7,11 @@
 Ember cli addon to provide a component that uses Google Places API to autocomplete place information when someone writes an address
 in a text field.
 
+This addon is very simple and just give you all the information of a place from google, you can do whatever you want with that information
+using a callback function in your controller.
+
+![Autocomplete](http://i.imgur.com/yP4742D.gif)
+
 ## Usage
 
 In order to use this addon you just have to use the component in your templates.
@@ -16,12 +21,8 @@ In order to use this addon you just have to use the component in your templates.
 {{place-autocomplete-field
   value= model.address
   label= "Model Address"
-  error= model.errors.address
-  showErrors= true
+  disable=false
   contr= this
-  containerClass= 'place-autocomplete--container'
-  labelClass= 'place-autocomplete--label'
-  errorClass= 'place-autocomplete--error'
   inputClass= 'place-autocomplete--input'
   focusOutCallback="done" //Name of the action in the controller
   placeChangedCallback="placeChanged" //Name of the action in the controller
@@ -35,20 +36,16 @@ In order to use this addon you just have to use the component in your templates.
 ---                    | ---                 |
 value                  | Model attribute whe re the address attribute is going to be stored.
 label                  | String: Label for the address attribute input.
-errors                 | Attribute validation errors to be able to display validation errors when needed.
-showErrors             | Boolean: value to know if the attributes errors should be displayed.
 contr                  | Controller that is going to handle the callbacks functions that could be triggered from the component.
 focusOutCallback       | String : Name of the function that is going to be executed after focus out in the address input
 placeChangedCallback   | String : Name of the function that is going to be executed when address changed
-containerClass         | String : CSS class for the main component container.
-labelClass             | String : CSS class for the label.
-errorClass             | String : CSS class for errors.
 inputClass             | String : CSS class for the attribute input.
 
 
 ## PlaceChangedCallback
 
 This controller action is going to receive a javascript object with the response from Google Places API ([Response details](https://developers.google.com/places/web-service/details)). You can use the information as you wish.
+
 
 ### Example
 
@@ -106,11 +103,27 @@ This controller action is going to receive a javascript object with the response
   "html_attributions": []
 }
 
-``
+```
+
+## Security policy
+
+If you are using [`ember-cli-content-security-policy`](https://github.com/rwjblue/ember-cli-content-security-policy) in your application, you have to add google maps to your white list in your config environment .
+
+### Example
+
+```js
+    contentSecurityPolicy: {
+      'default-src': "'none'",
+      'script-src': "'self' 'unsafe-eval' *.googleapis.com maps.gstatic.com",
+      'font-src': "'self' fonts.gstatic.com",
+      'connect-src': "'self' maps.gstatic.com",
+      'img-src': "'self' *.googleapis.com maps.gstatic.com csi.gstatic.com data:",
+      'style-src': "'self' 'unsafe-inline' fonts.googleapis.com maps.gstatic.com assets-cdn.github.com"
+    },
+
+```
 ## Collaborating
 
-
-This README outlines the details of collaborating on this Ember addon.
 
 ## Installation
 
