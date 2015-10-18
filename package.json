@@ -39,7 +39,10 @@
   "keywords": [
     "ember-addon",
     "google places api",
-    "autcomplete"
+    "autocomplete",
+    "ember",
+    "address",
+    "place"
   ],
   "dependencies": {
     "ember-cli-babel": "^5.1.3",
