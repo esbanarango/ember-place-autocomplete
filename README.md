@@ -10,7 +10,7 @@ in a text field.
 This addon is very simple and just give you all the information of a place from google, you can do whatever you want with that information
 using a callback function in your controller.
 
-![Autocomplete](http://i.imgur.com/yP4742D.gif)
+![Autocomplete](http://i.imgur.com/rFL5OgO.gifv)
 
 ## Usage
 
