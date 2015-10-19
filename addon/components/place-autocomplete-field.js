@@ -23,14 +23,10 @@ export default Ember.Component.extend({
     this._callCallback('placeChangedCallback');
   },
 
-  _isString: function(str){
-    return Ember.isEqual(Ember.typeOf(str), 'string');
-  },
-
   _callCallback: function(callback){
     let actionName = this.get(callback);
-    if( !Ember.isEmpty(actionName) && !Ember.isEmpty(this.get('contr')) && this._isString(actionName) ){
-      this.get('contr').send(actionName, this.get('autocomplete').get('place'));
+    if(Ember.isPresent(actionName) && Ember.isPresent(this.get('handlerController'))){
+      this.get('handlerController').send(actionName, this.get('autocomplete').get('place'));
     }
   },
 

@@ -21,10 +21,10 @@ In order to use this addon you just have to use the component in your templates.
 {{place-autocomplete-field
   value= model.address
   disable=false
-  contr= this
+  handlerController= this
   inputClass= 'place-autocomplete--input'
-  focusOutCallback="done" //Name of the action in the controller
-  placeChangedCallback="placeChanged" //Name of the action in the controller
+  focusOutCallback='done' //Name of the action in the controller
+  placeChangedCallback='placeChanged' //Name of the action in the controller
 }}
 
 ```
@@ -34,7 +34,7 @@ In order to use this addon you just have to use the component in your templates.
 **option**             | **description**
 ---                    | ---                 |
 value                  | Model attribute whe re the address attribute is going to be stored.
-contr                  | Controller that is going to handle the callbacks functions that could be triggered from the component.
+handlerController      | Controller that is going to handle the callbacks functions that could be triggered from the component.
 focusOutCallback       | String : Name of the function that is going to be executed after focus out in the address input
 placeChangedCallback   | String : Name of the function that is going to be executed when address changed
 inputClass             | String : CSS class for the attribute input.
