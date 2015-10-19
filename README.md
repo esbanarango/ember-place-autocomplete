@@ -1,6 +1,6 @@
 # Ember Place Autocomplete
 
-[![Build Status](https://travis-ci.org/dmuneras/ember-place-autocomplete.svg?branch=master)](https://travis-ci.org/dmuneras/ember-place-autocomplete)
+[![Build Status](https://travis-ci.org/dmuneras/ember-place-autocomplete.svg?branch=master)](https://travis-ci.org/dmuneras/ember-place-autocomplete) [![Ember Observer Score](http://emberobserver.com/badges/ember-place-autocomplete.svg)](http://emberobserver.com/addons/ember-place-autocomplete) [![npm version](https://badge.fury.io/js/ember-place-autocomplete.svg)](https://badge.fury.io/js/ember-place-autocomplete)
 
 ## Description
 
