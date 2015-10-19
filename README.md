@@ -20,7 +20,6 @@ In order to use this addon you just have to use the component in your templates.
 
 {{place-autocomplete-field
   value= model.address
-  label= "Model Address"
   disable=false
   contr= this
   inputClass= 'place-autocomplete--input'
@@ -35,7 +34,6 @@ In order to use this addon you just have to use the component in your templates.
 **option**             | **description**
 ---                    | ---                 |
 value                  | Model attribute whe re the address attribute is going to be stored.
-label                  | String: Label for the address attribute input.
 contr                  | Controller that is going to handle the callbacks functions that could be triggered from the component.
 focusOutCallback       | String : Name of the function that is going to be executed after focus out in the address input
 placeChangedCallback   | String : Name of the function that is going to be executed when address changed

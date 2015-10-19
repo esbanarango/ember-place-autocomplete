@@ -20,7 +20,7 @@ export default Ember.Component.extend({
   },
 
   placeChanged: function(){
-    this._callCallback("placeChangedCallback");
+    this._callCallback('placeChangedCallback');
   },
 
   _isString: function(str){
@@ -36,7 +36,7 @@ export default Ember.Component.extend({
 
   actions:{
     focusOut: function(){
-      this._callCallback("focusOutCallback");
+      this._callCallback('focusOutCallback');
     }
   }
 });
