@@ -1,15 +1,14 @@
-<h2 id="title">Welcome to Ember.js - Place Autocomplete Dummy Test</h2>
 <p id="message">Message: {{message}}</p>
 <div class="test-place-autocomplete-container">
   {{place-autocomplete-field
     value= model.address
-    contr= this
+    handlerController= this
     inputClass= 'place-autocomplete--input'
     focusOutCallback="done"
     placeChangedCallback="placeChanged"
   }}
 </div>
-<pre>
+<pre style="font-size: 6px;">
   {{placeJSON}}
 </pre>
 {{outlet}}
