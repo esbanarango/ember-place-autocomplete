@@ -37,18 +37,5 @@ describeComponent(
       this.render();
       expect(component.get('value')).to.equal('fake address');
     });
-
-    it("accetps 'inputId' option", function() {
-      var component = this.subject();
-      component.set('inputId', 'some-id');
-      this.render();
-      expect(component.get('inputId')).to.equal('some-id');
-    });
-
-    it("sets default 'inputId'", function() {
-      var component = this.subject();
-      this.render();
-      expect(component.get('inputId')).to.equal('place-autocomplete--input');
-    });
   }
 );
