@@ -37,7 +37,8 @@ value                  | Model attribute whe re the address attribute is going t
 handlerController      | Controller that is going to handle the callbacks functions that could be triggered from the component.
 focusOutCallback       | String : Name of the function that is going to be executed after focus out in the address input
 placeChangedCallback   | String : Name of the function that is going to be executed when address changed
-inputClass             | String : CSS class for the attribute input.
+inputClass             | String : CSS class for the input.
+inputId                | String : CSS id for the input, it is going to be used to bind the autocomplete event.
 
 
 ## PlaceChangedCallback

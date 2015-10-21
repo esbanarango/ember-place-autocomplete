@@ -11,6 +11,20 @@
 <pre style="font-size: 6px;">
   {{placeJSON}}
 </pre>
+
+<h2>Automcomplete 2</h2>
+<div class="test-place-autocomplete-container">
+  {{place-autocomplete-field
+    value= model.address2
+    handlerController= this
+    inputClass= 'place-autocomplete--input-2'
+    inputId='place-autocomplete--input-2'
+    placeChangedCallback="placeChangedSecondInput"
+  }}
+</div>
+<pre style="font-size: 6px;">
+  {{placeJSONSecondInput}}
+</pre>
 {{outlet}}
 
 
