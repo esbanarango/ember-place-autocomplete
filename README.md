@@ -25,6 +25,7 @@ In order to use this addon you just have to use the component in your templates.
   inputClass= 'place-autocomplete--input'
   focusOutCallback='done' //Name of the action in the controller
   placeChangedCallback='placeChanged' //Name of the action in the controller
+  types='(cities)' //You don't have to pass this value, default value is 'geocode'
 }}
 
 ```
@@ -38,6 +39,7 @@ handlerController      | Controller that is going to handle the callbacks functi
 focusOutCallback       | String : Name of the function that is going to be executed after focus out in the address input
 placeChangedCallback   | String : Name of the function that is going to be executed when address changed
 inputClass             | String : CSS class for the input.
+types                  | String: featured types separate by spaces describing the given result, for more info [Available types](https://developers.google.com/places/supported_types#table3)
 
 
 ## PlaceChangedCallback
