@@ -37,5 +37,11 @@ describeComponent(
       this.render();
       expect(component.get('value')).to.equal('fake address');
     });
+
+    it('converts types option to array', function(){
+      var component = this.subject();
+      component.set('types', 'geocode');
+      expect(component._typesToArray()).to.eql(['geocode']);
+    });
   }
 );
