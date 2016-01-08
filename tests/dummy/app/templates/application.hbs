@@ -1,4 +1,7 @@
 <p id="message">Message: {{message}}</p>
+<p>Full adddress from JSON sent to the callback: {{{fullAddress}}}</p>
+<p>Clean string: {{cleanFullAddress}}</p>
+<p> Model address: {{model.address}}</p>
 <div class="test-place-autocomplete-container">
   {{place-autocomplete-field
     value= model.address
@@ -12,7 +15,7 @@
   {{placeJSON}}
 </pre>
 
-<h2>Automcomplete 2</h2>
+<h2>Autocomplete 2</h2>
 <div class="test-place-autocomplete-container">
   {{place-autocomplete-field
     value= model.address2
@@ -20,7 +23,7 @@
     inputClass= 'place-autocomplete--input-2'
     inputId='place-autocomplete--input-2'
     placeChangedCallback="placeChangedSecondInput"
-    types='(cities)'
+    restrictions=restrictions
   }}
 </div>
 <pre style="font-size: 6px;">

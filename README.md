@@ -26,6 +26,7 @@ In order to use this addon you just have to use the component in your templates.
   focusOutCallback='done' //Name of the action in the controller
   placeChangedCallback='placeChanged' //Name of the action in the controller
   types='(cities)' //You don't have to pass this value, default value is 'geocode'
+  restricctions= restrictionsObjectFromController // You can pass and object with restriction options.
 }}
 
 ```
@@ -40,6 +41,7 @@ focusOutCallback       | String : Name of the function that is going to be execu
 placeChangedCallback   | String : Name of the function that is going to be executed when address changed
 inputClass             | String : CSS class for the input.
 types                  | String: featured types separate by spaces describing the given result, for more info [Available types](https://developers.google.com/places/supported_types#table3)
+restrictions           | Object: ex. `{country: "us"}`, more info [Component Restrictions](https://developers.google.com/maps/documentation/javascript/examples/geocoding-component-restriction)
 
 
 ## PlaceChangedCallback

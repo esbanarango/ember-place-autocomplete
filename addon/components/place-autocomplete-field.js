@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   disabled: false,
   inputClass: 'place-autocomplete--input',
   types: 'geocode',
+  restrictions: {},
 
   autocompleteCallback: Ember.on('didInsertElement', function() {
     this.getAutocomplete();
@@ -16,7 +17,8 @@ export default Ember.Component.extend({
     if( Ember.isEmpty(this.get('autocomplete')) ){
       let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
           google = this.get('google') || window.google; //TODO: check how to use the inyected google object
-      this.set('autocomplete', new google.maps.places.Autocomplete(inputElement,{ types: this._typesToArray() }));
+      this.set('autocomplete', new google.maps.places.Autocomplete(inputElement,
+        { types: this._typesToArray(), componentRestrictions: this.get('restrictions') }));
     }
   },
 
