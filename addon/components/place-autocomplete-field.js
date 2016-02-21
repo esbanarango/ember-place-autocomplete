@@ -1,42 +1,54 @@
 import Ember from 'ember';
 import layout from '../templates/components/place-autocomplete-field';
 
+const { Component, isEmpty, isPresent, typeOf, isEqual } = Ember;
+
 export default Ember.Component.extend({
   layout: layout,
   disabled: false,
   inputClass: 'place-autocomplete--input',
   types: 'geocode',
+  tabindex: -1,
 
-  autocompleteCallback: Ember.on('didInsertElement', function() {
+  didRender() {
+    this._super(...arguments);
     this.getAutocomplete();
-    this.get('autocomplete').addListener('place_changed', () => { this.placeChanged(); });
-  }),
+    this.get('autocomplete').addListener('place_changed', this.placeChanged.bind(this));
+  },
 
-  getAutocomplete: function(){
-    if( Ember.isEmpty(this.get('autocomplete')) ){
-      let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
-          google = this.get('google') || window.google; //TODO: check how to use the inyected google object
-      this.set('autocomplete', new google.maps.places.Autocomplete(inputElement,{ types: this._typesToArray() }));
+  willDestroy() {
+    if (isPresent(this.get('autocomplete'))) {
+      let google = this.get('google') || window.google;
+      google.maps.event.clearInstanceListeners(this.get('autocomplete'));
     }
   },
 
-  placeChanged: function(){
-    this._callCallback('placeChangedCallback');
+  getAutocomplete() {
+    if (isEmpty(this.get('autocomplete'))) {
+      let inputElement = this.$('input')[0],
+        google = this.get('google') || window.google; //TODO: check how to use the injected google object
+      this.set('autocomplete', new google.maps.places.Autocomplete(inputElement, { types: this._typesToArray() }));
+    }
   },
 
-  _callCallback: function(callback){
+  placeChanged() {
+    this._callCallback('placeChangedAction');
+  },
+
+  _callCallback(callback) {
     let actionName = this.get(callback);
-    if(Ember.isPresent(actionName) && Ember.isPresent(this.get('handlerController'))){
-      this.get('handlerController').send(actionName, this.get('autocomplete').get('place'));
+    let callbackFn = this.attrs[callback];
+    if (isPresent(actionName) && isEqual(typeOf(callbackFn), 'function')) {
+      this.attrs[callback](this.get('autocomplete').get('place'));
     }
   },
 
-  _typesToArray: function(){
+  _typesToArray() {
     return this.get('types').split();
   },
 
-  actions:{
-    focusOut: function(){
+  actions: {
+    focusOut() {
       this._callCallback('focusOutCallback');
     }
   }

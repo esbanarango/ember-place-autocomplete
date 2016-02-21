@@ -1,1 +1,9 @@
-{{input value=value classBinding="inputClass" disabled=disabled focus-out='focusOut'}}
+{{#if hasBlock}}
+  {{yield}}
+{{else}}
+  {{input value=value
+          classBinding="inputClass"
+          tabindex=tabindex
+          disabled=disabled
+          focus-out='focusOut'}}
+{{/if}}
