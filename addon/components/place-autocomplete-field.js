@@ -3,7 +3,7 @@ import layout from '../templates/components/place-autocomplete-field';
 
 const { Component, isEmpty, isPresent, typeOf, isEqual } = Ember;
 
-export default Ember.Component.extend({
+export default Component.extend({
   layout: layout,
   disabled: false,
   inputClass: 'place-autocomplete--input',
@@ -32,14 +32,19 @@ export default Ember.Component.extend({
   },
 
   placeChanged() {
-    this._callCallback('placeChangedAction');
+    this._callCallback('placeChangedCallback');
   },
 
   _callCallback(callback) {
-    let actionName = this.get(callback);
     let callbackFn = this.attrs[callback];
-    if (isPresent(actionName) && isEqual(typeOf(callbackFn), 'function')) {
-      this.attrs[callback](this.get('autocomplete').get('place'));
+    let place      = this.get('autocomplete').get('place');
+    if (isEqual(typeOf(callbackFn), 'function')) {
+      callbackFn(place);
+    } else {
+      let actionName = this.get(callback);
+      if (isPresent(this.get('handlerController')) && isPresent(actionName)) {
+        this.get('handlerController').send(actionName, place);
+      }
     }
   },
 
