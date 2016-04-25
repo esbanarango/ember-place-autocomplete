@@ -25,7 +25,7 @@ export default Component.extend({
   },
 
   getAutocomplete(){
-    if( Ember.isEmpty(this.get('autocomplete')) ){
+    if(isEmpty(this.get('autocomplete'))){
       let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
           google = this.get('google') || window.google; //TODO: check how to use the inyected google object
       this.set('autocomplete', new google.maps.places.Autocomplete(inputElement,
