@@ -1,19 +1,30 @@
 import Ember from 'ember';
 import layout from '../templates/components/place-autocomplete-field';
 
-export default Ember.Component.extend({
+const { Component, isEmpty, isPresent, typeOf, isEqual } = Ember;
+
+export default Component.extend({
   layout: layout,
   disabled: false,
   inputClass: 'place-autocomplete--input',
   types: 'geocode',
   restrictions: {},
+  tabindex: -1,
 
-  autocompleteCallback: Ember.on('didInsertElement', function() {
+  didRender() {
+    this._super(...arguments);
     this.getAutocomplete();
-    this.get('autocomplete').addListener('place_changed', () => { this.placeChanged(); });
-  }),
+    this.get('autocomplete').addListener('place_changed', this.placeChanged.bind(this));
+  },
 
-  getAutocomplete: function(){
+  willDestroy() {
+    if (isPresent(this.get('autocomplete'))) {
+      let google = this.get('google') || window.google;
+      google.maps.event.clearInstanceListeners(this.get('autocomplete'));
+    }
+  },
+
+  getAutocomplete(){
     if( Ember.isEmpty(this.get('autocomplete')) ){
       let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
           google = this.get('google') || window.google; //TODO: check how to use the inyected google object
@@ -22,23 +33,29 @@ export default Ember.Component.extend({
     }
   },
 
-  placeChanged: function(){
+  placeChanged() {
     this._callCallback('placeChangedCallback');
   },
 
-  _callCallback: function(callback){
-    let actionName = this.get(callback);
-    if(Ember.isPresent(actionName) && Ember.isPresent(this.get('handlerController'))){
-      this.get('handlerController').send(actionName, this.get('autocomplete').get('place'));
+  _callCallback(callback) {
+    let callbackFn = this.attrs[callback];
+    let place      = this.get('autocomplete').get('place');
+    if (isEqual(typeOf(callbackFn), 'function')) {
+      callbackFn(place);
+    } else {
+      let actionName = this.get(callback);
+      if (isPresent(this.get('handlerController')) && isPresent(actionName)) {
+        this.get('handlerController').send(actionName, place);
+      }
     }
   },
 
-  _typesToArray: function(){
+  _typesToArray() {
     return this.get('types').split();
   },
 
-  actions:{
-    focusOut: function(){
+  actions: {
+    focusOut() {
       this._callCallback('focusOutCallback');
     }
   }
