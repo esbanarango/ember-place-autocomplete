@@ -8,6 +8,7 @@ export default Component.extend({
   disabled: false,
   inputClass: 'place-autocomplete--input',
   types: 'geocode',
+  restrictions: {},
   tabindex: -1,
 
   didRender() {
@@ -23,11 +24,12 @@ export default Component.extend({
     }
   },
 
-  getAutocomplete() {
-    if (isEmpty(this.get('autocomplete'))) {
-      let inputElement = this.$('input')[0],
-        google = this.get('google') || window.google; //TODO: check how to use the injected google object
-      this.set('autocomplete', new google.maps.places.Autocomplete(inputElement, { types: this._typesToArray() }));
+  getAutocomplete(){
+    if(isEmpty(this.get('autocomplete'))){
+      let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
+          google = this.get('google') || window.google; //TODO: check how to use the inyected google object
+      this.set('autocomplete', new google.maps.places.Autocomplete(inputElement,
+        { types: this._typesToArray(), componentRestrictions: this.get('restrictions') }));
     }
   },
 
