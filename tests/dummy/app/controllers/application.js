@@ -4,12 +4,12 @@ export default Ember.Controller.extend({
   restrictions: {country: "co"},
 
   actions:{
-    done: function(){
+    done(){
       Ember.$('#message').fadeOut(500, () => {
         this.set('message', 'Focus out');
       }).fadeIn(500);
     },
-    placeChanged: function(place){
+    placeChanged(place){
       this.set('placeJSON', JSON.stringify(place, undefined, 2));
       if (place.adr_address) {
         let regexp = /(<span(?: \w+="[^"]+")*(?: \w+="[^"]+")*>([^<]*)<\/span>)/g,
@@ -19,7 +19,7 @@ export default Ember.Controller.extend({
       this.set('fullAddress', place.adr_address);
 
     },
-    placeChangedSecondInput: function(place){
+    placeChangedSecondInput(place){
       this.set('placeJSONSecondInput', JSON.stringify(place, undefined, 2));
     }
   }
