@@ -11,7 +11,7 @@ export default Component.extend({
   restrictions: {},
   tabindex: -1,
 
-  didRender() {
+  didInsertElement() {
     this._super(...arguments);
     this.getAutocomplete();
     this.get('autocomplete').addListener('place_changed', this.placeChanged.bind(this));
@@ -39,7 +39,7 @@ export default Component.extend({
 
   _callCallback(callback) {
     let callbackFn = this.attrs[callback];
-    let place      = this.get('autocomplete').get('place');
+    let place      = this.get('autocomplete').getPlace();
     if (isEqual(typeOf(callbackFn), 'function')) {
       callbackFn(place);
     } else {
