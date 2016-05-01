@@ -1,10 +1,10 @@
 {{#if hasBlock}}
-  {{yield}}
+  {{yield this}}
 {{else}}
   {{input value=value
           classBinding="inputClass"
           tabindex=tabindex
           disabled=disabled
           focus-out='focusOut'
-        }}
+          bubbles=true}}
 {{/if}}
