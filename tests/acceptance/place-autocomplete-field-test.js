@@ -42,6 +42,14 @@ describe('Acceptance : place autocomplete', function() {
         });
       });
     });
+
+    it('event listener works as expected', function(){
+      visit('/');
+      andThen(() =>{
+        expect(Ember.$('.place-autocomplete--input').val('El Poblado, Medellín - Antioquia, Colombia'));
+        expect(Ember.$('div[data-google-auto="done"]').length, 1);
+      });
+    });
   });
 });
 
