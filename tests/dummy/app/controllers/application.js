@@ -1,6 +1,7 @@
 export default Ember.Controller.extend({
 
   fullAddress: null,
+  googleAuto: null,
   restrictions: {country: "co"},
 
   actions:{
@@ -11,13 +12,13 @@ export default Ember.Controller.extend({
     },
     placeChanged(place){
       this.set('placeJSON', JSON.stringify(place, undefined, 2));
+      this.set('googleAuto', 'done');
       if (place.adr_address) {
         let regexp = /(<span(?: \w+="[^"]+")*(?: \w+="[^"]+")*>([^<]*)<\/span>)/g,
             fullAddress = place.adr_address.replace(regexp, "$2");
         this.set('cleanFullAddress', fullAddress);
       }
       this.set('fullAddress', place.adr_address);
-
     },
     placeChangedSecondInput(place){
       this.set('placeJSONSecondInput', JSON.stringify(place, undefined, 2));

@@ -2,7 +2,7 @@
 <p>Full adddress from JSON sent to the callback: {{{fullAddress}}}</p>
 <p>Clean string: {{cleanFullAddress}}</p>
 <p> Model address: {{model.address}}</p>
-<div class="test-place-autocomplete-container">
+<div class="test-place-autocomplete-container" data-google-auto="{{googleAuto}}">
   {{place-autocomplete-field
     value= model.address
     handlerController= this
