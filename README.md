@@ -124,6 +124,32 @@ If you are using [`ember-cli-content-security-policy`](https://github.com/rwjblu
     },
 
 ```
+
+## Acceptance tests
+
+If you're writting _acceptance tests_ for a part of you're application that interacts with `place-autocomplete-field` you will need to mock google's Autocomplete.
+
+Here's the code you need to add to your acceptance test file. And here's the [GooglePlaceAutocompleteReponse](https://github.com/dmuneras/ember-place-autocomplete/blob/master/tests/helpers/google-place-autocomplete-response.js) file with a fake response.
+
+```js
+
+import GooglePlaceAutocompleteReponse from 'my_awesome_snowboard_proyect/tests/helpers/google-place-autocomplete-reponse';
+
+// Mock only google places
+window.google.maps.places = {
+  Autocomplete: function() {
+    return {
+      addListener: function(event, f) {
+        f.call();
+      },
+      getPlace: function() {
+        return GooglePlaceAutocompleteReponse;
+      }
+    };
+  }
+};
+```
+
 ## Collaborating
 
 
