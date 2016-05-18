@@ -31,6 +31,15 @@ In order to use this addon you just have to use the component in your templates.
 
 ```
 
+You can supply your own Google API key in `config/environment.js`:
+ 
+```js
+ENV['place-autocomplete'] = {
+  key: 'AIZ...'
+};
+```
+
+
 ### Options:
 
 **option**             | **description**
