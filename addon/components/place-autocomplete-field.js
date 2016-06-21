@@ -51,7 +51,7 @@ export default Component.extend({
   },
 
   _typesToArray() {
-    return this.get('types').split();
+    return this.get('types').split(',');
   },
 
   actions: {
