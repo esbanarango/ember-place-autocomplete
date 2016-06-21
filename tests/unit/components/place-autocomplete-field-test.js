@@ -43,5 +43,17 @@ describeComponent(
       component.set('types', 'geocode');
       expect(component._typesToArray()).to.eql(['geocode']);
     });
+
+    it('converts types option to array more two elements', function(){
+      var component = this.subject();
+      component.set('types', 'geocode,establishment');
+      expect(component._typesToArray()).to.eql(['geocode','establishment']);
+    });
+
+    it('converts types in an empty string', function(){
+      var component = this.subject();
+      component.set('types', '');
+      expect(component._typesToArray()).to.eql("");
+    });
   }
 );
