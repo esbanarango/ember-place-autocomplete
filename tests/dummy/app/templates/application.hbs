@@ -29,6 +29,22 @@
 <pre style="font-size: 6px;">
   {{placeJSONSecondInput}}
 </pre>
+
+<h2>Autocomplete 3</h2>
+<small>Autocomplete with geoLocation and all types searchs.</small>
+<p> Model address: {{model.address3}}</p>
+<div class="test-place-autocomplete-container">
+  {{place-autocomplete-field
+    value= model.address3
+    handlerController=this
+    inputClass= 'place-autocomplete--input-3'
+    inputId='place-autocomplete--input-3'
+    placeChangedCallback="placeChangedThirdInput"
+    types=""
+    withGeoLocate=true
+  }}
+</div>
+<pre style="font-size: 6px;">
+  {{placeJSONThirdInput}}
+</pre>
 {{outlet}}
-
-

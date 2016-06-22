@@ -87,13 +87,25 @@ describeComponent(
 
     it('get geolocate is not available', function(){
       var component = this.subject();
+      var position = {
+        position: {
+          coords: {
+            latitude: 1.09,
+            longitude: 2.10
+          }
+        }
+      };
       var navigator = {
-        geolocation: true
+        geolocation: {
+          getCurrentPosition: function(callback) {
+            return callback(position);
+          }
+        }
       };
       component.set('navigator', navigator);
       component.set("autocomplete", {
-        setBounds: function () {
-          expect().ok();
+        setBounds: function (circle) {
+          expect(circle).to.be.ok;
         }
       });
       component.geolocate();

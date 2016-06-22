@@ -10,6 +10,7 @@ export default Component.extend({
   types: 'geocode',
   restrictions: {},
   tabindex: -1,
+  withGeoLocate: false,
 
   // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
   geolocate() {
@@ -38,7 +39,9 @@ export default Component.extend({
   setupComponent() {
     this.getAutocomplete();
     this.get('autocomplete').addListener('place_changed', this.placeChanged.bind(this));
-    this.geolocate();
+    if (this.get("withGeoLocate")) {
+      this.geolocate();
+    }
   },
 
 
