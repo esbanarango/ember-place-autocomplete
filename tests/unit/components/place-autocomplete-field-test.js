@@ -30,12 +30,12 @@ describeComponent(
       expect(component.get('label')).to.equal('address fake label');
     });
 
-    it("accetps 'value' option", function() {
+    it("accetps 'value' option and updates with google autocomplete response", function() {
       var component = this.subject();
       var fakeModel = { address: 'fake address'};
       component.set('value',fakeModel.address);
       this.render();
-      expect(component.get('value')).to.equal('fake address');
+      expect(component.get('value')).to.equal('Cra. 65, Medellín, Antioquia, Colombia');
     });
 
     it('converts types option to array', function(){

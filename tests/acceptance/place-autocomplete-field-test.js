@@ -9,12 +9,36 @@ import { expect, assert } from 'chai';
 import Ember from 'ember';
 
 import startApp from '../helpers/start-app';
+import GooglePlaceAutocompleteMock from './google-place-autocomplete-mock';
 
 describe('Acceptance : place autocomplete', function() {
   var application;
 
   beforeEach(function() {
+
+    // Mock only google places
+    window.google.maps.places = {
+      Autocomplete() {
+        return {
+          addListener(event, f) {
+            f.call();
+          },
+          getPlace() {
+            return GooglePlaceAutocompleteMock;
+          }
+        };
+      }
+    };
     application = startApp();
+
+    // PhantomJS doesn't support bind yet
+    // see https://github.com/ariya/phantomjs/issues/10522
+    Function.prototype.bind = Function.prototype.bind || function (thisp) {
+        let fn = this;
+        return function() {
+          return fn.apply(thisp, arguments);
+        };
+    };
   });
 
   afterEach(function() {

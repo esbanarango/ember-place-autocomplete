@@ -32,7 +32,7 @@ In order to use this addon you just have to use the component in your templates.
 ```
 
 You can supply your own Google API key in `config/environment.js`:
- 
+
 ```js
 ENV['place-autocomplete'] = {
   key: 'AIZ...'
@@ -174,7 +174,7 @@ window.google.maps.places = {
 * Visit your app at http://localhost:4200.
 
 ## Running Tests
-
+* `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
 * `ember test`
 * `ember test --server`
 
