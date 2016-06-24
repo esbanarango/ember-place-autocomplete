@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import layout from '../templates/components/place-autocomplete-field';
 
-const { Component, isEmpty, isPresent, typeOf, isEqual } = Ember;
+const { Component, isEmpty, isPresent, typeOf, isEqual, run } = Ember;
 
 export default Component.extend({
   layout: layout,
@@ -13,9 +13,14 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
+    run.scheduleOnce('afterRender', this, 'setupComponent');
+  },
+
+  setupComponent() {
     this.getAutocomplete();
     this.get('autocomplete').addListener('place_changed', this.placeChanged.bind(this));
   },
+
 
   willDestroy() {
     if (isPresent(this.get('autocomplete'))) {
@@ -24,22 +29,23 @@ export default Component.extend({
     }
   },
 
-  getAutocomplete(){
+  getAutocomplete() {
     if(isEmpty(this.get('autocomplete'))){
       let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
-          google = this.get('google') || window.google; //TODO: check how to use the inyected google object
-      this.set('autocomplete', new google.maps.places.Autocomplete(inputElement,
-        { types: this._typesToArray(), componentRestrictions: this.get('restrictions') }));
+          google = this.get('google') || window.google, //TODO: check how to use the inyected google object
+          autocomplete = new google.maps.places.Autocomplete(inputElement, { types: this._typesToArray(), componentRestrictions: this.get('restrictions') });
+      this.set('autocomplete', autocomplete);
     }
   },
 
   placeChanged() {
-    this._callCallback('placeChangedCallback');
+    let place =  this.get('autocomplete').getPlace();
+    this._callCallback('placeChangedCallback', place);
+    this.set('value', place.formatted_address);
   },
 
-  _callCallback(callback) {
+  _callCallback(callback, place) {
     let callbackFn = this.attrs[callback];
-    let place      = this.get('autocomplete').getPlace();
     if (isEqual(typeOf(callbackFn), 'function')) {
       callbackFn(place);
     } else {
