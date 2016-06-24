@@ -9,7 +9,7 @@ import { expect, assert } from 'chai';
 import Ember from 'ember';
 
 import startApp from '../helpers/start-app';
-import GooglePlaceAutocompleteMock from './google-place-autocomplete-mock';
+import GooglePlaceAutocompleteResponseMock from './../helpers/google-place-autocomplete-response-mock';
 
 describe('Acceptance : place autocomplete', function() {
   var application;
@@ -24,7 +24,7 @@ describe('Acceptance : place autocomplete', function() {
             f.call();
           },
           getPlace() {
-            return GooglePlaceAutocompleteMock;
+            return GooglePlaceAutocompleteResponseMock;
           }
         };
       }

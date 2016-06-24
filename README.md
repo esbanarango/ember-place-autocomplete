@@ -12,6 +12,11 @@ using a callback function in your controller.
 
 ![Autocomplete](http://i.imgur.com/wzGgfiY.gif)
 
+## Authors
+
+@esbanarango
+@dmuneras
+
 ## Usage
 
 In order to use this addon you just have to use the component in your templates.
@@ -136,27 +141,27 @@ If you are using [`ember-cli-content-security-policy`](https://github.com/rwjblu
 
 ## Acceptance tests
 
-If you're writting _acceptance tests_ for a part of you're application that interacts with `place-autocomplete-field` you will need to mock google's Autocomplete.
+If you're writting _acceptance tests_ for a part of you're application that interacts with `place-autocomplete-field` you will need to mock google's Autocomplete. The before each action of your acceptance test is a good place to do it.
 
-Here's the code you need to add to your acceptance test file. And here's the [GooglePlaceAutocompleteReponse](https://github.com/dmuneras/ember-place-autocomplete/blob/master/tests/helpers/google-place-autocomplete-response.js) file with a fake response.
+Here's the code you need to add to your acceptance test file. And here's the [GooglePlaceAutocompleteResponseMock](https://github.com/dmuneras/ember-place-autocomplete/blob/master/tests/helpers/google-place-autocomplete-reponse-mock.js) file with a fake response.
 
 ```js
 
-import GooglePlaceAutocompleteReponse from 'my_awesome_snowboard_proyect/tests/helpers/google-place-autocomplete-reponse';
+import GooglePlaceAutocompleteResponseMock from './../helpers/google-place-autocomplete-response-mock';
 
-// Mock only google places
-window.google.maps.places = {
-  Autocomplete: function() {
-    return {
-      addListener: function(event, f) {
-        f.call();
-      },
-      getPlace: function() {
-        return GooglePlaceAutocompleteReponse;
+    // Mock only google places
+    window.google.maps.places = {
+      Autocomplete() {
+        return {
+          addListener(event, f) {
+            f.call();
+          },
+          getPlace() {
+            return GooglePlaceAutocompleteResponseMock;
+          }
+        };
       }
     };
-  }
-};
 ```
 
 ## Collaborating
