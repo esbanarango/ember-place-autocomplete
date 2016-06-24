@@ -5,6 +5,8 @@ import {
   it
 } from 'ember-mocha';
 
+import GooglePlaceAutocompleteResponseMock from './../../helpers/google-place-autocomplete-response-mock';
+
 describeComponent(
   'place-autocomplete-field',
   'PlaceAutoCompleteComponent',
@@ -23,14 +25,27 @@ describeComponent(
       expect(component._state).to.equal('inDOM');
     });
 
-    it("accetps 'label' option", function() {
+    it("accepts 'label' option", function() {
       var component = this.subject();
       component.set('label','address fake label');
       this.render();
       expect(component.get('label')).to.equal('address fake label');
     });
 
-    it("accetps 'value' option and updates with google autocomplete response", function() {
+    it("accepts 'value' option and updates with google autocomplete response", function() {
+      // Mock only google places
+      window.google.maps.places = {
+        Autocomplete() {
+          return {
+            addListener(event, f) {
+              f.call();
+            },
+            getPlace() {
+              return GooglePlaceAutocompleteResponseMock;
+            }
+          };
+        }
+      };
       var component = this.subject();
       var fakeModel = { address: 'fake address'};
       component.set('value',fakeModel.address);
@@ -55,7 +70,5 @@ describeComponent(
       component.set('types', '');
       expect(component._typesToArray()).to.eql([]);
     });
-
-
   }
 );
