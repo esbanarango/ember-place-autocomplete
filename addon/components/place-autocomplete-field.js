@@ -10,6 +10,26 @@ export default Component.extend({
   types: 'geocode',
   restrictions: {},
   tabindex: -1,
+  withGeoLocate: false,
+
+  // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
+  geolocate() {
+    let navigator = this.get('navigator') || window.navigator;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        let google = this.get('google') || window.google;
+        var geolocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        var circle = new google.maps.Circle({
+          center: geolocation,
+          radius: position.coords.accuracy
+        });
+        this.get('autocomplete').setBounds(circle.getBounds());
+      });
+    }
+  },
 
   didInsertElement() {
     this._super(...arguments);
@@ -19,6 +39,9 @@ export default Component.extend({
   setupComponent() {
     this.getAutocomplete();
     this.get('autocomplete').addListener('place_changed', this.placeChanged.bind(this));
+    if (this.get("withGeoLocate")) {
+      this.geolocate();
+    }
   },
 
 

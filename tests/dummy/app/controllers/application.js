@@ -22,6 +22,9 @@ export default Ember.Controller.extend({
     },
     placeChangedSecondInput(place){
       this.set('placeJSONSecondInput', JSON.stringify(place, undefined, 2));
+    },
+    placeChangedThirdInput(place) {
+      this.set('placeJSONThirdInput', JSON.stringify(place, undefined, 2));
     }
   }
 });

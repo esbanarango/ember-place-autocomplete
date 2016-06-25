@@ -70,5 +70,58 @@ describeComponent(
       component.set('types', '');
       expect(component._typesToArray()).to.eql([]);
     });
+
+    it('get geolocate is not available', function(){
+      var component = this.subject();
+      var navigator = {
+        geolocation: false
+      };
+      component.set('navigator', navigator);
+      component.set('autocomplete', {
+        setBounds: function () {
+          expect().fail();
+        }
+      });
+      component.geolocate();
+    });
+
+    it('get geolocate is available', function(){
+      var component = this.subject();
+      var position = {
+        coords: {
+          latitude: 1.09,
+          longitude: 2.10,
+          accuracy: 10.0
+        }
+      };
+      window.navigator.geolocation = {
+        getCurrentPosition(f) {
+          f(position);
+        }
+      };
+      // Mock only google places
+      var google = {};
+      google.maps = {
+        Circle(center, radio) {
+          this.center = center;
+          this.radio = radio;
+          return {
+            getBounds() {
+              return {c: this.center, r: this.radio};
+            }
+          };
+        }
+      };
+      component.set('google', google);
+      component.set('autocomplete', {
+        setBounds: function (circle) {
+          component.set('navigator', null);
+          component.set('google', null);
+          expect(circle).to.be.ok;
+        }
+      });
+      component.geolocate();
+    });
+
   }
 );
