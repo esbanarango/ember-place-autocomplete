@@ -77,7 +77,7 @@ describeComponent(
         geolocation: false
       };
       component.set('navigator', navigator);
-      component.set("autocomplete", {
+      component.set('autocomplete', {
         setBounds: function () {
           expect().fail();
         }
@@ -113,7 +113,7 @@ describeComponent(
         }
       };
       component.set('google', google);
-      component.set("autocomplete", {
+      component.set('autocomplete', {
         setBounds: function (circle) {
           component.set('navigator', null);
           component.set('google', null);

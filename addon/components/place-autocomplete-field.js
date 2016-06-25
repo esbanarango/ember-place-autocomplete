@@ -26,7 +26,7 @@ export default Component.extend({
           center: geolocation,
           radius: position.coords.accuracy
         });
-        this.get("autocomplete").setBounds(circle.getBounds());
+        this.get('autocomplete').setBounds(circle.getBounds());
       });
     }
   },
