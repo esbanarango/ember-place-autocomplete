@@ -9,7 +9,7 @@ module.exports = {
       var src = "//maps.googleapis.com/maps/api/js",
          placeAutocompleteConfig = config['place-autocomplete'] || {},
          params = [],
-         exclude = placesAutocompleteConfig.exclude,
+         exclude = placeAutocompleteConfig.exclude,
          key = placeAutocompleteConfig.key;
       if (!exclude) {
         if (key)
