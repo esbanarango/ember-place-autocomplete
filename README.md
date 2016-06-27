@@ -37,11 +37,13 @@ In order to use this addon you just have to use the component in your templates.
 
 ```
 
-You can supply your own Google API key in `config/environment.js`:
+You can supply your own Google API key or client ID in `config/environment.js`. You may also choose to exclude the Google API from the page if it is already loaded in your app:
 
 ```js
 ENV['place-autocomplete'] = {
-  key: 'AIZ...'
+  exclude: true,
+  key: 'AIZ...',
+  client: 'gme-myclientid'
 };
 ```
 
