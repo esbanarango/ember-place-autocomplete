@@ -9,9 +9,9 @@ module.exports = {
       var src = "//maps.googleapis.com/maps/api/js",
          placeAutocompleteConfig = config['place-autocomplete'] || {},
          params = [],
-         include = placesAutocompleteConfig.include,
+         exclude = placesAutocompleteConfig.exclude,
          key = placeAutocompleteConfig.key;
-      if (include) {
+      if (!exclude) {
         if (key)
           params.push('key=' + encodeURIComponent(key));
         src += '?' + params.join('&') + "&libraries=places";
