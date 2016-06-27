@@ -9,11 +9,14 @@ module.exports = {
       var src = "//maps.googleapis.com/maps/api/js",
          placeAutocompleteConfig = config['place-autocomplete'] || {},
          params = [],
+         include = placesAutocompleteConfig.include,
          key = placeAutocompleteConfig.key;
-      if (key)
-        params.push('key=' + encodeURIComponent(key));
-      src += '?' + params.join('&') + "&libraries=places";
-      content = '<script type="text/javascript" src="' + src + '"></script>';
+      if (include) {
+        if (key)
+          params.push('key=' + encodeURIComponent(key));
+        src += '?' + params.join('&') + "&libraries=places";
+        content = '<script type="text/javascript" src="' + src + '"></script>';
+      }
     }
     return content;
   }
