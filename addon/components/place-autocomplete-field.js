@@ -9,7 +9,7 @@ export default Component.extend({
   inputClass: 'place-autocomplete--input',
   types: 'geocode',
   restrictions: {},
-  tabindex: -1,
+  tabindex: 0,
   withGeoLocate: false,
 
   // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
