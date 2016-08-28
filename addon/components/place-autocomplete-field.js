@@ -14,8 +14,8 @@ export default Component.extend({
 
   // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
   geolocate() {
-    let navigator = this.get('navigator') || window.navigator;
-    if (navigator.geolocation) {
+    let navigator = this.get('navigator') || ((window) ? window.navigator : null);
+    if (navigator && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         let google = this.get('google') || window.google;
         var geolocation = {
@@ -47,17 +47,21 @@ export default Component.extend({
 
   willDestroy() {
     if (isPresent(this.get('autocomplete'))) {
-      let google = this.get('google') || window.google;
-      google.maps.event.clearInstanceListeners(this.get('autocomplete'));
+      let google = this.get('google') || ((window) ? window.google : null);
+      if(google){
+        google.maps.event.clearInstanceListeners(this.get('autocomplete'));
+      }
     }
   },
 
   getAutocomplete() {
     if(isEmpty(this.get('autocomplete'))){
-      let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
-          google = this.get('google') || window.google, //TODO: check how to use the inyected google object
-          autocomplete = new google.maps.places.Autocomplete(inputElement, { types: this._typesToArray(), componentRestrictions: this.get('restrictions') });
-      this.set('autocomplete', autocomplete);
+      if(document && window){
+        let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
+            google = this.get('google') || window.google, //TODO: check how to use the inyected google object
+            autocomplete = new google.maps.places.Autocomplete(inputElement, { types: this._typesToArray(), componentRestrictions: this.get('restrictions') });
+        this.set('autocomplete', autocomplete);
+      }
     }
   },
 
