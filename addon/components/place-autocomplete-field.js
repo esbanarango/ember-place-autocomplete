@@ -11,6 +11,7 @@ export default Component.extend({
   restrictions: {},
   tabindex: 0,
   withGeoLocate: false,
+  preventSubmit: false,
 
   // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
   geolocate() {
@@ -44,6 +45,11 @@ export default Component.extend({
     }
   },
 
+  keyDown: function(e) {
+      if (this.get("preventSubmit") && e.keyCode == 13 && !this.get('autocomplete').getPlace()) {
+          e.preventDefault();
+      }
+  },
 
   willDestroy() {
     if (isPresent(this.get('autocomplete'))) {
