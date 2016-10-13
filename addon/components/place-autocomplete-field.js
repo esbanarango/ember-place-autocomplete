@@ -46,7 +46,7 @@ export default Component.extend({
   },
 
   keyDown: function(e) {
-      if (this.get("preventSubmit") && e.keyCode == 13 && !this.get('autocomplete').getPlace()) {
+      if (this.get("preventSubmit") && e.keyCode === 13 && !this.get('autocomplete').getPlace()) {
           e.preventDefault();
       }
   },
