@@ -37,6 +37,7 @@ In order to use this addon you just have to use the component in your templates.
   restrictions= restrictionsObjectFromController // You can pass and object with restriction options.
   withGeoLocate= true // You don't have to pass this value, default value is false
   setValueWithProperty= 'formatted_address' // Optional, default is formatted_address
+  preventSubmit= true // You don't have to pass this value, default value is false. Prevents the form to be submitted if the user hits ENTER
 }}
 
 ```
@@ -69,7 +70,7 @@ restrictions           | Object: ex. `{country: "us"}`, more info [Component Res
 withGeoLocate          | Boolean: ex. `true`, It allows searching places near by the coordinates given into browser. more info [See attribute options.bounds](https://developers.google.com/maps/documentation/javascript/places-autocomplete#add_autocomplete)
 setValueWithProperty   | String: Name of the property returned by Google to set the input field value after selection. more info about properties available you can find [here](https://developers.google.com/maps/documentation/javascript/3.exp/reference#PlaceResult)
 latLngBounds           | Object: ex. `{sw: {lat: -34, lng: 151}, ne: {lat: -33, lng: 152}}`, It allows searching places near by the given coordinates. more info [See attribute options.bounds](https://developers.google.com/maps/documentation/javascript/places-autocomplete#add_autocomplete)
-
+preventSubmit          | Boolean: ex. `true`, allows to prevent the form to be submitted if the user selects a location and hit ENTER
 
 ## withGeoLocate in True
 ![Autocomplete-withGeoLocate](https://camo.githubusercontent.com/3516be6011e878d55d6d3eeaf6f6d2f48f371850/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f662e636c2e6c792f6974656d732f31593157324c31533036315932473063303732412f47656f6c6f636174696f6e5f67657443757272656e74506f736974696f6e5f5f5f2d5f5765625f415049735f5f5f4d444e2e706e673f763d6165383837656364)
