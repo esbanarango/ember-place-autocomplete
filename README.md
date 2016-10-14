@@ -33,6 +33,7 @@ In order to use this addon you just have to use the component in your templates.
   types='(cities)' //You don't have to pass this value, default value is 'geocode'
   restrictions= restrictionsObjectFromController // You can pass and object with restriction options.
   withGeoLocate= true // You don't have to pass this value, default value is false
+  preventSubmit= true // You don't have to pass this value, default value is false. Prevents the form to be submitted if the user hits ENTER
 }}
 
 ```
@@ -60,7 +61,7 @@ inputClass             | String : CSS class for the input.
 types                  | String: featured types separate by spaces describing the given result, for more info [Available types](https://developers.google.com/places/supported_types#table3)
 restrictions           | Object: ex. `{country: "us"}`, more info [Component Restrictions](https://developers.google.com/maps/documentation/javascript/examples/geocoding-component-restriction)
 withGeoLocate          | Boolean: ex. `true`, It allows searching places near by the coordinates given into browser. more info [See attribute options.bounds](https://developers.google.com/maps/documentation/javascript/places-autocomplete#add_autocomplete)
-
+preventSubmit          | Boolean: ex. `true`, allows to prevent the form to be submitted if the user selects a location and hit ENTER
 
 ## withGeoLocate in True
 ![Autocomplete-withGeoLocate](https://camo.githubusercontent.com/3516be6011e878d55d6d3eeaf6f6d2f48f371850/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f662e636c2e6c792f6974656d732f31593157324c31533036315932473063303732412f47656f6c6f636174696f6e5f67657443757272656e74506f736974696f6e5f5f5f2d5f5765625f415049735f5f5f4d444e2e706e673f763d6165383837656364)
