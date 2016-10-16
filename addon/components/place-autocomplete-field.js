@@ -38,7 +38,9 @@ export default Component.extend({
 
   setupComponent() {
     this.getAutocomplete();
-    this.get('autocomplete').addListener('place_changed', this.placeChanged.bind(this));
+    this.get('autocomplete').addListener('place_changed', () => {
+      run(() => { this.placeChanged(); });
+    });
     if (this.get("withGeoLocate")) {
       this.geolocate();
     }
