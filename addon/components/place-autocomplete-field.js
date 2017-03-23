@@ -11,6 +11,8 @@ export default Component.extend({
   restrictions: {},
   tabindex: 0,
   withGeoLocate: false,
+  setValueWithProperty: 'formatted_address',
+
 
   // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
   geolocate() {
@@ -68,9 +70,9 @@ export default Component.extend({
   },
 
   placeChanged() {
-    let place =  this.get('autocomplete').getPlace();
+    let place = this.get('autocomplete').getPlace();
     this._callCallback('placeChangedCallback', place);
-    this.set('value', place.formatted_address);
+    this.set('value', place[this.get('setValueWithProperty')]);
   },
 
   _callCallback(callback, place) {
