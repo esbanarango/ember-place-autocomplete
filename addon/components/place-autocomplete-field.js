@@ -63,7 +63,11 @@ export default Component.extend({
       if(document && window){
         let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
             google = this.get('google') || window.google, //TODO: check how to use the inyected google object
-            autocomplete = new google.maps.places.Autocomplete(inputElement, { types: this._typesToArray(), componentRestrictions: this.get('restrictions') });
+            options = { types: this._typesToArray() };
+        if (Object.keys(this.get('restrictions')).length > 0) {
+          options.componentRestrictions = this.get('restrictions');
+        }
+        let autocomplete = new google.maps.places.Autocomplete(inputElement, options);
         this.set('autocomplete', autocomplete);
       }
     }
