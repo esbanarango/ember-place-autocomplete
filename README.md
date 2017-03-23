@@ -44,7 +44,9 @@ ENV['place-autocomplete'] = {
   exclude: true,
   key: 'AIZ...',
   client: 'gme-myclientid',
-  version: 3.27 // Optional - if client is set version must be above 3.24
+  version: 3.27, // Optional - if client is set version must be above 3.24
+  language: 'en', // Optional - be default will be based on your browser language
+  region: 'GB' // Optional
 };
 ```
 
