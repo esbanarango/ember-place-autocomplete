@@ -11,6 +11,8 @@ export default Component.extend({
   restrictions: {},
   tabindex: 0,
   withGeoLocate: false,
+  setValueWithProperty: 'formatted_address',
+
 
   // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
   geolocate() {
@@ -61,16 +63,20 @@ export default Component.extend({
       if(document && window){
         let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
             google = this.get('google') || window.google, //TODO: check how to use the inyected google object
-            autocomplete = new google.maps.places.Autocomplete(inputElement, { types: this._typesToArray(), componentRestrictions: this.get('restrictions') });
+            options = { types: this._typesToArray() };
+        if (Object.keys(this.get('restrictions')).length > 0) {
+          options.componentRestrictions = this.get('restrictions');
+        }
+        let autocomplete = new google.maps.places.Autocomplete(inputElement, options);
         this.set('autocomplete', autocomplete);
       }
     }
   },
 
   placeChanged() {
-    let place =  this.get('autocomplete').getPlace();
+    let place = this.get('autocomplete').getPlace();
     this._callCallback('placeChangedCallback', place);
-    this.set('value', place.formatted_address);
+    this.set('value', place[this.get('setValueWithProperty')]);
   },
 
   _callCallback(callback, place) {
