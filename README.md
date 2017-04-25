@@ -12,6 +12,13 @@ using a callback function in your controller.
 
 ![Autocomplete](http://i.imgur.com/wzGgfiY.gif)
 
+
+## Installation
+
+```
+ember install ember-place-autocomplete
+```
+
 ## Authors
 
 @esbanarango
