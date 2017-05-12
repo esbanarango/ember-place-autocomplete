@@ -76,7 +76,13 @@ export default Component.extend({
   placeChanged() {
     let place = this.get('autocomplete').getPlace();
     this._callCallback('placeChangedCallback', place);
-    this.set('value', place[this.get('setValueWithProperty')]);
+
+    if (place[this.get('setValueWithProperty')] !== undefined) {
+      this.set('value', place[this.get('setValueWithProperty')]);
+    } else {
+      // Address not found use value
+      this.set('value', place.name);
+    }
   },
 
   _callCallback(callback, place) {
