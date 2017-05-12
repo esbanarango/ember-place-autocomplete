@@ -86,7 +86,7 @@ export default Component.extend({
   },
 
   _callCallback(callback, place) {
-    let callbackFn = this.attrs[callback];
+    let callbackFn = this.get(callback);
     if (isEqual(typeOf(callbackFn), 'function')) {
       callbackFn(place);
     } else {
