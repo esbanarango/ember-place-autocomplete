@@ -52,7 +52,7 @@ export default Component.extend({
   willDestroy() {
     if (isPresent(this.get('autocomplete'))) {
       let google = this.get('google') || ((window) ? window.google : null);
-      if(google){
+      if(google.maps.event) {
         google.maps.event.clearInstanceListeners(this.get('autocomplete'));
       }
     }
