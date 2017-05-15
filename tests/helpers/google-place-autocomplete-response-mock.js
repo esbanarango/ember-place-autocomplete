@@ -58,6 +58,6 @@ export default {
   vicinity: "Medellín",
   html_attributions: [],
   setBounds: function() {
-    console.log("FAKE SET BOUNDS");
+    return true;
   }
 };
