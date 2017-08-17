@@ -64,6 +64,11 @@ export default Component.extend({
         let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
             google = this.get('google') || window.google, //TODO: check how to use the inyected google object
             options = { types: this._typesToArray() };
+        if(this.get('latLngBounds')){
+          // https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
+          const { sw, ne } = this.get('latLngBounds');
+          options.bounds = new google.maps.LatLngBounds(sw, ne);
+        }
         if (Object.keys(this.get('restrictions')).length > 0) {
           options.componentRestrictions = this.get('restrictions');
         }
