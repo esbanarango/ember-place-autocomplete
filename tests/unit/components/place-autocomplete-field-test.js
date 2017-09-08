@@ -17,7 +17,7 @@ describeComponent(
 
   function() {
     it('renders', function() {
-      var component = this.subject();
+      let component = this.subject();
       expect(component._state).to.equal('preRender');
 
       // renders the component on the page
@@ -26,7 +26,7 @@ describeComponent(
     });
 
     it("accepts 'label' option", function() {
-      var component = this.subject();
+      let component = this.subject();
       component.set('label','address fake label');
       this.render();
       expect(component.get('label')).to.equal('address fake label');
@@ -46,34 +46,34 @@ describeComponent(
           };
         }
       };
-      var component = this.subject();
-      var fakeModel = { address: 'fake address'};
+      let component = this.subject();
+      let fakeModel = { address: 'fake address'};
       component.set('value',fakeModel.address);
       this.render();
       expect(component.get('value')).to.equal('Cra. 65, Medellín, Antioquia, Colombia');
     });
 
     it('converts types option to array', function(){
-      var component = this.subject();
+      let component = this.subject();
       component.set('types', 'geocode');
       expect(component._typesToArray()).to.eql(['geocode']);
     });
 
     it('converts types option to array more two elements', function(){
-      var component = this.subject();
+      let component = this.subject();
       component.set('types', 'geocode,establishment');
       expect(component._typesToArray()).to.eql(['geocode','establishment']);
     });
 
     it('converts types in an empty string', function(){
-      var component = this.subject();
+      let component = this.subject();
       component.set('types', '');
       expect(component._typesToArray()).to.eql([]);
     });
 
     it('get geolocate is not available', function(){
-      var component = this.subject();
-      var navigator = {
+      let component = this.subject();
+      let navigator = {
         geolocation: false
       };
       component.set('navigator', navigator);
@@ -85,22 +85,10 @@ describeComponent(
       component.geolocate();
     });
 
-    it('get geolocate is available', function(){
-      var component = this.subject();
-      var position = {
-        coords: {
-          latitude: 1.09,
-          longitude: 2.10,
-          accuracy: 10.0
-        }
-      };
-      window.navigator.geolocation = {
-        getCurrentPosition(f) {
-          f(position);
-        }
-      };
-      // Mock only google places
-      var google = {};
+    // @dmuneras Not sure if this actually test something: TODO: REVIEW
+    it('get geolocate is available', function() {
+      let component = this.subject();
+      let google = {};
       google.maps = {
         Circle(center, radio) {
           this.center = center;

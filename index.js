@@ -1,4 +1,4 @@
-/* jshint node: true */
+/* eslint-env node */
 'use strict';
 
 module.exports = {
@@ -6,8 +6,8 @@ module.exports = {
   contentFor: function(type, config) {
     var content = '';
     if (type === 'body-footer') {
-      var src = "//maps.googleapis.com/maps/api/js",
-         placeAutocompleteConfig = config['place-autocomplete'] || {},
+      var placeAutocompleteConfig = config['place-autocomplete'] || {},
+         src = placeAutocompleteConfig.src || '//maps.googleapis.com/maps/api/js',
          params = [],
          exclude = placeAutocompleteConfig.exclude,
          client = placeAutocompleteConfig.client,

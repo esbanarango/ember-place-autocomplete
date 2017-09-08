@@ -52,7 +52,7 @@ export default Component.extend({
   willDestroy() {
     if (isPresent(this.get('autocomplete'))) {
       let google = this.get('google') || ((window) ? window.google : null);
-      if(google){
+      if(google.maps.event) {
         google.maps.event.clearInstanceListeners(this.get('autocomplete'));
       }
     }
@@ -64,6 +64,11 @@ export default Component.extend({
         let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
             google = this.get('google') || window.google, //TODO: check how to use the inyected google object
             options = { types: this._typesToArray() };
+        if(this.get('latLngBounds')){
+          // https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
+          const { sw, ne } = this.get('latLngBounds');
+          options.bounds = new google.maps.LatLngBounds(sw, ne);
+        }
         if (Object.keys(this.get('restrictions')).length > 0) {
           options.componentRestrictions = this.get('restrictions');
         }
@@ -76,11 +81,17 @@ export default Component.extend({
   placeChanged() {
     let place = this.get('autocomplete').getPlace();
     this._callCallback('placeChangedCallback', place);
-    this.set('value', place[this.get('setValueWithProperty')]);
+
+    if (place[this.get('setValueWithProperty')] !== undefined) {
+      this.set('value', place[this.get('setValueWithProperty')]);
+    } else {
+      // Address not found use value
+      this.set('value', place.name);
+    }
   },
 
   _callCallback(callback, place) {
-    let callbackFn = this.attrs[callback];
+    let callbackFn = this.get(callback);
     if (isEqual(typeOf(callbackFn), 'function')) {
       callbackFn(place);
     } else {

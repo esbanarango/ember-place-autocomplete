@@ -1,21 +1,17 @@
-/* jshint expr:true */
-import {
-  describe,
-  it,
-  beforeEach,
-  afterEach
-} from 'mocha';
+import { describe, it, beforeEach, afterEach, context } from 'mocha';
 import { expect, assert } from 'chai';
+import destroyApp from './../helpers/destroy-app';
+import startApp from './../helpers/start-app';
 import Ember from 'ember';
-
-import startApp from '../helpers/start-app';
 import GooglePlaceAutocompleteResponseMock from './../helpers/google-place-autocomplete-response-mock';
 
-describe('Acceptance : place autocomplete', function() {
-  var application;
+const { $ } = Ember;
+
+describe('Acceptance | place autocomplete', function() {
+  let application;
 
   beforeEach(function() {
-
+    application = startApp();
     // Mock only google places
     window.google.maps.places = {
       Autocomplete() {
@@ -29,20 +25,10 @@ describe('Acceptance : place autocomplete', function() {
         };
       }
     };
-    application = startApp();
-
-    // PhantomJS doesn't support bind yet
-    // see https://github.com/ariya/phantomjs/issues/10522
-    Function.prototype.bind = Function.prototype.bind || function (thisp) {
-        let fn = this;
-        return function() {
-          return fn.apply(thisp, arguments);
-        };
-    };
   });
 
   afterEach(function() {
-    Ember.run(application, 'destroy');
+    destroyApp(application);
   });
 
   context('place_changed is fired', function(){
@@ -52,16 +38,16 @@ describe('Acceptance : place autocomplete', function() {
         expect(find('.place-autocomplete--input').length).to.equal(1);
       });
       andThen(() => {
-        Ember.$('.place-autocomplete--input').val('Medellin');
-        Ember.$('.place-autocomplete--input').trigger('plan_changed');
+        $('.place-autocomplete--input').val('Medellin');
+        $('.place-autocomplete--input').trigger('plan_changed');
         andThen(() => {
-          expect(Ember.$('.place-autocomplete--input').val(), 'Medellin');
+          expect($('.place-autocomplete--input').val(), 'Medellin');
           let timeOut = setTimeout(() => {
             assert(false, 'Event never fired');
           }, 1000);
-          Ember.$('.place-autocomplete--input').on('plan_changed',() => {
+          $('.place-autocomplete--input').on('plan_changed',() => {
             window.clearTimeout(timeOut);
-            expect(Ember.$('.pac-container').length > 0).to.equal(true);
+            expect($('.pac-container').length > 0).to.equal(true);
           });
         });
       });
@@ -70,10 +56,9 @@ describe('Acceptance : place autocomplete', function() {
     it('event listener works as expected', function(){
       visit('/');
       andThen(() =>{
-        expect(Ember.$('.place-autocomplete--input').val('El Poblado, Medellín - Antioquia, Colombia'));
-        expect(Ember.$('div[data-google-auto="done"]').length, 1);
+        expect($('.place-autocomplete--input').val('El Poblado, Medellín - Antioquia, Colombia'));
+        expect($('div[data-google-auto="done"]').length, 1);
       });
     });
   });
 });
-

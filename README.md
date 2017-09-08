@@ -12,6 +12,13 @@ using a callback function in your controller.
 
 ![Autocomplete](http://i.imgur.com/wzGgfiY.gif)
 
+
+## Installation
+
+```
+ember install ember-place-autocomplete
+```
+
 ## Authors
 
 @esbanarango
@@ -65,6 +72,7 @@ types                  | String: featured types separate by spaces describing th
 restrictions           | Object: ex. `{country: "us"}`, more info [Component Restrictions](https://developers.google.com/maps/documentation/javascript/examples/geocoding-component-restriction)
 withGeoLocate          | Boolean: ex. `true`, It allows searching places near by the coordinates given into browser. more info [See attribute options.bounds](https://developers.google.com/maps/documentation/javascript/places-autocomplete#add_autocomplete)
 setValueWithProperty   | String: Name of the property returned by Google to set the input field value after selection. more info about properties available you can find [here](https://developers.google.com/maps/documentation/javascript/3.exp/reference#PlaceResult) 
+latLngBounds           | Object: ex. `{sw: {lat: -34, lng: 151}, ne: {lat: -33, lng: 152}}`, It allows searching places near by the given coordinates. more info [See attribute options.bounds](https://developers.google.com/maps/documentation/javascript/places-autocomplete#add_autocomplete)
 
 
 ## withGeoLocate in True
