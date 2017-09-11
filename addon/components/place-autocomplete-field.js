@@ -13,41 +13,30 @@ export default Component.extend({
   withGeoLocate: false,
   setValueWithProperty: 'formatted_address',
 
-
-  // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
-  geolocate() {
-    let navigator = this.get('navigator') || ((window) ? window.navigator : null);
-    if (navigator && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        let google = this.get('google') || window.google;
-        var geolocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        var circle = new google.maps.Circle({
-          center: geolocation,
-          radius: position.coords.accuracy
-        });
-        this.get('autocomplete').setBounds(circle.getBounds());
-      });
-    }
-  },
-
   didInsertElement() {
     this._super(...arguments);
     run.scheduleOnce('afterRender', this, 'setupComponent');
   },
 
+  // Wait until the google library is loaded by calling this method
+  // every 100ms
   setupComponent() {
-    this.getAutocomplete();
-    this.get('autocomplete').addListener('place_changed', () => {
-      run(() => { this.placeChanged(); });
-    });
-    if (this.get("withGeoLocate")) {
-      this.geolocate();
+    if (document && window) {
+      if (window.google && window.google.maps) {
+        this.getAutocomplete();
+        if (this.get('withGeoLocate')) {
+          this.geolocateAndSetBounds();
+        }
+        this.get('autocomplete').addListener('place_changed', () => {
+          run(() => {
+            this.placeChanged();
+          });
+        });
+      } else {
+        run.later(this, 'setupComponent', 100);
+      }
     }
   },
-
 
   willDestroy() {
     if (isPresent(this.get('autocomplete'))) {
@@ -59,22 +48,39 @@ export default Component.extend({
   },
 
   getAutocomplete() {
-    if(isEmpty(this.get('autocomplete'))){
-      if(document && window){
-        let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
-            google = this.get('google') || window.google, //TODO: check how to use the inyected google object
-            options = { types: this._typesToArray() };
-        if(this.get('latLngBounds')){
-          // https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
-          const { sw, ne } = this.get('latLngBounds');
-          options.bounds = new google.maps.LatLngBounds(sw, ne);
-        }
-        if (Object.keys(this.get('restrictions')).length > 0) {
-          options.componentRestrictions = this.get('restrictions');
-        }
-        let autocomplete = new google.maps.places.Autocomplete(inputElement, options);
-        this.set('autocomplete', autocomplete);
+    if (isEmpty(this.get('autocomplete'))){
+      let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
+          google = this.get('google') || window.google, //TODO: check how to use the inyected google object
+          options = { types: this._typesToArray() };
+      if (this.get('latLngBounds')){
+        // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
+        const { sw, ne } = this.get('latLngBounds');
+        options.bounds = new google.maps.LatLngBounds(sw, ne);
       }
+      if (Object.keys(this.get('restrictions')).length > 0) {
+        options.componentRestrictions = this.get('restrictions');
+      }
+      let autocomplete = new google.maps.places.Autocomplete(inputElement, options);
+      this.set('autocomplete', autocomplete);
+    }
+  },
+
+  // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
+  geolocateAndSetBounds() {
+    let navigator = this.get('navigator') || window.navigator;
+    if (navigator && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        let google = this.get('google') || window.google;
+        let geolocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+        let circle = new google.maps.Circle({
+          center: geolocation,
+          radius: position.coords.accuracy
+        });
+        this.get('autocomplete').setBounds(circle.getBounds());
+      });
     }
   },
 
@@ -103,7 +109,7 @@ export default Component.extend({
   },
 
   _typesToArray() {
-    if (this.get('types') !== "") {
+    if (this.get('types') !== '') {
       return this.get('types').split(',');
     } else {
       return [];

@@ -40,7 +40,7 @@ module.exports = {
         }
 
         src += '?' + params.join('&') + "&libraries=places";
-        content = '<script type="text/javascript" src="' + src + '"></script>';
+        content = '<script type="text/javascript" src="' + src + '" async defer></script>';
       }
     }
     return content;

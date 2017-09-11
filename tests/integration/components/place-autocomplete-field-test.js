@@ -1,30 +1,50 @@
-/* jshint expr:true */
 import { expect } from 'chai';
-import {
-  describeComponent,
-  it
-} from 'ember-mocha';
+import { describe, it } from 'mocha';
+import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
+import GooglePlaceAutocompleteResponseMock from './../../helpers/google-place-autocomplete-response-mock';
+import Ember from 'ember';
 
-describeComponent(
-  'place-autocomplete-field',
-  'Integration: PlaceAutocompleteFieldComponent',
-  {
+const { Object } = Ember;
+
+describe('Integration | Component | Place Autocomplete Field', function() {
+  setupComponentTest('place-autocomplete-field', {
     integration: true
-  },
-  function() {
-    it('renders', function() {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#place-autocomplete-field}}
-      //     template content
-      //   {{/place-autocomplete-field}}
-      // `);
+  });
 
-      this.render(hbs`{{place-autocomplete-field}}`);
-      expect(this.$()).to.have.length(1);
-    });
-  }
-);
+  it('renders', function() {
+    this.render(hbs`{{place-autocomplete-field}}`);
+    expect(this.$()).to.have.length(1);
+  });
+
+  it("accepts 'placeholder' option", function() {
+    this.render(hbs`{{place-autocomplete-field placeholder='fake placeholder'}}`);
+    expect(this.$('input').attr('placeholder').trim()).to.equal('fake placeholder');
+  });
+
+  it("accepts 'inputClass' option", function() {
+    this.render(hbs`{{place-autocomplete-field inputClass='fake-input-class'}}`);
+    expect(this.$('input').hasClass('fake-input-class')).to.equal(true);
+  });
+
+  it("accepts 'value' option and updates with google autocomplete response", function() {
+    // Mock only google places
+    window.google.maps.places = {
+      Autocomplete() {
+        return {
+          addListener(event, f) {
+            f.call();
+          },
+          getPlace() {
+            return GooglePlaceAutocompleteResponseMock;
+          }
+        };
+      }
+    };
+
+    let fakeModel = Object.extend({ address: 'fake address'}).create();
+    this.set('fakeModel', fakeModel);
+    this.render(hbs`{{place-autocomplete-field value=fakeModel.address}}`);
+    expect(this.get('fakeModel.address')).to.equal('Cra. 65, Medellín, Antioquia, Colombia');
+  });
+});

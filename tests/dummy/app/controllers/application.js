@@ -12,7 +12,7 @@ export default Ember.Controller.extend({
         this.set('message', 'Focus out');
       }).fadeIn(500);
     },
-    placeChanged(place){
+    placeChanged(place) {
       this.set('placeJSON', JSON.stringify(place, undefined, 2));
       this.set('googleAuto', 'done');
       if (place.adr_address) {
