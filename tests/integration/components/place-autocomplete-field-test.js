@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { describe, it } from 'mocha';
+import { describe, it, context } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import GooglePlaceAutocompleteResponseMock from './../../helpers/google-place-autocomplete-response-mock';
@@ -46,5 +46,28 @@ describe('Integration | Component | Place Autocomplete Field', function() {
     this.set('fakeModel', fakeModel);
     this.render(hbs`{{place-autocomplete-field value=fakeModel.address}}`);
     expect(this.get('fakeModel.address')).to.equal('Cra. 65, Medellín, Antioquia, Colombia');
+  });
+
+  context('when entered value is not found in google', function() {
+    it('sets the value of the not found place to the passed property', function() {
+      // Mock only google places
+      window.google.maps.places = {
+        Autocomplete() {
+          return {
+            addListener(event, f) {
+              f.call();
+            },
+            getPlace() {
+              return { name: 'james is not a city is just ja ja james' };
+            }
+          };
+        }
+      };
+
+      let fakeModel = Object.extend({ address: 'james is not a city is just ja ja james'}).create();
+      this.set('fakeModel', fakeModel);
+      this.render(hbs`{{place-autocomplete-field value=fakeModel.address}}`);
+      expect(this.get('fakeModel.address')).to.equal('james is not a city is just ja ja james');
+    });
   });
 });
