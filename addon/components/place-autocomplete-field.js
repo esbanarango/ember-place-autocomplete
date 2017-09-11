@@ -67,7 +67,7 @@ export default Component.extend({
 
   // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
   geolocateAndSetBounds() {
-    let navigator = this.get('navigator') || window.navigator;
+    let navigator = this.get('navigator') || ((window) ? window.navigator : null);
     if (navigator && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         let google = this.get('google') || window.google;
