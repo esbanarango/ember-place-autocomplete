@@ -29,19 +29,37 @@ describe('Integration | Component | Place Autocomplete Field', function() {
 
   it("accepts 'value' option and updates with google autocomplete response", function() {
     // Mock only google places
-    window.google.maps.places = {
-      Autocomplete() {
-        return {
-          addListener(event, f) {
-            f.call();
-          },
-          getPlace() {
-            return GooglePlaceAutocompleteResponseMock;
+    window.google = {
+      maps: {
+        __gjsload__() {
+          return true;
+        },
+        places: {
+          Autocomplete() {
+            return {
+              addListener(event, f) {
+                f.call();
+              },
+              getPlace() {
+                return GooglePlaceAutocompleteResponseMock;
+              },
+              Circle(center, radio) {
+                this.center = center;
+                this.radio = radio;
+                return {
+                  getBounds() {
+                    return {c: this.center, r: this.radio};
+                  }
+                };
+              },
+              setBounds(circle) {
+                return circle;
+              }
+            };
           }
-        };
+        }
       }
-    };
-
+    }
     let fakeModel = Object.extend({ address: 'fake address'}).create();
     this.set('fakeModel', fakeModel);
     this.render(hbs`{{place-autocomplete-field value=fakeModel.address}}`);
@@ -51,19 +69,40 @@ describe('Integration | Component | Place Autocomplete Field', function() {
   context('when entered value is not found in google', function() {
     it('sets the value of the not found place to the passed property', function() {
       // Mock only google places
-      window.google.maps.places = {
-        Autocomplete() {
-          return {
-            addListener(event, f) {
-              f.call();
-            },
-            getPlace() {
-              return { name: 'james is not a city is just ja ja james' };
+      window.google = {
+        maps: {
+          __gjsload__() {
+            return true;
+          },
+          places: {
+            Autocomplete() {
+              return {
+                addListener(event, f) {
+                  f.call();
+                },
+                getPlace() {
+                  return { name: 'james is not a city is just ja ja james' };
+                },
+                Circle(center, radio) {
+                  this.center = center;
+                  this.radio = radio;
+                  return {
+                    getBounds() {
+                      return {c: this.center, r: this.radio};
+                    }
+                  };
+                },
+                __gjsload__() {
+                  return true;
+                },
+                setBounds(circle) {
+                  return circle;
+                }
+              };
             }
-          };
+          }
         }
-      };
-
+      }
       let fakeModel = Object.extend({ address: 'james is not a city is just ja ja james'}).create();
       this.set('fakeModel', fakeModel);
       this.render(hbs`{{place-autocomplete-field value=fakeModel.address}}`);

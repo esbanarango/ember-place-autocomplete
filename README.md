@@ -166,17 +166,27 @@ Here's the code you need to add to your acceptance test file. And here's the [Go
 import GooglePlaceAutocompleteResponseMock from './../helpers/google-place-autocomplete-response-mock';
 
     // Mock only google places
-    window.google.maps.places = {
-      Autocomplete() {
-        return {
-          addListener(event, f) {
-            f.call();
-          },
-          getPlace() {
-            return GooglePlaceAutocompleteResponseMock;
-          }
-        };
-      }
+    window.google.maps.places.Autocomplete = function() {
+      return {
+        addListener(event, f) {
+          f.call();
+        },
+        getPlace() {
+          return GooglePlaceAutocompleteResponseMock;
+        },
+        Circle(center, radio) {
+          this.center = center;
+          this.radio = radio;
+          return {
+            getBounds() {
+              return {c: this.center, r: this.radio};
+            }
+          };
+        },
+        setBounds(circle) {
+          return circle;
+        }
+      };
     };
 ```
 

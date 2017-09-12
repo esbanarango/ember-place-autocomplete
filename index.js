@@ -40,7 +40,11 @@ module.exports = {
         }
 
         src += '?' + params.join('&') + "&libraries=places";
-        content = '<script type="text/javascript" src="' + src + '" async defer></script>';
+        if (config.environment === 'test') {
+          content = '<script type="text/javascript" src="' + src + '"></script>';
+        } else {
+          content = '<script type="text/javascript" src="' + src + '" async defer></script>';
+        }
       }
     }
     return content;

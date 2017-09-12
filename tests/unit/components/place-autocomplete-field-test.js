@@ -1,5 +1,5 @@
-import {expect} from 'chai';
-import {it, describe} from 'mocha';
+import { expect } from 'chai';
+import { it, describe } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
 describe('Integration | Component | PlaceAutocompleteField', function() {
@@ -49,13 +49,18 @@ describe('Integration | Component | PlaceAutocompleteField', function() {
             return {c: this.center, r: this.radio};
           }
         };
+      },
+      __gjsload__() {
+        return true;
       }
     };
     component.set('google', google);
     component.set('autocomplete', {
       setBounds: function (circle) {
-        component.set('navigator', null);
-        component.set('google', null);
+        if (!component.isDestroyed) {
+          component.set('navigator', null);
+          component.set('google', null);
+        }
         expect(circle).to.be.ok;
       }
     });

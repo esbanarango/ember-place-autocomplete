@@ -21,18 +21,18 @@ export default Component.extend({
   // Wait until the google library is loaded by calling this method
   // every 100ms
   setupComponent() {
-    if (document && window) {
-      if (window.google && window.google.maps) {
-        this.getAutocomplete();
-        if (this.get('withGeoLocate')) {
-          this.geolocateAndSetBounds();
-        }
-        this.get('autocomplete').addListener('place_changed', () => {
-          run(() => {
-            this.placeChanged();
-          });
+    if (document && window && window.google && window.google.maps) {
+      this.setAutocomplete();
+      if (this.get('withGeoLocate')) {
+        this.geolocateAndSetBounds();
+      }
+      this.get('autocomplete').addListener('place_changed', () => {
+        run(() => {
+          this.placeChanged();
         });
-      } else {
+      });
+    } else {
+      if (!this.isDestroyed) {
         run.later(this, 'setupComponent', 100);
       }
     }
@@ -41,14 +41,14 @@ export default Component.extend({
   willDestroy() {
     if (isPresent(this.get('autocomplete'))) {
       let google = this.get('google') || ((window) ? window.google : null);
-      if(google.maps.event) {
+      if(google && google.maps && google.maps.event) {
         google.maps.event.clearInstanceListeners(this.get('autocomplete'));
       }
     }
   },
 
-  getAutocomplete() {
-    if (isEmpty(this.get('autocomplete'))){
+  setAutocomplete() {
+    if (isEmpty(this.get('autocomplete'))) {
       let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
           google = this.get('google') || window.google, //TODO: check how to use the inyected google object
           options = { types: this._typesToArray() };
@@ -68,7 +68,8 @@ export default Component.extend({
   // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
   geolocateAndSetBounds() {
     let navigator = this.get('navigator') || ((window) ? window.navigator : null);
-    if (navigator && navigator.geolocation) {
+    let autocomplete = this.get('autocomplete');
+    if (navigator && navigator.geolocation && isPresent(autocomplete)) {
       navigator.geolocation.getCurrentPosition((position) => {
         let google = this.get('google') || window.google;
         let geolocation = {
@@ -79,7 +80,7 @@ export default Component.extend({
           center: geolocation,
           radius: position.coords.accuracy
         });
-        this.get('autocomplete').setBounds(circle.getBounds());
+        autocomplete.setBounds(circle.getBounds());
       });
     }
   },
