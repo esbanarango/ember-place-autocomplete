@@ -32,7 +32,7 @@ export default Component.extend({
         });
       });
     } else {
-      if (!this.isDestroyed) {
+      if (!this.isDestroyed && !this.isDestroying) {
         run.later(this, 'setupComponent', 100);
       }
     }

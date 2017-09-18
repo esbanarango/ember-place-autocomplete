@@ -5,7 +5,7 @@ module.exports = {
   name: 'ember-place-autocomplete',
   contentFor: function(type, config) {
     var content = '';
-    if (type === 'body-footer') {
+    if (type === 'head') {
       var placeAutocompleteConfig = config['place-autocomplete'] || {},
          src = placeAutocompleteConfig.src || '//maps.googleapis.com/maps/api/js',
          params = [],
