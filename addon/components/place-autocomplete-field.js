@@ -18,6 +18,36 @@ export default Component.extend({
     run.scheduleOnce('afterRender', this, 'setupComponent');
   },
 
+  /**
+   * Acts as an observer an updates the autocomplete instance with any
+   * updated options that have been passed into the component.
+   */
+  didReceiveAttrs() {
+    if (this.get('autocomplete')) {
+      this.get('autocomplete').setOptions(this.getOptions());
+    }
+  },
+
+  /**
+   * Returns an object containing any options that are to be passed to the autocomplete instance.
+   */
+  getOptions() {
+
+    const options = { types: this._typesToArray() };
+
+    if (this.get('latLngBounds')){
+      // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
+      const { sw, ne } = this.get('latLngBounds');
+      options.bounds = new google.maps.LatLngBounds(sw, ne);
+    }
+
+    if (Object.keys(this.get('restrictions')).length > 0) {
+      options.componentRestrictions = this.get('restrictions');
+    }
+
+    return options;
+  },
+
   // Wait until the google library is loaded by calling this method
   // every 100ms
   setupComponent() {
@@ -50,17 +80,9 @@ export default Component.extend({
   setAutocomplete() {
     if (isEmpty(this.get('autocomplete'))) {
       let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
-          google = this.get('google') || window.google, //TODO: check how to use the inyected google object
-          options = { types: this._typesToArray() };
-      if (this.get('latLngBounds')){
-        // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
-        const { sw, ne } = this.get('latLngBounds');
-        options.bounds = new google.maps.LatLngBounds(sw, ne);
-      }
-      if (Object.keys(this.get('restrictions')).length > 0) {
-        options.componentRestrictions = this.get('restrictions');
-      }
-      let autocomplete = new google.maps.places.Autocomplete(inputElement, options);
+          google = this.get('google') || window.google; //TODO: check how to use the inyected google object
+
+      let autocomplete = new google.maps.places.Autocomplete(inputElement, this.getOptions());
       this.set('autocomplete', autocomplete);
     }
   },
