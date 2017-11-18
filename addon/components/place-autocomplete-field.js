@@ -35,14 +35,18 @@ export default Component.extend({
 
     const options = { types: this._typesToArray() };
 
-    if (this.get('latLngBounds')){
+    const latLngBnds = this.get('latLngBounds');
+
+    if (latLngBnds && Object.keys(latLngBnds).length === 2){
       // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
       const { sw, ne } = this.get('latLngBounds');
       options.bounds = new google.maps.LatLngBounds(sw, ne);
     }
 
-    if (Object.keys(this.get('restrictions')).length > 0) {
-      options.componentRestrictions = this.get('restrictions');
+    const restrictions = this.get('restrictions');
+
+    if (restrictions && Object.keys(restrictions).length > 0) {
+      options.componentRestrictions = restrictions;
     }
 
     return options;
