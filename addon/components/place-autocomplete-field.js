@@ -39,7 +39,7 @@ export default Component.extend({
 
     if (latLngBnds && Object.keys(latLngBnds).length === 2){
       // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
-      const { sw, ne } = this.get('latLngBounds');
+      const { sw, ne } = latLngBnds;
       options.bounds = new google.maps.LatLngBounds(sw, ne);
     }
 
