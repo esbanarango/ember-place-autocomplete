@@ -2,10 +2,8 @@ import { describe, it, beforeEach, afterEach, context } from 'mocha';
 import { expect } from 'chai';
 import destroyApp from './../helpers/destroy-app';
 import startApp from './../helpers/start-app';
-import Ember from 'ember';
-import GooglePlaceAutocompleteResponseMock from './../helpers/google-place-autocomplete-response-mock';
-
-const { $ } = Ember;
+import $ from 'jquery';
+import GooglePlaceAutocompleteMockedObject from './../helpers/google-place-autocomplete-object';
 
 describe('Acceptance | place autocomplete', function() {
   let application;
@@ -16,28 +14,7 @@ describe('Acceptance | place autocomplete', function() {
     window.google.maps.__gjsload__ = function() {
       return true;
     };
-    window.google.maps.places.Autocomplete = function() {
-      return {
-        addListener(event, f) {
-          f.call();
-        },
-        getPlace() {
-          return GooglePlaceAutocompleteResponseMock;
-        },
-        Circle(center, radio) {
-          this.center = center;
-          this.radio = radio;
-          return {
-            getBounds() {
-              return {c: this.center, r: this.radio};
-            }
-          };
-        },
-        setBounds(circle) {
-          return circle;
-        }
-      };
-    };
+    window.google.maps.places.Autocomplete = GooglePlaceAutocompleteMockedObject;
   });
 
   afterEach(function() {
