@@ -1,9 +1,9 @@
+import EmberObject from '@ember/object';
 import { expect } from 'chai';
 import { describe, it, context } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import GooglePlaceAutocompleteMockedObject from './../../helpers/google-place-autocomplete-object';
-import EmberObject from 'ember-object';
 
 describe('Integration | Component | Place Autocomplete Field', function() {
   setupComponentTest('place-autocomplete-field', {

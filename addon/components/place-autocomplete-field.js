@@ -1,17 +1,16 @@
 import layout from '../templates/components/place-autocomplete-field';
 import Component from '@ember/component';
-import { isEmpty, isPresent, typeOf, isEqual } from '@ember/utils';
+import { isEmpty, isPresent, typeOf, isEqual, isBlank } from '@ember/utils';
 import { scheduleOnce, run } from "@ember/runloop";
 
 export default Component.extend({
-  layout: layout,
-  disabled: false,
-  inputClass: 'place-autocomplete--input',
-  types: 'geocode',
-  restrictions: {},
-  tabindex: 0,
-  withGeoLocate: false,
-  setValueWithProperty: 'formatted_address',
+  /**
+   * Set default values in component init
+   */
+  init() {
+    this._super(...arguments);
+    this._applyDefaults();
+  },
 
   didInsertElement() {
     this._super(...arguments);
@@ -134,6 +133,25 @@ export default Component.extend({
       return this.get('types').split(',');
     } else {
       return [];
+    }
+  },
+
+  _applyDefaults() {
+    const defaultProperties = {
+      layout: layout,
+      disabled: false,
+      inputClass: 'place-autocomplete--input',
+      types: 'geocode',
+      restrictions: {},
+      tabindex: 0,
+      withGeoLocate: false,
+      setValueWithProperty: 'formatted_address'
+    };
+
+    for(let property in defaultProperties) {
+      if (isBlank(this.get(property))) {
+        this.set(property, defaultProperties[property]);
+      }
     }
   },
 

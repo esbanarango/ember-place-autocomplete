@@ -1,19 +1,16 @@
 /* jshint expr:true */
 import { expect } from 'chai';
-import {
-  describe,
-  it,
-  beforeEach
-} from 'mocha';
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import { describe, it, beforeEach } from 'mocha';
+import Application from '@ember/application';
 import { initialize } from 'ember-place-autocomplete/initializers/register-google';
 
 describe('RegisterGoogleInitializer', function() {
-  var container, application;
+  let container, application;
 
   beforeEach(function() {
-    Ember.run(function() {
-      application = Ember.Application.create();
+    run(function() {
+      application = Application.create();
       container = application.__container__;
       application.deferReadiness();
     });

@@ -21,6 +21,7 @@ ember install ember-place-autocomplete
 
 ## Usage
 
+
 In order to use this addon you just have to use the component in your templates.
 
 ```js
@@ -63,7 +64,7 @@ handlerController      | Controller that is going to handle the callbacks functi
 focusOutCallback       | String : Name of the function that is going to be executed after focus out in the address input
 placeChangedCallback   | String : Name of the function that is going to be executed when address changed
 inputClass             | String : CSS class for the input.
-types                  | String: featured types separate by spaces describing the given result, for more info [Available types](https://developers.google.com/places/supported_types#table3)
+types                  | String: featured types separate by comma describing the given result, for more info [Available types](https://developers.google.com/places/supported_types#table3)
 restrictions           | Object: ex. `{country: "us"}`, more info [Component Restrictions](https://developers.google.com/maps/documentation/javascript/examples/geocoding-component-restriction)
 withGeoLocate          | Boolean: ex. `true`, It allows searching places near by the coordinates given into browser. more info [See attribute options.bounds](https://developers.google.com/maps/documentation/javascript/places-autocomplete#add_autocomplete)
 setValueWithProperty   | String: Name of the property returned by Google to set the input field value after selection. more info about properties available you can find [here](https://developers.google.com/maps/documentation/javascript/3.exp/reference#PlaceResult)
@@ -197,7 +198,7 @@ import GooglePlaceAutocompleteResponseMock from './../helpers/google-place-autoc
 
 * `git clone <repository-url>` this repository
 * `cd ember-place-autocomplete`
-* `npm install`
+* `yarn install`
 
 ## Running
 
@@ -205,7 +206,7 @@ import GooglePlaceAutocompleteResponseMock from './../helpers/google-place-autoc
 * Visit your app at [http://localhost:4200](http://localhost:4200).
 
 ## Running Tests
-* `npm test` (Runs `ember try:each` to test your addon against multiple Ember versions)
+* `yarn test` (Runs `ember try:each` to test your addon against multiple Ember versions)
 * `ember test`
 * `ember test --server`
 
@@ -213,4 +214,4 @@ import GooglePlaceAutocompleteResponseMock from './../helpers/google-place-autoc
 
 * `ember build`
 
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
