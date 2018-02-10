@@ -15,8 +15,8 @@
   "author": "Daniel Múnera Sánchez",
   "license": "MIT",
   "dependencies": {
-    "ember-cli-htmlbars": "^2.0.1",
-    "ember-cli-babel": "^6.0.0"
+    "ember-cli-babel": "^6.0.0",
+    "ember-cli-htmlbars": "^2.0.1"
   },
   "devDependencies": {
     "broccoli-asset-rev": "^2.4.5",
@@ -24,7 +24,7 @@
     "ember-cli": "~2.15.1",
     "ember-cli-chai": "0.3.1",
     "ember-cli-dependency-checker": "^2.0.0",
-    "ember-cli-dotenv": "1.2.0",
+    "ember-cli-dotenv": "^2.0.0",
     "ember-cli-eslint": "^4.0.0",
     "ember-cli-htmlbars-inline-precompile": "^1.0.0",
     "ember-cli-inject-live-reload": "^1.4.1",

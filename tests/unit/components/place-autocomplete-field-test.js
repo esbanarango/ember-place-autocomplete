@@ -28,10 +28,12 @@ describe('Integration | Component | PlaceAutocompleteField', function() {
     let navigator = {
       geolocation: false
     };
-    component.set('navigator', navigator);
-    component.set('autocomplete', {
-      setBounds: function () {
-        expect().fail();
+    component.setProperties({
+      navigator: navigator,
+      autocomplete: {
+        setBounds() {
+          expect().fail();
+        }
       }
     });
     component.geolocateAndSetBounds();
@@ -58,8 +60,10 @@ describe('Integration | Component | PlaceAutocompleteField', function() {
     component.set('autocomplete', {
       setBounds: function (circle) {
         if (!component.isDestroyed) {
-          component.set('navigator', null);
-          component.set('google', null);
+          component.setProperties({
+            navigator: null,
+            google: null
+          });
         }
         expect(circle).to.be.ok;
       }

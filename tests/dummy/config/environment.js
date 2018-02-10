@@ -18,6 +18,10 @@ module.exports = function(environment) {
       }
     },
 
+    'place-autocomplete': {
+      key: process.env.AUTOCOMPLETE_API_KEY
+    },
+
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
