@@ -1,4 +1,3 @@
-/* eslint-env node */
 'use strict';
 
 module.exports = function(environment) {
@@ -16,6 +15,10 @@ module.exports = function(environment) {
         // Prevent Ember Data from overriding Date.parse.
         Date: false
       }
+    },
+
+    'place-autocomplete': {
+      key: process.env.AUTOCOMPLETE_API_KEY
     },
 
     APP: {
@@ -41,10 +44,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
-  }
-
-  if (environment === 'production') {
-
+    ENV.APP.autoboot = false;
   }
 
   return ENV;

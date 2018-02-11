@@ -1,21 +1,20 @@
-import Ember from 'ember';
 import layout from '../templates/components/place-autocomplete-field';
-
-const { Component, isEmpty, isPresent, typeOf, isEqual, run } = Ember;
+import Component from '@ember/component';
+import { isEmpty, isPresent, typeOf, isEqual, isBlank } from '@ember/utils';
+import { scheduleOnce, run } from "@ember/runloop";
 
 export default Component.extend({
-  layout: layout,
-  disabled: false,
-  inputClass: 'place-autocomplete--input',
-  types: 'geocode',
-  restrictions: {},
-  tabindex: 0,
-  withGeoLocate: false,
-  setValueWithProperty: 'formatted_address',
+  /**
+   * Set default values in component init
+   */
+  init() {
+    this._super(...arguments);
+    this._applyDefaults();
+  },
 
   didInsertElement() {
     this._super(...arguments);
-    run.scheduleOnce('afterRender', this, 'setupComponent');
+    scheduleOnce('afterRender', this, 'setupComponent');
   },
 
   /**
@@ -32,7 +31,7 @@ export default Component.extend({
    * Returns an object containing any options that are to be passed to the autocomplete instance.
    */
   getOptions() {
-
+    const google = this.get('google') || ((window) ? window.google : null);
     const options = { types: this._typesToArray() };
 
     const latLngBnds = this.get('latLngBounds');
@@ -83,8 +82,8 @@ export default Component.extend({
 
   setAutocomplete() {
     if (isEmpty(this.get('autocomplete'))) {
-      let inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
-          google = this.get('google') || window.google; //TODO: check how to use the inyected google object
+      const inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
+            google = this.get('google') || window.google; //TODO: check how to use the inyected google object
 
       let autocomplete = new google.maps.places.Autocomplete(inputElement, this.getOptions());
       this.set('autocomplete', autocomplete);
@@ -97,15 +96,9 @@ export default Component.extend({
     let autocomplete = this.get('autocomplete');
     if (navigator && navigator.geolocation && isPresent(autocomplete)) {
       navigator.geolocation.getCurrentPosition((position) => {
-        let google = this.get('google') || window.google;
-        let geolocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-        let circle = new google.maps.Circle({
-          center: geolocation,
-          radius: position.coords.accuracy
-        });
+        const google = this.get('google') || window.google;
+        const geolocation = { lat: position.coords.latitude, lng: position.coords.longitude };
+        const circle = new google.maps.Circle({ center: geolocation, radius: position.coords.accuracy });
         autocomplete.setBounds(circle.getBounds());
       });
     }
@@ -140,6 +133,25 @@ export default Component.extend({
       return this.get('types').split(',');
     } else {
       return [];
+    }
+  },
+
+  _applyDefaults() {
+    const defaultProperties = {
+      layout: layout,
+      disabled: false,
+      inputClass: 'place-autocomplete--input',
+      types: 'geocode',
+      restrictions: {},
+      tabindex: 0,
+      withGeoLocate: false,
+      setValueWithProperty: 'formatted_address'
+    };
+
+    for(let property in defaultProperties) {
+      if (isBlank(this.get(property))) {
+        this.set(property, defaultProperties[property]);
+      }
     }
   },
 

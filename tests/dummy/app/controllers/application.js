@@ -1,17 +1,24 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
+import { run } from "@ember/runloop"
+import $ from 'jquery';
 
-export default Ember.Controller.extend({
+export default Controller.extend({
+  init() {
+    this._super(...arguments);
+    this.setProperties({
+      fullAddress: null,
+      googleAuto: null,
+      restrictions: {country: 'co'}
+    });
+  },
 
-  fullAddress: null,
-  googleAuto: null,
-  restrictions: {country: "co"},
-
-  actions:{
-    done(){
-      Ember.$('#message').fadeOut(500, () => {
-        this.set('message', 'Focus out');
+  actions: {
+    done() {
+      $('#message').fadeOut(500, () => {
+        run(() => this.set('message', 'Focus out'));
       }).fadeIn(500);
     },
+
     placeChanged(place) {
       this.set('placeJSON', JSON.stringify(place, undefined, 2));
       this.set('googleAuto', 'done');
@@ -22,9 +29,11 @@ export default Ember.Controller.extend({
       }
       this.set('fullAddress', place.adr_address);
     },
+
     placeChangedSecondInput(place){
       this.set('placeJSONSecondInput', JSON.stringify(place, undefined, 2));
     },
+
     placeChangedThirdInput(place) {
       this.set('placeJSONThirdInput', JSON.stringify(place, undefined, 2));
     }
