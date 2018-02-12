@@ -72,7 +72,7 @@ export default Component.extend({
   },
 
   keyDown(e) {
-    if (this.get('preventSubmit') && isEqual(e.keyCode, 13) && !this.get('autocomplete').getPlace()) {
+    if (this.get('preventSubmit') && isEqual(e.keyCode, 13)) {
       e.preventDefault();
     }
   },
