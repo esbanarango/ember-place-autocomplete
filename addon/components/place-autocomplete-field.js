@@ -71,6 +71,12 @@ export default Component.extend({
     }
   },
 
+  keyDown(e) {
+    if (this.get('preventSubmit') && isEqual(e.keyCode, 13)) {
+      e.preventDefault();
+    }
+  },
+
   willDestroy() {
     if (isPresent(this.get('autocomplete'))) {
       let google = this.get('google') || ((window) ? window.google : null);
@@ -145,7 +151,8 @@ export default Component.extend({
       restrictions: {},
       tabindex: 0,
       withGeoLocate: false,
-      setValueWithProperty: 'formatted_address'
+      setValueWithProperty: 'formatted_address',
+      preventSubmit: false
     };
 
     for(let property in defaultProperties) {
