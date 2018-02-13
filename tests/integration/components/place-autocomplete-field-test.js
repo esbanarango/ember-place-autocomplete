@@ -4,25 +4,21 @@ import { describe, it, context } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import GooglePlaceAutocompleteMockedObject from './../../helpers/google-place-autocomplete-object';
+import { find } from 'ember-native-dom-helpers';
 
 describe('Integration | Component | Place Autocomplete Field', function() {
   setupComponentTest('place-autocomplete-field', {
     integration: true
   });
 
-  it('renders', function() {
-    this.render(hbs`{{place-autocomplete-field}}`);
-    expect(this.$()).to.have.length(1);
-  });
-
   it("accepts 'placeholder' option", function() {
     this.render(hbs`{{place-autocomplete-field placeholder='fake placeholder'}}`);
-    expect(this.$('input').attr('placeholder').trim()).to.equal('fake placeholder');
+    expect(find('input').getAttribute('placeholder').trim()).to.equal('fake placeholder');
   });
 
   it("accepts 'inputClass' option", function() {
     this.render(hbs`{{place-autocomplete-field inputClass='fake-input-class'}}`);
-    expect(this.$('input').hasClass('fake-input-class')).to.equal(true);
+    expect(find('input').classList.contains('fake-input-class')).to.equal(true);
   });
 
   it("accepts 'value' option and updates with google autocomplete response", function() {
@@ -35,6 +31,11 @@ describe('Integration | Component | Place Autocomplete Field', function() {
     this.set('fakeModel', fakeModel);
     this.render(hbs`{{place-autocomplete-field value=fakeModel.address}}`);
     expect(this.get('fakeModel.address')).to.equal('Cra. 65, Medellín, Antioquia, Colombia');
+  });
+
+  it('accepts data attributes to input', function() {
+    this.render(hbs`{{place-autocomplete-field data-independiente-medellin='what is that'}}`);
+    expect(find('input[data-independiente-medellin]')).to.be.ok
   });
 
   context('when entered value is not found in google', function() {

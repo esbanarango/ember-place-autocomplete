@@ -16,6 +16,7 @@
   "author": "Daniel Múnera Sánchez",
   "license": "MIT",
   "dependencies": {
+    "bower": "^1.8.2",
     "ember-cli-babel": "^6.6.0",
     "ember-cli-htmlbars": "^2.0.1"
   },
@@ -38,8 +39,9 @@
     "ember-disable-prototype-extensions": "^1.1.2",
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
+    "ember-native-dom-helpers": "^0.5.10",
     "ember-resolver": "^4.0.0",
-    "ember-source": "~2.18.0",
+    "ember-source": "~2.12.0",
     "eslint-plugin-ember": "^5.0.0",
     "eslint-plugin-node": "^5.2.1",
     "loader.js": "^4.2.3"
