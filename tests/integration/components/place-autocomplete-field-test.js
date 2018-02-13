@@ -37,6 +37,11 @@ describe('Integration | Component | Place Autocomplete Field', function() {
     expect(this.get('fakeModel.address')).to.equal('Cra. 65, Medellín, Antioquia, Colombia');
   });
 
+  it('accepts data attributes', function() {
+    this.render(hbs`{{place-autocomplete-field data-independiente-medellin='what is that'}}`);
+    expect(this.$('input[data-independiente-medellin]')).to.be.ok
+  });
+
   context('when entered value is not found in google', function() {
     it('sets the value of the not found place to the passed property', function() {
       // Mock only google places

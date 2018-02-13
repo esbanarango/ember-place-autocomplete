@@ -2,6 +2,7 @@ import layout from '../templates/components/place-autocomplete-field';
 import Component from '@ember/component';
 import { isEmpty, isPresent, typeOf, isEqual, isBlank } from '@ember/utils';
 import { scheduleOnce, run } from "@ember/runloop";
+import { A } from '@ember/array';
 
 export default Component.extend({
   /**
@@ -25,6 +26,7 @@ export default Component.extend({
     if (this.get('autocomplete')) {
       this.get('autocomplete').setOptions(this.getOptions());
     }
+    this._bindDataAttributes();
   },
 
   /**
@@ -160,6 +162,11 @@ export default Component.extend({
         this.set(property, defaultProperties[property]);
       }
     }
+  },
+
+  _bindDataAttributes() {
+    let properties = A(Object.keys(this)).filter((prop) => prop.indexOf('data-') >= 0);
+    this.set('attributeBindings', properties);
   },
 
   actions: {
