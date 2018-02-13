@@ -15,6 +15,9 @@ export default Component.extend({
 
   didInsertElement() {
     this._super(...arguments);
+    // TODO: check if a block was passed to avoid trying to set
+    // the data attributes
+    this._bindDataAttributesToInput();
     scheduleOnce('afterRender', this, 'setupComponent');
   },
 
@@ -26,7 +29,6 @@ export default Component.extend({
     if (this.get('autocomplete')) {
       this.get('autocomplete').setOptions(this.getOptions());
     }
-    this._bindDataAttributes();
   },
 
   /**
@@ -164,9 +166,10 @@ export default Component.extend({
     }
   },
 
-  _bindDataAttributes() {
-    let properties = A(Object.keys(this)).filter((prop) => prop.indexOf('data-') >= 0);
-    this.set('attributeBindings', properties);
+  _bindDataAttributesToInput() {
+    let properties = A(Object.keys(this)).filter((prop) => prop.indexOf('data-') >= 0) || [];
+    let input = document.getElementById(this.elementId).getElementsByTagName('input')[0];
+    properties.forEach((property) => input.setAttribute(property, this.get(property)));
   },
 
   actions: {
