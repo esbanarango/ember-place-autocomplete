@@ -1,5 +1,6 @@
 import layout from '../templates/components/place-autocomplete-field';
 import Component from '@ember/component';
+import { isArray } from '@ember/array';
 import { isEmpty, isPresent, typeOf, isEqual, isBlank } from '@ember/utils';
 import { scheduleOnce, run } from "@ember/runloop";
 
@@ -136,9 +137,15 @@ export default Component.extend({
   },
 
   _typesToArray() {
-    if (this.get('types') !== '') {
-      return this.get('types').split(',');
-    } else {
+    let types = this.get('types');
+
+    if (isArray(types)) {
+      return types;
+    }
+    else if (typeOf(types) === 'string') {
+      return types.split(',');
+    }
+    else {
       return [];
     }
   },
