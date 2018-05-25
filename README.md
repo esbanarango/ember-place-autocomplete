@@ -36,7 +36,7 @@ In order to use this addon you just have to use the component in your templates.
   types='(cities)' //You don't have to pass this value, default value is 'geocode'
   restrictions= restrictionsObjectFromController // You can pass and object with restriction options.
   withGeoLocate= true // You don't have to pass this value, default value is false
-  setValueWithProperty= 'formatted_address' // Optional, default is formatted_address
+  setValueWithProperty= 'formatted_address' // Optional, defaults to typical Google Autocomplete behavior
   preventSubmit= true // You don't have to pass this value, default value is false. Prevents the form to be submitted if the user hits ENTER
 }}
 
