@@ -5,6 +5,14 @@ import { setupTest } from 'ember-mocha';
 describe('Integration | Component | PlaceAutocompleteField', function() {
   setupTest('component:place-autocomplete-field');
 
+  it('returns empty array on undefined/null', function(){
+    let component = this.subject();
+    expect(component._typesToArray()).to.eql([]);
+
+    component.set('types', null);
+    expect(component._typesToArray()).to.eql([]);
+  });
+
   it('converts types option to array', function(){
     let component = this.subject();
     component.set('types', 'geocode');
@@ -21,6 +29,12 @@ describe('Integration | Component | PlaceAutocompleteField', function() {
     let component = this.subject();
     component.set('types', '');
     expect(component._typesToArray()).to.eql([]);
+  });
+
+  it('supports array passed as types option', function() {
+    let component = this.subject();
+    component.set('types', ['geocode', 'establishment']);
+    expect(component._typesToArray()).to.eql(['geocode', 'establishment']);
   });
 
   it('get geolocate is not available', function(){

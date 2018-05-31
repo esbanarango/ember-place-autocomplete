@@ -1,5 +1,6 @@
 import layout from '../templates/components/place-autocomplete-field';
 import Component from '@ember/component';
+import { isArray } from '@ember/array';
 import { isEmpty, isPresent, typeOf, isEqual, isBlank } from '@ember/utils';
 import { scheduleOnce, run } from "@ember/runloop";
 
@@ -117,11 +118,9 @@ export default Component.extend({
     let place = this.get('autocomplete').getPlace();
     this._callCallback('placeChangedCallback', place);
 
+    // If setValueWithProperty is undefined, use Google Autocomplete default behavior
     if (place[this.get('setValueWithProperty')] !== undefined) {
       this.set('value', place[this.get('setValueWithProperty')]);
-    } else {
-      // Address not found use value
-      this.set('value', place.name);
     }
   },
 
@@ -138,9 +137,20 @@ export default Component.extend({
   },
 
   _typesToArray() {
-    if (this.get('types') !== '') {
-      return this.get('types').split(',');
-    } else {
+    let types = this.get('types');
+
+    if (isArray(types)) {
+      return types;
+    }
+    else if (typeOf(types) === 'string') {
+      if (types.trim() === '') {
+        return [];
+      }
+      else {
+        return types.split(',');
+      }
+    }
+    else {
       return [];
     }
   },
@@ -150,11 +160,11 @@ export default Component.extend({
       layout: layout,
       disabled: false,
       inputClass: 'place-autocomplete--input',
-      types: 'geocode',
+      types: undefined,
       restrictions: {},
       tabindex: 0,
       withGeoLocate: false,
-      setValueWithProperty: 'formatted_address',
+      setValueWithProperty: undefined,
       preventSubmit: false
     };
 

@@ -21,7 +21,7 @@ describe('Integration | Component | Place Autocomplete Field', function() {
     expect(find('input').classList.contains('fake-input-class')).to.equal(true);
   });
 
-  it("accepts 'value' option and updates with google autocomplete response", function() {
+  it("unset 'setValueWithProperty' option does not affect entered address", function() {
     // Mock only google places
     window.google.maps.__gjsload__ = function() {
       return true;
@@ -30,6 +30,18 @@ describe('Integration | Component | Place Autocomplete Field', function() {
     let fakeModel = EmberObject.extend({ address: 'fake address'}).create();
     this.set('fakeModel', fakeModel);
     this.render(hbs`{{place-autocomplete-field value=fakeModel.address}}`);
+    expect(this.get('fakeModel.address')).to.equal('fake address');
+  });
+
+  it("accepts 'value' option and updates with google autocomplete response", function() {
+    // Mock only google places
+    window.google.maps.__gjsload__ = function() {
+      return true;
+    };
+    window.google.maps.places.Autocomplete = GooglePlaceAutocompleteMockedObject;
+    let fakeModel = EmberObject.extend({ address: 'fake address'}).create();
+    this.set('fakeModel', fakeModel);
+    this.render(hbs`{{place-autocomplete-field value=fakeModel.address setValueWithProperty='formatted_address'}}`);
     expect(this.get('fakeModel.address')).to.equal('Cra. 65, Medellín, Antioquia, Colombia');
   });
 
