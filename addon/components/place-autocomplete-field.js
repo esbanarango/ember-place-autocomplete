@@ -143,7 +143,12 @@ export default Component.extend({
       return types;
     }
     else if (typeOf(types) === 'string') {
-      return types.split(',');
+      if (types.trim() === '') {
+        return [];
+      }
+      else {
+        return types.split(',');
+      }
     }
     else {
       return [];
