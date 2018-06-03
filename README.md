@@ -4,11 +4,9 @@
 
 ## Description
 
-Ember cli addon to provide a component that uses Google Places API to autocomplete place information when someone writes an address
-in a text field.
+Ember addon that provides a component which uses Google Places API to autocomplete place information when someone writes an address in a text field.
 
-This addon is very simple and just give you all the information of a place from google, you can do whatever you want with that information
-using a callback function in your controller.
+This addon is very simple and gives you all the information of a place from Google, you can do whatever you want with that information using a callback function.
 
 ![Autocomplete](http://i.imgur.com/wzGgfiY.gif)
 
