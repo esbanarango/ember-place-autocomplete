@@ -1025,10 +1025,6 @@ bower-endpoint-parser@0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/bower-endpoint-parser/-/bower-endpoint-parser-0.2.2.tgz#00b565adbfab6f2d35addde977e97962acbcb3f6"
 
-bower@^1.8.2:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/bower/-/bower-1.8.2.tgz#adf53529c8d4af02ef24fb8d5341c1419d33e2f7"
-
 brace-expansion@^1.0.0, brace-expansion@^1.1.7:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.8.tgz#c07b211c7c952ec1f8efd51a77ef0d1d3990a292"
@@ -2047,7 +2043,7 @@ dot-prop@^4.1.0:
 
 dotenv@^4.0.0:
   version "4.0.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
+  resolved "http://registry.npmjs.org/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
 
 ecc-jsbn@~0.1.1:
   version "0.1.1"
@@ -2150,7 +2146,7 @@ ember-cli-dependency-checker@^2.0.0:
     is-git-url "^1.0.0"
     semver "^5.3.0"
 
-ember-cli-dotenv@^2.0.0:
+ember-cli-dotenv@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ember-cli-dotenv/-/ember-cli-dotenv-2.0.0.tgz#2c09fc5f8b60f690c9e02428b4f4e3f0b8c64421"
   dependencies:
