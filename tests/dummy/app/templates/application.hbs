@@ -5,10 +5,9 @@
 <div class="test-place-autocomplete-container" data-google-auto="{{googleAuto}}">
   {{place-autocomplete-field
     value= model.address
-    handlerController= this
     inputClass= 'place-autocomplete--input'
-    focusOutCallback="done"
-    placeChangedCallback="placeChanged"
+    focusOutCallback=(action "done")
+    placeChangedCallback=(action "placeChanged")
     placeholder="Custom placeholder"
     preventSubmit=true
   }}
@@ -21,9 +20,8 @@
 <div class="test-place-autocomplete-container">
   {{place-autocomplete-field
     value= model.address2
-    handlerController=this
     inputClass= 'place-autocomplete--input-2'
-    placeChangedCallback="placeChangedSecondInput"
+    placeChangedCallback=(action "placeChangedSecondInput")
     restrictions=restrictions
     disabled=true
   }}
@@ -38,9 +36,8 @@
 <div class="test-place-autocomplete-container">
   {{place-autocomplete-field
     value= model.address3
-    handlerController=this
     inputClass= 'place-autocomplete--input-3'
-    placeChangedCallback="placeChangedThirdInput"
+    placeChangedCallback=(action "placeChangedThirdInput")
     types=""
     withGeoLocate=true
   }}
