@@ -26,8 +26,8 @@ export default Component.extend({
    * updated options that have been passed into the component.
    */
   didReceiveAttrs() {
-    if (this.get('autocomplete')) {
-      this.get('autocomplete').setOptions(this.getOptions());
+    if (this.autocomplete) {
+      this.autocomplete.setOptions(this.getOptions());
     }
   },
 
@@ -63,7 +63,7 @@ export default Component.extend({
       if (this.get('withGeoLocate')) {
         this.geolocateAndSetBounds();
       }
-      this.get('autocomplete').addListener('place_changed', () => {
+      this.autocomplete.addListener('place_changed', () => {
         run(() => {
           this.placeChanged();
         });
@@ -82,16 +82,16 @@ export default Component.extend({
   },
 
   willDestroy() {
-    if (isPresent(this.get('autocomplete'))) {
+    if (isPresent(this.autocomplete)) {
       let google = this.get('google') || ((window) ? window.google : null);
       if(google && google.maps && google.maps.event) {
-        google.maps.event.clearInstanceListeners(this.get('autocomplete'));
+        google.maps.event.clearInstanceListeners(this.autocomplete);
       }
     }
   },
 
   setAutocomplete() {
-    if (isEmpty(this.get('autocomplete'))) {
+    if (isEmpty(this.autocomplete)) {
       const inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
             google = this.get('google') || window.google; //TODO: check how to use the inyected google object
 
@@ -103,7 +103,7 @@ export default Component.extend({
   // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
   geolocateAndSetBounds() {
     let navigator = this.get('navigator') || ((window) ? window.navigator : null);
-    let autocomplete = this.get('autocomplete');
+    let autocomplete = this.autocomplete;
     if (navigator && navigator.geolocation && isPresent(autocomplete)) {
       navigator.geolocation.getCurrentPosition((position) => {
         const google = this.get('google') || window.google;
@@ -115,7 +115,7 @@ export default Component.extend({
   },
 
   placeChanged() {
-    let place = this.get('autocomplete').getPlace();
+    let place = this.autocomplete.getPlace();
     this._callCallback('placeChangedCallback', place);
 
     // If setValueWithProperty is undefined, use Google Autocomplete default behavior
