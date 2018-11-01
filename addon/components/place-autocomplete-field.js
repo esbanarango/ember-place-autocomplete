@@ -128,11 +128,6 @@ export default Component.extend({
     let callbackFn = this.get(callback);
     if (isEqual(typeOf(callbackFn), 'function')) {
       callbackFn(place);
-    } else {
-      let actionName = this.get(callback);
-      if (isPresent(this.get('handlerController')) && isPresent(actionName)) {
-        this.get('handlerController').send(actionName, place);
-      }
     }
   },
 

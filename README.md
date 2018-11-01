@@ -27,12 +27,11 @@ In order to use this addon you just have to use the component in your templates.
 {{place-autocomplete-field
   value= model.address
   disabled=false
-  handlerController= this
   inputClass= 'place-autocomplete--input'
-  focusOutCallback='done' //Name of the action in the controller
-  placeChangedCallback='placeChanged' //Name of the action in the controller
+  focusOutCallback=(action 'done') //Name of the action to execute
+  placeChangedCallback=(action 'placeChanged') //Name of the action in the controller
   types='(cities)' //You don't have to pass this value, default value is 'geocode'
-  restrictions= restrictionsObjectFromController // You can pass and object with restriction options.
+  restrictions= restrictionsObject // You can pass and object with restriction options.
   withGeoLocate= true // You don't have to pass this value, default value is false
   setValueWithProperty= 'formatted_address' // Optional, defaults to typical Google Autocomplete behavior
   preventSubmit= true // You don't have to pass this value, default value is false. Prevents the form to be submitted if the user hits ENTER
@@ -59,7 +58,6 @@ ENV['place-autocomplete'] = {
 **option**             | **description**
 ---                    | ---                 |
 value                  | Model attribute whe re the address attribute is going to be stored.
-handlerController      | Controller that is going to handle the callbacks functions that could be triggered from the component.
 focusOutCallback       | String : Name of the function that is going to be executed after focus out in the address input
 placeChangedCallback   | String : Name of the function that is going to be executed when address changed
 inputClass             | String : CSS class for the input.
