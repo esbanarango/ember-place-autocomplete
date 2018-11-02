@@ -63,6 +63,7 @@ placeChangedCallback   | String : Name of the function that is going to be execu
 inputClass             | String : CSS class for the input.
 types                  | String: featured types separate by comma describing the given result, for more info [Available types](https://developers.google.com/places/supported_types#table3)
 restrictions           | Object: ex. `{country: "us"}`, more info [Component Restrictions](https://developers.google.com/maps/documentation/javascript/examples/geocoding-component-restriction)
+placeIdOnly            | Boolean: Optional, defaults to false, only fetches the Place ID when calling the Google Places API (more details can be found [here](https://developers.google.com/maps/documentation/javascript/places-autocomplete#get_place_information))
 withGeoLocate          | Boolean: ex. `true`, It allows searching places near by the coordinates given into browser. more info [See attribute options.bounds](https://developers.google.com/maps/documentation/javascript/places-autocomplete#add_autocomplete)
 setValueWithProperty   | String: Name of the property returned by Google to set the input field value after selection. more info about properties available you can find [here](https://developers.google.com/maps/documentation/javascript/3.exp/reference#PlaceResult)
 latLngBounds           | Object: ex. `{sw: {lat: -34, lng: 151}, ne: {lat: -33, lng: 152}}`, It allows searching places near by the given coordinates. more info [See attribute options.bounds](https://developers.google.com/maps/documentation/javascript/places-autocomplete#add_autocomplete)
@@ -75,7 +76,6 @@ preventSubmit          | Boolean: ex. `true`, allows to prevent the form to be s
 ## PlaceChangedCallback
 
 This controller action is going to receive a javascript object with the response from Google Places API ([Response details](https://developers.google.com/places/web-service/details)). You can use the information as you wish.
-
 
 ### Example
 
@@ -131,6 +131,21 @@ This controller action is going to receive a javascript object with the response
   "url": "https://maps.google.com/maps/place?q=Cra.+65,+Medell%C3%ADn,+Antioquia,+Colombia&&ftid=0x8e442902d1edf87f:0x1d183831292a7a27",
   "vicinity": "Medellín",
   "html_attributions": []
+}
+
+```
+
+If `placeIdOnly` is set to true you will only receive the place_id in the response here. This gives you more control on how to retrieve more details about the location. For instance you can use Reverse Geocoding by Place ID (https://developers.google.com/maps/documentation/javascript/examples/geocoding-place-id) which uses the Geocoding API that is approx. 10x cheaper than Places API.
+
+### Example
+
+```js
+{
+  "name": "Carrera 65",
+  "place_id": "ChIJf_jt0QIpRI4RJ3oqKTE4GB0",
+  "types": [
+    "route"
+  ]
 }
 
 ```
