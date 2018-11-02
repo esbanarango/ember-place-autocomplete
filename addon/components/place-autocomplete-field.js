@@ -36,7 +36,9 @@ export default Component.extend({
    */
   getOptions() {
     const google = this.get('google') || ((window) ? window.google : null);
-    const options = { types: this._typesToArray() };
+    const placeIdOnly = this.get('placeIdOnly') || false;
+
+    const options = { types: this._typesToArray(), placeIdOnly };
 
     const latLngBnds = this.get('latLngBounds');
 
