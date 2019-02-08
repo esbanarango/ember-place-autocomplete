@@ -1,15 +1,14 @@
 import Controller from '@ember/controller';
 import { run } from "@ember/runloop"
 import $ from 'jquery';
+import { inject as service } from '@ember/service';
 
 export default Controller.extend({
+  googleAutocompleteService: service('google-autocomplete'),
+
   init() {
     this._super(...arguments);
-    this.setProperties({
-      fullAddress: null,
-      googleAuto: null,
-      restrictions: {country: 'co'}
-    });
+    this.setProperties({ fullAddress: null, googleAuto: null, restrictions: {country: 'co'} });
   },
 
   actions: {
@@ -36,6 +35,13 @@ export default Controller.extend({
 
     placeChangedThirdInput(place) {
       this.set('placeJSONThirdInput', JSON.stringify(place, undefined, 2));
+    },
+
+    requestPredictions(placeServiceInput) {
+      let properties = { input: placeServiceInput };
+      this.get('googleAutocompleteService').getPredictions(properties).then((predictions) => {
+        this.set('servicePredictionsJSON', JSON.stringify(predictions, undefined, 2));
+      });
     }
   }
 });

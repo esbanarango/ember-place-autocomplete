@@ -1,3 +1,5 @@
+<h1>Place Autocomplete field</h1>
+
 <p id="message">Message: {{message}}</p>
 <p>Full adddress from JSON sent to the callback: {{{fullAddress}}}</p>
 <p>Clean string: {{cleanFullAddress}}</p>
@@ -48,3 +50,10 @@
   {{placeJSONThirdInput}}
 </pre>
 {{outlet}}
+
+<h1>Place Autocomplete service</h1>
+<input oninput={{action 'requestPredictions' value="target.value"}}>
+<pre style="font-size: 6px;">
+  {{servicePredictionsJSON}}
+</pre>
+
