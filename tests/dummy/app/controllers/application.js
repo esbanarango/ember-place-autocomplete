@@ -39,8 +39,18 @@ export default Controller.extend({
 
     requestPredictions(placeServiceInput) {
       let properties = { input: placeServiceInput };
-      this.get('googleAutocompleteService').getPredictions(properties).then((predictions) => {
-        this.set('servicePredictionsJSON', JSON.stringify(predictions, undefined, 2));
+      this.get('googleAutocompleteService').getPlacePredictions(properties).then((predictions) => {
+        this.set('predictions', predictions);
+      });
+    },
+
+    getPlaceDetails(placeId) {
+      let googleRequest = {
+        placeId: placeId,
+        fields: ['address_components', 'formatted_address', 'place_id', 'rating']
+      };
+      this.get('googleAutocompleteService').getDetails(googleRequest).then((placeResult) => {
+        this.set('placeServiceResultJSON', JSON.stringify(placeResult, undefined, 2));
       });
     }
   }

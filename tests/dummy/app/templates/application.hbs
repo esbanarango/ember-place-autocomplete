@@ -49,11 +49,22 @@
 <pre style="font-size: 6px;">
   {{placeJSONThirdInput}}
 </pre>
-{{outlet}}
 
 <h1>Place Autocomplete service</h1>
 <input oninput={{action 'requestPredictions' value="target.value"}}>
-<pre style="font-size: 6px;">
-  {{servicePredictionsJSON}}
+<div class="predictions">
+  {{#if predictions}}
+    <select onchange={{action 'getPlaceDetails' value="target.value"}}>
+      {{#each predictions as |prediction|}}
+        <option value={{prediction.place_id}}>{{prediction.description}}</option>
+      {{/each}}
+    </select>
+  {{else}}
+    <p>Not results found...</p>
+  {{/if}}
+</div>
+<pre style="font-size: 10px;">
+  {{placeServiceResultJSON}}
 </pre>
+
 
