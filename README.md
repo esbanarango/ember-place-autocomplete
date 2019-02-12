@@ -27,6 +27,7 @@ In order to use this addon you just have to use the component in your templates.
 {{place-autocomplete-field
   value= model.address
   disabled=false
+  name='input-name'
   inputClass= 'place-autocomplete--input'
   focusOutCallback=(action 'done') //Name of the action to execute
   placeChangedCallback=(action 'placeChanged') //Name of the action in the controller
