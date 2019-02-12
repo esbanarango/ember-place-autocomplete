@@ -16,6 +16,11 @@ describe('Integration | Component | Place Autocomplete Field', function() {
     expect(find('input').getAttribute('placeholder').trim()).to.equal('fake placeholder');
   });
 
+  it("accepts 'name' option", function() {
+    this.render(hbs`{{place-autocomplete-field name='fake-name'}}`);
+    expect(find('input').getAttribute('name').trim()).to.equal('fake-name');
+  });
+
   it("accepts 'inputClass' option", function() {
     this.render(hbs`{{place-autocomplete-field inputClass='fake-input-class'}}`);
     expect(find('input').classList.contains('fake-input-class')).to.equal(true);
