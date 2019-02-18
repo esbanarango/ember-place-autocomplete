@@ -44,10 +44,6 @@ export default Controller.extend({
       this.set('placeJSONSecondInput', JSON.stringify(place, undefined, 2));
     },
 
-    placeChangedThirdInput(place) {
-      this.set('placeJSONThirdInput', JSON.stringify(place, undefined, 2));
-    },
-
     requestPredictions(placeServiceInput) {
       if (isBlank(placeServiceInput)) {
         this.setProperties({ predictions: [], placeServiceResultJSON: null });
