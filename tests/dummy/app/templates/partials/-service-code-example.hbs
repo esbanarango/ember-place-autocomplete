@@ -1,0 +1,62 @@
+<pre>
+  <code class="code-example">
+application.js
+
+...
+  googlePlaceAutocompleteService: service('google-place-autocomplete'),
+...
+
+_getPlaceDetails(placeId) {
+  let googleRequest = {
+    placeId: placeId,
+    fields: ['address_components', 'formatted_address', 'place_id', 'rating']
+  };
+  this.get('googlePlaceAutocompleteService').getDetails(googleRequest).then((placeResult) => {
+    this.set('placeServiceResultJSON', JSON.stringify(placeResult, undefined, 2));
+  });
+},
+
+actions: {
+  requestPredictions(placeServiceInput) {
+    if (isBlank(placeServiceInput)) {
+      this.setProperties({ predictions: [], placeServiceResultJSON: null });
+    }
+    let properties = { input: placeServiceInput };
+    let predictions = this.get('predictions') || [];
+    for(let prediction of predictions) {
+      if (isEqual(placeServiceInput, prediction.description)) {
+        this._getPlaceDetails(prediction.place_id);
+        this.set('predictions', []);
+        return;
+      }
+    }
+    this.get('googlePlaceAutocompleteService').getPlacePredictions(properties).then((predictions) => {
+      this.set('predictions', predictions);
+    });
+  }
+}
+
+...
+
+application.hbs
+
+...
+
+&lt;input
+  type="text"
+  list="autocomplete-service"
+  oninput=&lcub;&lcub;action 'requestPredictions' value="target.value"&rcub;&rcub;
+  onfocusout=&lcub;&lcub;action 'requestPredictions' value="target.value"&rcub;&rcub;
+&gt;
+&lt;datalist id="autocomplete-service"&gt;
+  &lcub;&lcub;#each predictions as |prediction|&rcub;&rcub;
+    &lt;option data-value={{prediction.id}}&gt;{{prediction.description}}&lt;/option&gt;
+  &lcub;&lcub;/each&rcub;&rcub;
+&lt;/datalist&gt;
+&lt;pre style="font-size: 10px;"&gt;
+  &lcub;&lcub;placeServiceResultJSON&rcub;&rcub;
+&lt;/pre&gt;
+
+...
+  </code>
+</pre>

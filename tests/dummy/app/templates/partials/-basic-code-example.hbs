@@ -1,0 +1,44 @@
+<pre>
+  <code class="code-example">
+//application.js
+...
+
+actions: {
+  done() {
+    $('#message').fadeOut(500, () => {
+      run(() => this.set('message', 'Focus out'));
+    }).fadeIn(500);
+  },
+
+  placeChanged(place) {
+    this.set('placeJSON', JSON.stringify(place, undefined, 2));
+    this.set('googleAuto', 'done');
+    if (place.adr_address) {
+      let regexp = /(&lt;span(?: \w+="[^"]+")*(?: \w+="[^"]+")*>([^&lt;]*)&lt;\/span>)/g,
+          fullAddress = place.adr_address.replace(regexp, "$2");
+      this.set('cleanFullAddress', fullAddress);
+    }
+    this.set('fullAddress', place.adr_address);
+  }
+}
+
+...
+
+//application.hbs
+
+...
+
+&lt;p id="message">Message: &rcub;&rcub;message&lcub;&lcub;&lt;/p&gt;
+&lt;p&gt;Full adddress from JSON sent to the callback: &rcub;&rcub;&rcub;fullAddress&lcub;&lcub;&lcub;&lt;/p&gt;
+&lt;p&gt;Clean string: &rcub;&rcub;cleanFullAddress&lcub;&lcub;&lt;/p&gt;
+&lt;p&gt; Model address: &rcub;&rcub;model.address&lcub;&lcub;&lt;/p&gt;
+&lcub;&lcub;place-autocomplete-field
+  value= model.address
+  inputClass= 'place-autocomplete--input'
+  focusOutCallback=(action "done")
+  placeChangedCallback=(action "placeChanged")
+  placeholder="Custom placeholder"
+  preventSubmit=true
+&rcub;&rcub;
+  </code>
+</pre>

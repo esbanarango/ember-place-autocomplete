@@ -6,14 +6,16 @@ export default Service.extend({
   init() {
     this._super(...arguments);
     const google = this.get('google') || ((window) ? window.google : null);
-    let autocompleteService = new google.maps.places.AutocompleteService();
-    let placesService = new google.maps.places.PlacesService(document.createElement('div'));
-    let sessionToken = new google.maps.places.AutocompleteSessionToken();
+    let googlePlaces = google.maps.places;
+    let autocompleteService = new googlePlaces.AutocompleteService();
+    let placesService = new googlePlaces.PlacesService(document.createElement('div'));
+    let sessionToken = new googlePlaces.AutocompleteSessionToken();
+
     this.setProperties({
       autocompleteService: autocompleteService,
       google: google,
       sessionToken: sessionToken,
-      placesService:  placesService
+      placesService: placesService
     });
   },
 
@@ -48,6 +50,8 @@ export default Service.extend({
       );
     }
 
+    this.updateSessionToken();
+
     return new EmberPromise((resolve) => {
       this.get('placesService').getDetails(
         request,
@@ -63,5 +67,10 @@ export default Service.extend({
       return resolve(requestResult);
     }
     resolve(failResponseReturnValue);
+  },
+
+  updateSessionToken() {
+    let googlePlaces = this.get('google').maps.places;
+    this.set('sessionToken', new googlePlaces.AutocompleteSessionToken());
   }
 });

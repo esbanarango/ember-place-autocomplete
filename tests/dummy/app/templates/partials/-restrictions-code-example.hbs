@@ -1,0 +1,31 @@
+<pre>
+  <code class="code-example">
+//application.js
+
+...
+
+init() {
+  this._super(...arguments);
+  this.setProperties({
+    restrictions: { country: 'co' }
+  });
+},
+
+...
+
+// application.hbs
+
+...
+
+&lt;div class="test-place-autocomplete-container"&gt;
+  &lcub;&lcub;place-autocomplete-field
+    value= model.address2
+    inputClass= 'place-autocomplete--input-2'
+    placeChangedCallback=(action "placeChangedSecondInput")
+    restrictions=restrictions
+  &rcub;&rcub;
+&lt;div&gt;
+
+...
+  </code>
+</pre>

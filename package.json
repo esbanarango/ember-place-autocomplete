@@ -32,6 +32,7 @@
     "ember-cli-mocha": "0.15.0",
     "ember-cli-shims": "^1.2.0",
     "ember-cli-sri": "^2.1.0",
+    "ember-cli-tachyons-shim": "^4.9.1",
     "ember-cli-test-loader": "2.1.0",
     "ember-cli-uglify": "^2.0.0",
     "ember-data": "^2.5.0",
@@ -40,10 +41,11 @@
     "ember-load-initializers": "^1.0.0",
     "ember-native-dom-helpers": "^0.5.10",
     "ember-resolver": "^4.0.0",
-    "ember-source": "~2.12.0",
+    "ember-uuid": "^1.0.1",
     "eslint-plugin-ember": "^5.0.0",
     "eslint-plugin-node": "^5.2.1",
-    "loader.js": "^4.2.3"
+    "loader.js": "^4.2.3",
+    "tachyons": "4.9.1"
   },
   "keywords": [
     "ember-addon"

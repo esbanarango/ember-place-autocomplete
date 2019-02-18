@@ -1,3 +1,27 @@
 .predictions{
   margin-top: 10px;
 }
+
+.code-example{
+  max-width: 100%;
+  width: 100%;
+  display: block;
+  height: auto;
+}
+
+pre{
+  margin: 0;
+}
+
+.input-field-example{
+  padding: 7px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  width: 100%;
+}
+
+.json-result{
+  font-size: 10px;
+  max-width: 100%;
+  overflow-x: scroll;
+}

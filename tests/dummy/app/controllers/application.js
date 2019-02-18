@@ -2,13 +2,24 @@ import Controller from '@ember/controller';
 import { run } from "@ember/runloop"
 import $ from 'jquery';
 import { inject as service } from '@ember/service';
+import { isEqual, isBlank } from '@ember/utils';
 
 export default Controller.extend({
-  googleAutocompleteService: service('google-autocomplete'),
+  googlePlaceAutocompleteService: service('google-place-autocomplete'),
 
   init() {
     this._super(...arguments);
-    this.setProperties({ fullAddress: null, googleAuto: null, restrictions: {country: 'co'} });
+    this.setProperties({ fullAddress: null, googleAuto: null, restrictions: { country: 'co' } });
+  },
+
+  _getPlaceDetails(placeId) {
+    let googleRequest = {
+      placeId: placeId,
+      fields: ['address_components', 'formatted_address', 'place_id', 'rating']
+    };
+    this.get('googlePlaceAutocompleteService').getDetails(googleRequest).then((placeResult) => {
+      this.set('placeServiceResultJSON', JSON.stringify(placeResult, undefined, 2));
+    });
   },
 
   actions: {
@@ -38,19 +49,20 @@ export default Controller.extend({
     },
 
     requestPredictions(placeServiceInput) {
+      if (isBlank(placeServiceInput)) {
+        this.setProperties({ predictions: [], placeServiceResultJSON: null });
+      }
       let properties = { input: placeServiceInput };
-      this.get('googleAutocompleteService').getPlacePredictions(properties).then((predictions) => {
+      let predictions = this.get('predictions') || [];
+      for(let prediction of predictions) {
+        if (isEqual(placeServiceInput, prediction.description)) {
+          this._getPlaceDetails(prediction.place_id);
+          this.set('predictions', []);
+          return;
+        }
+      }
+      this.get('googlePlaceAutocompleteService').getPlacePredictions(properties).then((predictions) => {
         this.set('predictions', predictions);
-      });
-    },
-
-    getPlaceDetails(placeId) {
-      let googleRequest = {
-        placeId: placeId,
-        fields: ['address_components', 'formatted_address', 'place_id', 'rating']
-      };
-      this.get('googleAutocompleteService').getDetails(googleRequest).then((placeResult) => {
-        this.set('placeServiceResultJSON', JSON.stringify(placeResult, undefined, 2));
       });
     }
   }
