@@ -22,7 +22,7 @@ export default Service.extend({
   getPlacePredictions(properties) {
     if (!properties.hasOwnProperty('input')) {
       return EmberPromise.reject(
-        new Error('[service/google-autocomplete] input property was not passed inside properties object param')
+        new Error('[service/google-place-autocomplete] input property was not passed inside properties object param')
       );
     }
 
@@ -40,12 +40,31 @@ export default Service.extend({
     });
   },
 
+  getQueryPredictions(properties) {
+    if (!properties.hasOwnProperty('input')) {
+      return EmberPromise.reject(
+        new Error('[service/google-place-autocomplete] input property was not passed inside properties object param')
+      );
+    }
+
+    if (isBlank(properties.input)) {
+      return EmberPromise.resolve([]);
+    }
+
+    return new EmberPromise((resolve) => {
+      this.get('autocompleteService').getQueryPredictions(
+        properties,
+        this._googleResponseCallback.bind(this, [resolve], [])
+      );
+    });
+  },
+
   getDetails(request) {
     request.sessionToken = this.get('sessionToken');
     if (!request.hasOwnProperty('fields') && !request.hasOwnProperty('placeId')) {
       return EmberPromise.reject(
         new Error(
-          '[service/google-autocomplete] getDetails needs the placeId and fields as properties of the request params'
+          '[service/google-place-autocomplete] getDetails needs the placeId and fields as properties of the request params'
         )
       );
     }
