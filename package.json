@@ -30,6 +30,7 @@
     "ember-cli-htmlbars-inline-precompile": "^1.0.0",
     "ember-cli-inject-live-reload": "^1.4.1",
     "ember-cli-mocha": "0.15.0",
+    "ember-cli-sass": "^10.0.0",
     "ember-cli-shims": "^1.2.0",
     "ember-cli-sri": "^2.1.0",
     "ember-cli-test-loader": "2.1.0",
@@ -39,12 +40,14 @@
     "ember-export-application-global": "^2.0.0",
     "ember-load-initializers": "^1.0.0",
     "ember-native-dom-helpers": "^0.5.10",
+    "ember-power-select": "^2.2.2",
     "ember-resolver": "^4.0.0",
     "ember-source": "~2.12.0",
     "ember-uuid": "^1.0.1",
     "eslint-plugin-ember": "^5.0.0",
     "eslint-plugin-node": "^5.2.1",
-    "loader.js": "^4.2.3"
+    "loader.js": "^4.2.3",
+    "sass": "^1.17.0"
   },
   "keywords": [
     "ember-addon"

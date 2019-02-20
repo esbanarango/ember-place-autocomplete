@@ -92,18 +92,17 @@
       provided by this addon.
     </p>
     <h3 class="f4">Result:</h3>
-    <input
-      type="text"
-      list="autocomplete-service"
-      class="input-field-example"
-      oninput={{action 'requestPredictions' value="target.value"}}
-      onfocusout={{action 'requestPredictions' value="target.value"}}
-    >
-    <datalist id="autocomplete-service">
-      {{#each predictions as |prediction|}}
-        <option data-value={{prediction.id}}>{{prediction.description}}</option>
-      {{/each}}
-    </datalist>
+    {{#power-select
+      options=predictions
+      onchange=(action "findPlaceDetails")
+      selected=selectedPlace
+      search=(action "requestPredictions")
+      allowClear=true
+      as |prediction|
+    }}
+
+      {{prediction.description}}
+    {{/power-select}}
 
     {{#if placeServiceResultJSON}}
       <p>Google response</p>

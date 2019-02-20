@@ -87,7 +87,7 @@ export default Service.extend({
     if (status === google.maps.places.PlacesServiceStatus.OK) {
       return resolve(requestResult);
     }
-    resolve(failResponseReturnValue);
+    return resolve(failResponseReturnValue);
   },
 
   updateSessionToken() {

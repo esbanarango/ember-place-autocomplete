@@ -2,7 +2,7 @@ import Controller from '@ember/controller';
 import { run } from "@ember/runloop"
 import $ from 'jquery';
 import { inject as service } from '@ember/service';
-import { isEqual, isBlank } from '@ember/utils';
+import { isBlank } from '@ember/utils';
 
 export default Controller.extend({
   googlePlaceAutocompleteService: service('google-place-autocomplete'),
@@ -44,19 +44,21 @@ export default Controller.extend({
       this.set('placeJSONSecondInput', JSON.stringify(place, undefined, 2));
     },
 
+    findPlaceDetails(selectedPlace) {
+      if (isBlank(selectedPlace)) {
+        this.setProperties({ selectedPlace: null, predictions: [], placeServiceResultJSON: null });
+        return;
+      }
+      this._getPlaceDetails(selectedPlace.place_id);
+      this.set('selectedPlace', selectedPlace);
+      this.set('predictions', []);
+    },
+
     requestPredictions(placeServiceInput) {
       if (isBlank(placeServiceInput)) {
         this.setProperties({ predictions: [], placeServiceResultJSON: null });
       }
       let properties = { input: placeServiceInput };
-      let predictions = this.get('predictions') || [];
-      for(let prediction of predictions) {
-        if (isEqual(placeServiceInput, prediction.description)) {
-          this._getPlaceDetails(prediction.place_id);
-          this.set('predictions', []);
-          return;
-        }
-      }
       this.get('googlePlaceAutocompleteService').getPlacePredictions(properties).then((predictions) => {
         this.set('predictions', predictions);
       });
