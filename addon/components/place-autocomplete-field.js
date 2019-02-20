@@ -66,10 +66,9 @@ export default Component.extend({
         this.geolocateAndSetBounds();
       }
       this.autocomplete.addListener('place_changed', () => {
-        run(() => {
-          this.placeChanged();
-        });
+        run(() => this.placeChanged());
       });
+
     } else {
       if (!this.isDestroyed && !this.isDestroying) {
         run.later(this, 'setupComponent', 100);

@@ -6,17 +6,19 @@ export default Service.extend({
   init() {
     this._super(...arguments);
     const google = this.get('google') || ((window) ? window.google : null);
-    let googlePlaces = google.maps.places;
-    let autocompleteService = new googlePlaces.AutocompleteService();
-    let placesService = new googlePlaces.PlacesService(document.createElement('div'));
-    let sessionToken = new googlePlaces.AutocompleteSessionToken();
+    if (google && document) {
+      let googlePlaces = google.maps.places;
+      let autocompleteService = new googlePlaces.AutocompleteService();
+      let placesService = new googlePlaces.PlacesService(document.createElement('div'));
+      let sessionToken = new googlePlaces.AutocompleteSessionToken();
 
-    this.setProperties({
-      autocompleteService: autocompleteService,
-      google: google,
-      sessionToken: sessionToken,
-      placesService: placesService
-    });
+      this.setProperties({
+        autocompleteService: autocompleteService,
+        google: google,
+        sessionToken: sessionToken,
+        placesService: placesService
+      });
+    }
   },
 
   getPlacePredictions(properties) {
