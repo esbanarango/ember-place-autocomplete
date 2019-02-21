@@ -10,8 +10,8 @@
     </div>
   </div>
 </header>
-<div class="sans-serif flex flex-row items-flex-start">
-  <div class="w-20 pa4">
+<div class="sans-serif flex flex-row flex-wrap items-flex-start">
+  <div class="w-20-ns w-100 pa4">
     <nav class="dt w-100 mw8 center">
       <div class="flex flex-column">
         <div class="w-100 pa2">
@@ -42,7 +42,17 @@
       </div>
     </nav>
   </div>
-  <div class="w-80 mw8 pa4">
+  <div class="w-100 w-80-ns mw8 pa4">
     {{outlet}}
   </div>
 </div>
+<footer class="ph3 ph4-ns pv4 bt b--black-10 black-70">
+  <div class="mt5">
+    <a href="https://github.com/dmuneras/ember-place-autocomplete" title="Github repo" class="f6 dib pr2 mid-gray dim" target="_blank">
+      Github repository
+    </a>
+    <a href="https://www.npmjs.com/package/ember-place-autocomplete" title="NPM page" class="f6 dib pr2 mid-gray dim" target="_blank">
+      NPM page
+    </a>
+  </div>
+</footer>
