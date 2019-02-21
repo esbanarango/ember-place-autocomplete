@@ -1,62 +1,79 @@
-<pre>
-  <code class="code-example">
-application.js
+<h3 class="f5">application.js</h3>
+{{#code-block language='js'}}
+  import Controller from '@ember/controller';
+  import Controller from '@ember/controller';
+  import { inject as service } from '@ember/service';
+  import { isBlank } from '@ember/utils';
 
-...
-  googlePlaceAutocompleteService: service('google-place-autocomplete'),
-...
+  export default Controller.extend({
+    googlePlaceAutocompleteService: service('google-place-autocomplete'),
 
-_getPlaceDetails(placeId) {
-  let googleRequest = {
-    placeId: placeId,
-    fields: ['address_components', 'formatted_address', 'place_id', 'rating']
-  };
-  this.get('googlePlaceAutocompleteService').getDetails(googleRequest).then((placeResult) => {
-    this.set('placeServiceResultJSON', JSON.stringify(placeResult, undefined, 2));
-  });
-},
+    init() {
+      this._super(...arguments);
+      this.setProperties({ fullAddress: null, googleAuto: null, restrictions: { country: 'co' } });
+    },
 
-actions: {
-  requestPredictions(placeServiceInput) {
-    if (isBlank(placeServiceInput)) {
-      this.setProperties({ predictions: [], placeServiceResultJSON: null });
-    }
-    let properties = { input: placeServiceInput };
-    let predictions = this.get('predictions') || [];
-    for(let prediction of predictions) {
-      if (isEqual(placeServiceInput, prediction.description)) {
-        this._getPlaceDetails(prediction.place_id);
-        this.set('predictions', []);
-        return;
+    _getPlaceDetails(placeId) {
+      let googleRequest = {
+        placeId: placeId,
+        fields: ['address_components', 'formatted_address', 'place_id', 'rating']
+      };
+      this.get('googlePlaceAutocompleteService').getDetails(googleRequest).then((placeResult) => {
+        this.set('placeServiceResultJSON', JSON.stringify(placeResult, undefined, 2));
+      });
+    },
+
+    actions: {
+      findPlaceDetails(selectedPlace) {
+        if (isBlank(selectedPlace)) {
+          this.setProperties({
+            selectedPlace: null,
+            predictions: [],
+            placeServiceResultJSON: null
+          });
+          return;
+        }
+        this._getPlaceDetails(selectedPlace.place_id);
+        this.setProperties({
+          selectedPlace: selectedPlace,
+          predictions: []
+        });
+      },
+
+      requestPredictions(placeServiceInput) {
+        if (isBlank(placeServiceInput)) {
+          this.setProperties({ predictions: [], placeServiceResultJSON: null });
+        }
+        let properties = { input: placeServiceInput };
+        this.get('googlePlaceAutocompleteService').getPlacePredictions(properties).then((predictions) => {
+          this.set('predictions', predictions);
+        });
       }
     }
-    this.get('googlePlaceAutocompleteService').getPlacePredictions(properties).then((predictions) => {
-      this.set('predictions', predictions);
-    });
-  }
-}
+  });
+{{/code-block}}
+<h3 class="f5">application.hbs</h3>
+{{#code-block language='html'}}
+  ...
 
-...
+  &lcub;&lcub;#power-select
+    options=predictions
+    onchange=(action "findPlaceDetails")
+    selected=selectedPlace
+    search=(action "requestPredictions")
+    allowClear=true
+    as |prediction|
+  &rcub;&rcub;
 
-application.hbs
+    &lcub;&lcub;prediction.description&rcub;&rcub;
+  &lcub;&lcub;/power-select&rcub;&rcub;
 
-...
+  &lcub;&lcub;#if placeServiceResultJSON&rcub;&rcub;
+    &lt;p>Google response&lt;/p&gt;
+    &lt;pre class="json-result"&gt;
+      &lcub;&lcub;placeServiceResultJSON&rcub;&rcub;
+    &lt;/pre&gt;
+  &lcub;&lcub;/if&rcub;&rcub;
 
-&lt;input
-  type="text"
-  list="autocomplete-service"
-  oninput=&lcub;&lcub;action 'requestPredictions' value="target.value"&rcub;&rcub;
-  onfocusout=&lcub;&lcub;action 'requestPredictions' value="target.value"&rcub;&rcub;
-&gt;
-&lt;datalist id="autocomplete-service"&gt;
-  &lcub;&lcub;#each predictions as |prediction|&rcub;&rcub;
-    &lt;option data-value={{prediction.id}}&gt;{{prediction.description}}&lt;/option&gt;
-  &lcub;&lcub;/each&rcub;&rcub;
-&lt;/datalist&gt;
-&lt;pre style="font-size: 10px;"&gt;
-  &lcub;&lcub;placeServiceResultJSON&rcub;&rcub;
-&lt;/pre&gt;
-
-...
-  </code>
-</pre>
+  ...
+{{/code-block}}

@@ -1,117 +1,48 @@
-<div class="sans-serif flex flex-column items-center">
-  <div class="w-100 mw8 pa4">
-    <h1 class="f1">Ember place autocomplete component</h1>
-    <img class="pa4" src="http://i.imgur.com/wzGgfiY.gif"/>
-    <p>
-      This addon provides two strategies to be able to communicate with Google place autocomplete services.
-    </p>
-    <ul>
-      <li>
-        The first one is using the <strong>place-autocomplete-field</strong> component, which is going to add and input field that fetch google place predictions while you are typing.
-      </li>
-      <li>
-        The second one is a service called <strong>google-place-autocomplete</strong>, this option gives you more flexibility to request information from google and use it into your application.
-      </li>
-    </ul>
-    <p>
-      The usage of both strategies are explained below.
-    </p>
-  </div>
-  <div class="w-100 mw8 pa4">
-    <h2 class="f2">Using the component</h2>
-    <p>
-      For more information go to <a href="https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform" target="_blank">this documentation</a>
-    </p>
-    <h3 class="f3">Basic example</h3>
-    <p>
-      The following example shows how to use the place autocomplete field with a place change callback function and a focus out
-      callback function.
-    </p>
-    <p>
-      This example assumes two actions are defined in the controller: <strong>done</strong> and <strong>placeChanged</strong>.
-      the model.address assumes that the current route loads an object with a property <strong>address</strong>, which is
-      going to be bind to the field value.
-    </p>
-    <h5 class="f4">Result:</h5>
-    <p id="message">Message: {{message}}</p>
-    <p>Full adddress from JSON sent to the callback: {{{fullAddress}}}</p>
-    <p>Clean string: {{cleanFullAddress}}</p>
-    <p> Model address: {{model.address}}</p>
-    <div class="test-place-autocomplete-container" data-google-auto="{{googleAuto}}">
-      {{place-autocomplete-field
-        value= model.address
-        inputClass= 'place-autocomplete--input input-field-example'
-        focusOutCallback=(action "done")
-        placeChangedCallback=(action "placeChanged")
-        placeholder="Custom placeholder"
-        preventSubmit=true
-      }}
+<header class="sans-serif">
+  <div class="cover bg-left bg-center-l">
+    <div class="bg-black-80 pb4">
+      <div class="tc-l ph3">
+        <h1 class="f2 f1-l fw2 white-90 mb0 mt0 pt4 lh-title">Ember place autocomplete</h1>
+        <h2 class="fw1 f3 white-80 mt3 mb4">
+          Wrapper for Google Place API
+        </h2>
+      </div>
     </div>
-    {{#if placeJSON}}
-      <p>Google response</p>
-      <pre class="json-result">
-        {{placeJSON}}
-      </pre>
-    {{/if}}
-    <h5 class="f4">Code:</h5>
-    {{partial 'partials/basic-code-example'}}
-
-    <h4 class="f3">Restrictions options</h4>
-    <p>This place autocomplete field only returns places from Colombia. It happens because a restrictions object is
-    being passed</p>
-    <h5 class="f4">Result:</h5>
-    <div class="test-place-autocomplete-container">
-      {{place-autocomplete-field
-        value= model.address2
-        inputClass= 'place-autocomplete--input-2 input-field-example'
-        placeChangedCallback=(action "placeChangedSecondInput")
-        restrictions=restrictions
-      }}
-    </div>
-    {{#if placeJSONSecondInput}}
-      <p>Google response</p>
-      <pre class="json-result">
-        {{placeJSONSecondInput}}
-      </pre>
-    {{/if}}
-
-    <h5 class="f4">Code:</h5>
-    {{partial 'partials/restrictions-code-example'}}
   </div>
-  <div class="w-100 mw8 pa4">
-    <h2 class="f2">Using the service</h2>
-    <p>
-      Sometimes you don't need to get the full information of a place everytime you type a word inside the input, that
-      is why this service exists. You can use this service to interact with the Google Place Autocomplete API and use benefits like the usage of the <i>sessionToken</i>. Using the <i>the sessionToken</i> make it possible to reduce the cost of a place search, more information: <a href="https://developers.google.com/places/web-service/usage-and-billing#about-autocomplete-sessions" target="_blank">here</a>
-    </p>
-    <p>
-      If you want to know more about the Google Place Autocomplete service, read about it <a href="https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service" target="_blank">here</a>
-    </p>
-    <p>
-      The following example of service usage creates a input field that mimic the functionality of the input field
-      provided by this addon.
-    </p>
-    <h3 class="f4">Result:</h3>
-    {{#power-select
-      options=predictions
-      onchange=(action "findPlaceDetails")
-      selected=selectedPlace
-      search=(action "requestPredictions")
-      allowClear=true
-      as |prediction|
-    }}
-
-      {{prediction.description}}
-    {{/power-select}}
-
-    {{#if placeServiceResultJSON}}
-      <p>Google response</p>
-      <pre class="json-result">
-        {{placeServiceResultJSON}}
-      </pre>
-    {{/if}}
-
-    <h3 class="f4">Code:</h3>
-    {{partial "partials/service-code-example"}}
+</header>
+<div class="sans-serif flex flex-row items-flex-start">
+  <div class="w-20 pa4">
+    <nav class="dt w-100 mw8 center">
+      <div class="flex flex-column">
+        <div class="w-100 pa2">
+          {{#link-to 'about' class="fw5 no-underline link dim gray f5 dib"}}
+            About
+          {{/link-to}}
+        </div>
+        <div class="w-100 pa2">
+          {{#link-to 'installation' class="fw5 no-underline link dim gray f5 dib"}}
+            Installation
+          {{/link-to}}
+        </div>
+        <div class="w-100 pa2">
+          {{#link-to 'configuration' class="fw5 no-underline link dim gray f5 dib"}}
+            Configuration options
+          {{/link-to}}
+        </div>
+        <div class="w-100 pa2">
+          {{#link-to 'usage.component' class="fw5 no-underline link dim gray f5 dib"}}
+            How to use component
+          {{/link-to}}
+        </div>
+        <div class="w-100 pa2">
+          {{#link-to 'usage.service' class="fw5 no-underline link dim gray f5 dib"}}
+            How to use service
+          {{/link-to}}
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="w-80 mw8 pa4">
+    {{outlet}}
   </div>
 </div>
