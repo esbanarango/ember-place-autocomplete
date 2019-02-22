@@ -14,28 +14,28 @@
   <div class="w-20-ns w-100 pa4">
     <nav class="dt w-100 center">
       <div class="flex flex-column">
-        <div class="w-100 pa2">
-          {{#link-to 'about' class="fw5 no-underline link dim gray f5 dib"}}
+        <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath 'about') 'current'}}">
+          {{#link-to 'about' class="fw5 no-underline link gray f5 dib"}}
             About
           {{/link-to}}
         </div>
-        <div class="w-100 pa2">
-          {{#link-to 'installation' class="fw5 no-underline link dim gray f5 dib"}}
+        <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath 'installation') 'current'}}">
+          {{#link-to 'installation' class="fw5 no-underline link gray f5 dib"}}
             Installation
           {{/link-to}}
         </div>
-        <div class="w-100 pa2">
-          {{#link-to 'configuration' class="fw5 no-underline link dim gray f5 dib"}}
+        <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath 'configuration') 'current'}}">
+          {{#link-to 'configuration' class="fw5 no-underline link  gray f5 dib"}}
             Configuration options
           {{/link-to}}
         </div>
-        <div class="w-100 pa2">
-          {{#link-to 'usage.component' class="fw5 no-underline link dim gray f5 dib"}}
+        <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath 'usage.component') 'current'}}">
+          {{#link-to 'usage.component' class="fw5 no-underline link gray f5 dib"}}
             How to use component
           {{/link-to}}
         </div>
-        <div class="w-100 pa2">
-          {{#link-to 'usage.service' class="fw5 no-underline link dim gray f5 dib"}}
+        <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath 'usage.service') 'current'}}">
+          {{#link-to 'usage.service' class="fw5 no-underline link gray f5 dib"}}
             How to use service
           {{/link-to}}
         </div>

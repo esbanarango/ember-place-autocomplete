@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 
 export default Route.extend({
 
-  model: function() {
+  model() {
     return this.store.createRecord('fake-model');
   }
 });

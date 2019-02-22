@@ -6,3 +6,20 @@
   border: 1px solid #ddd;
   width: 100%;
 }
+
+.nav-sidebar-item{
+  &.current{
+    margin-bottom: 1em;
+    border-bottom: 2px solid #222;
+    a{
+      &,
+      &:hover,
+      &:link,
+      &:focus{
+        color: #222;
+        transition: none;
+        font-weight: 700;
+      }
+    }
+  }
+}
