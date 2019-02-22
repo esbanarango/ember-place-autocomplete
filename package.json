@@ -10,7 +10,8 @@
     "build": "ember build",
     "start": "ember serve",
     "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
-    "test": "ember try:each"
+    "test": "ember try:each",
+    "deploy": "ember build --environment production && ember github-pages:commit --message \"Deploy gh-pages from commit $(git rev-parse HEAD)\" && git push origin gh-pages:gh-pages"
   },
   "repository": "https://github.com/dmuneras/ember-place-autocomplete",
   "author": "Daniel Múnera Sánchez",
