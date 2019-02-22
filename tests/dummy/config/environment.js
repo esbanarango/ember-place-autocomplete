@@ -47,5 +47,9 @@ module.exports = function(environment) {
     ENV.APP.autoboot = false;
   }
 
+  if (environment === 'production') {
+    ENV.rootURL = '/ember-place-autocomplete/';
+  }
+
   return ENV;
 };
