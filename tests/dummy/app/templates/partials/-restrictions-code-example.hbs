@@ -1,0 +1,29 @@
+<h3 class="f5">application.js</h3>
+{{#code-block language='js'}}
+...
+
+init() {
+  this._super(...arguments);
+  this.setProperties({
+    restrictions: { country: 'co' }
+  });
+},
+
+...
+
+{{/code-block}}
+<h3 class="f5">application.hbs</h3>
+{{#code-block language='html'}}
+...
+
+&lt;div class="test-place-autocomplete-container"&gt;
+  &lcub;&lcub;place-autocomplete-field
+    value= model.address2
+    inputClass= 'place-autocomplete--input-2'
+    placeChangedCallback=(action "placeChangedSecondInput")
+    restrictions=restrictions
+  &rcub;&rcub;
+&lt;div&gt;
+
+...
+{{/code-block}}

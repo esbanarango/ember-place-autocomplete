@@ -1,0 +1,34 @@
+<h2 class="f2 mt0">How to use as service</h2>
+<p>
+  Sometimes you don't need to get the full information of a place everytime you type a word inside the input, that
+  is why this service exists. You can use this service to interact with the Google Place Autocomplete API and use benefits like the usage of the <i>sessionToken</i>. More information: <a href="https://developers.google.com/places/web-service/usage-and-billing#about-autocomplete-sessions" target="_blank">here</a>
+</p>
+<p>
+  If you want to know more about the Google Place Autocomplete service, read about it <a href="https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service" target="_blank">here</a>
+</p>
+<p>
+  The following example of service usage creates a input field that mimic the functionality of the input field
+  provided by this addon.
+</p>
+<h3 class="f4">Result:</h3>
+{{#power-select
+  options=predictions
+  onchange=(action "findPlaceDetails")
+  selected=selectedPlace
+  search=(action "requestPredictions")
+  allowClear=true
+  as |prediction|
+}}
+
+  {{prediction.description}}
+{{/power-select}}
+
+{{#if placeServiceResultJSON}}
+  <p>Google response</p>
+  <pre class="json-result">
+    {{placeServiceResultJSON}}
+  </pre>
+{{/if}}
+
+<h3 class="f4">Code:</h3>
+{{partial "partials/service-code-example"}}

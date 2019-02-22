@@ -1,0 +1,18 @@
+<h2 class="f2 mt0">Configuration</h2>
+<p>
+  Just by installing the addon you can start to use it without extra configuration steps. The following information is to perform addition configurations, like adding your own Google API Key or Client ID.
+</p>
+<h3 class="f3">Set your own API Key or Client ID</h3>
+<p>
+  You can supply your own Google API key or client ID in {{#code-inline}} config/environment.js {{/code-inline}}. You may also choose to exclude the Google API from the page if it is already loaded in your app. You may also choose to set the specific version of the google api.
+</p>
+{{#code-block language='js'}}
+  ENV['place-autocomplete'] = {
+    exclude: true,
+    key: 'AIZ...',
+    client: 'gme-myclientid',
+    version: 3.27, // Optional - if client is set version must be above 3.24
+    language: 'en', // Optional - be default will be based on your browser language
+    region: 'GB' // Optional
+  };
+{{/code-block}}

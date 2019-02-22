@@ -7,6 +7,13 @@ const AppRouter = Router.extend({
 });
 
 AppRouter.map(function() {
+  this.route('about', { path: '/' });
+  this.route('usage', function() {
+    this.route('component');
+    this.route('service');
+  });
+  this.route('configuration');
+  this.route('installation');
 });
 
 export default AppRouter;

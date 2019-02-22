@@ -1,50 +1,58 @@
-<p id="message">Message: {{message}}</p>
-<p>Full adddress from JSON sent to the callback: {{{fullAddress}}}</p>
-<p>Clean string: {{cleanFullAddress}}</p>
-<p> Model address: {{model.address}}</p>
-<div class="test-place-autocomplete-container" data-google-auto="{{googleAuto}}">
-  {{place-autocomplete-field
-    value= model.address
-    inputClass= 'place-autocomplete--input'
-    focusOutCallback=(action "done")
-    placeChangedCallback=(action "placeChanged")
-    placeholder="Custom placeholder"
-    preventSubmit=true
-  }}
+<header class="sans-serif">
+  <div class="cover bg-left bg-center-l">
+    <div class="bg-black-80 pb4">
+      <div class="tc-l ph3">
+        <h1 class="f2 f1-l fw2 white-90 mb0 mt0 pt4 lh-title">Ember place autocomplete</h1>
+        <h2 class="fw1 f3 white-80 mt3 mb4">
+          Wrapper for Google Places API
+        </h2>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="sans-serif flex flex-row flex-wrap items-flex-start">
+  <div class="w-20-ns w-100 pa4">
+    <nav class="dt w-100 mw8 center">
+      <div class="flex flex-column">
+        <div class="w-100 pa2">
+          {{#link-to 'about' class="fw5 no-underline link dim gray f5 dib"}}
+            About
+          {{/link-to}}
+        </div>
+        <div class="w-100 pa2">
+          {{#link-to 'installation' class="fw5 no-underline link dim gray f5 dib"}}
+            Installation
+          {{/link-to}}
+        </div>
+        <div class="w-100 pa2">
+          {{#link-to 'configuration' class="fw5 no-underline link dim gray f5 dib"}}
+            Configuration options
+          {{/link-to}}
+        </div>
+        <div class="w-100 pa2">
+          {{#link-to 'usage.component' class="fw5 no-underline link dim gray f5 dib"}}
+            How to use component
+          {{/link-to}}
+        </div>
+        <div class="w-100 pa2">
+          {{#link-to 'usage.service' class="fw5 no-underline link dim gray f5 dib"}}
+            How to use service
+          {{/link-to}}
+        </div>
+      </div>
+    </nav>
+  </div>
+  <div class="w-100 w-80-ns mw8 pa4">
+    {{outlet}}
+  </div>
 </div>
-<pre style="font-size: 6px;">
-  {{placeJSON}}
-</pre>
-
-<h2>Autocomplete 2</h2>
-<div class="test-place-autocomplete-container">
-  {{place-autocomplete-field
-    value= model.address2
-    name= 'place-autocomplete-2'
-    inputClass= 'place-autocomplete--input-2'
-    placeChangedCallback=(action "placeChangedSecondInput")
-    restrictions=restrictions
-    disabled=true
-  }}
-</div>
-<pre style="font-size: 6px;">
-  {{placeJSONSecondInput}}
-</pre>
-
-<h2>Autocomplete 3</h2>
-<small>Autocomplete with geoLocation and all types searchs.</small>
-<p> Model address: {{model.address3}}</p>
-<div class="test-place-autocomplete-container">
-  {{place-autocomplete-field
-    value= model.address3
-    name= 'place-autocomplete-3'
-    inputClass= 'place-autocomplete--input-3'
-    placeChangedCallback=(action "placeChangedThirdInput")
-    types=""
-    withGeoLocate=true
-  }}
-</div>
-<pre style="font-size: 6px;">
-  {{placeJSONThirdInput}}
-</pre>
-{{outlet}}
+<footer class="ph3 ph4-ns pv4 bt b--black-10 black-70">
+  <div class="mt5">
+    <a href="https://github.com/dmuneras/ember-place-autocomplete" title="Github repo" class="f6 dib pr2 mid-gray dim" target="_blank">
+      Github repository
+    </a>
+    <a href="https://www.npmjs.com/package/ember-place-autocomplete" title="NPM page" class="f6 dib pr2 mid-gray dim" target="_blank">
+      NPM page
+    </a>
+  </div>
+</footer>
