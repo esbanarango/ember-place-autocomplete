@@ -3574,6 +3574,14 @@ ember-cli-get-dependency-depth@^1.0.0:
   resolved "https://registry.yarnpkg.com/ember-cli-get-dependency-depth/-/ember-cli-get-dependency-depth-1.0.0.tgz#e0afecf82a2d52f00f28ab468295281aec368d11"
   integrity sha1-4K/s+CotUvAPKKtGgpUoGuw2jRE=
 
+ember-cli-github-pages@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/ember-cli-github-pages/-/ember-cli-github-pages-0.2.1.tgz#154ade6e76a541eb95b1d62459ef8efddef103e4"
+  integrity sha512-XGv3PfAlKGXC27MyzMk0jgCFoucGLOg40xfMLJKzmu7be7QrKEN8G6UtUhYOZffMpu2t88BQ3uxYIrLyRx/FyQ==
+  dependencies:
+    ember-cli-version-checker "^2.1.0"
+    rsvp "^4.7.0"
+
 ember-cli-htmlbars-inline-precompile@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/ember-cli-htmlbars-inline-precompile/-/ember-cli-htmlbars-inline-precompile-1.0.2.tgz#5b544f664d5d9911f08cd979c5f70d8cb0ca2add"

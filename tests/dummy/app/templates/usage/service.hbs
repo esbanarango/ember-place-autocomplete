@@ -1,15 +1,20 @@
 <h2 class="f2 mt0">How to use as service</h2>
 <p>
-  Sometimes you don't need to get the full information of a place everytime you type a word inside the input, that
-  is why this service exists. You can use this service to interact with the Google Place Autocomplete API and use benefits like the usage of the <i>sessionToken</i>. More information: <a href="https://developers.google.com/places/web-service/usage-and-billing#about-autocomplete-sessions" target="_blank">here</a>
+  Sometimes there is not need to get the full information of a place everytime you type a word inside the input, that
+  is why this service exists. This service interacts with the Google Place Autocomplete API and uses benefits like the usage of the <i>sessionToken</i>. More information: <a href="https://developers.google.com/places/web-service/usage-and-billing#about-autocomplete-sessions" target="_blank">here</a>
 </p>
 <p>
   If you want to know more about the Google Place Autocomplete service, read about it <a href="https://developers.google.com/maps/documentation/javascript/reference/places-autocomplete-service" target="_blank">here</a>
 </p>
 <p>
-  The following example of service usage creates a input field that mimic the functionality of the input field
-  provided by this addon.
+  The following example of service usage creates a input field that mimics the functionality of the input field
+  provided by this addon. In order to have a better example, {{#code-inline}}ember-power-select{{/code-inline}} is used to
+  have a better input text an get cross browser compatibility for free.
 </p>
+<p>
+  For more information about {{#code-inline}}ember-power-select{{/code-inline}} go <a href="https://ember-power-select.com/docs" target="_blank">here</a>.
+</p>
+
 <h3 class="f4">Result:</h3>
 {{#power-select
   options=predictions
@@ -32,3 +37,29 @@
 
 <h3 class="f4">Code:</h3>
 {{partial "partials/service-code-example"}}
+
+<h3 class="f3">Available functions</h3>
+<table class="collapse w-100 ba br2 b--black-10 pv2 ph3 mt4">
+  <tbody>
+    <tr class="striped--near-white">
+      <th class="pv3 ph3 tl">Function</th>
+      <th class="pv3 ph3 tl">Return</th>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">getPlacePredictions</td>
+      <td class="pv3 ph3">Promise</td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">getQueryPredictions</td>
+      <td class="pv3 ph3">Promise</td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">getDetails</td>
+      <td class="pv3 ph3">Promise</td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">updateSessionToken</td>
+      <td class="pv3 ph3">Void</td>
+    </tr>
+  </tbody>
+</table>

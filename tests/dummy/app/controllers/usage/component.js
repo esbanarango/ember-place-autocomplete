@@ -5,7 +5,7 @@ import $ from 'jquery';
 export default Controller.extend({
   init() {
     this._super(...arguments);
-    this.setProperties({ fullAddress: null, googleAuto: null, restrictions: { country: 'co' } });
+    this.setProperties({ googleAuto: null, restrictions: { country: 'co' } });
   },
 
   actions: {
@@ -16,14 +16,11 @@ export default Controller.extend({
     },
 
     placeChanged(place) {
-      this.set('placeJSON', JSON.stringify(place, undefined, 2));
-      this.set('googleAuto', 'done');
-      if (place.adr_address) {
-        let regexp = /(<span(?: \w+="[^"]+")*(?: \w+="[^"]+")*>([^<]*)<\/span>)/g,
-            fullAddress = place.adr_address.replace(regexp, "$2");
-        this.set('cleanFullAddress', fullAddress);
-      }
-      this.set('fullAddress', place.adr_address);
+      this.setProperties({
+        placeJSON: JSON.stringify(place, undefined, 2),
+        googleAuto: 'done'
+      });
+      this.set('model.address', place.formatted_address);
     },
 
     placeChangedSecondInput(place){

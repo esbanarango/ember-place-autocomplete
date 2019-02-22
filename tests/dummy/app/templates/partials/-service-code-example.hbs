@@ -8,11 +8,6 @@
   export default Controller.extend({
     googlePlaceAutocompleteService: service('google-place-autocomplete'),
 
-    init() {
-      this._super(...arguments);
-      this.setProperties({ fullAddress: null, googleAuto: null, restrictions: { country: 'co' } });
-    },
-
     _getPlaceDetails(placeId) {
       let googleRequest = {
         placeId: placeId,
@@ -53,7 +48,7 @@
   });
 {{/code-block}}
 <h3 class="f5">application.hbs</h3>
-{{#code-block language='html'}}
+{{#code-block language='handlebars'}}
   ...
 
   &lcub;&lcub;#power-select
