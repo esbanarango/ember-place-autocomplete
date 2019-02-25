@@ -19,6 +19,7 @@
 {{#power-select
   options=predictions
   onchange=(action "findPlaceDetails")
+  oninput=(action "findPlaceDetails")
   selected=selectedPlace
   search=(action "requestPredictions")
   allowClear=true

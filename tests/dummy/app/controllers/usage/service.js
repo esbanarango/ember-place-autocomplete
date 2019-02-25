@@ -5,14 +5,13 @@ import { isBlank } from '@ember/utils';
 export default Controller.extend({
   googlePlaceAutocompleteService: service('google-place-autocomplete'),
 
-  _getPlaceDetails(placeId) {
+  async _getPlaceDetails(placeId) {
     let googleRequest = {
       placeId: placeId,
       fields: ['address_components', 'formatted_address', 'place_id', 'rating']
     };
-    this.get('googlePlaceAutocompleteService').getDetails(googleRequest).then((placeResult) => {
-      this.set('placeServiceResultJSON', JSON.stringify(placeResult, undefined, 2));
-    });
+    let placeDetails = await this.get('googlePlaceAutocompleteService').getDetails(googleRequest);
+    this.set('placeServiceResultJSON', JSON.stringify(placeDetails, undefined, 2));
   },
 
   actions: {
@@ -32,14 +31,13 @@ export default Controller.extend({
       });
     },
 
-    requestPredictions(placeServiceInput) {
+    async requestPredictions(placeServiceInput) {
       if (isBlank(placeServiceInput)) {
         this.setProperties({ predictions: [], placeServiceResultJSON: null });
       }
       let properties = { input: placeServiceInput };
-      this.get('googlePlaceAutocompleteService').getPlacePredictions(properties).then((predictions) => {
-        this.set('predictions', predictions);
-      });
+      let predictions = await this.get('googlePlaceAutocompleteService').getPlacePredictions(properties);
+      this.set('predictions', predictions);
     }
   }
 });
