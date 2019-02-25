@@ -15,20 +15,6 @@ ember install ember-place-autocomplete
 
 All documentation can be found in the addon website [https://dmuneras.github.io/ember-place-autocomplete/](https://dmuneras.github.io/ember-place-autocomplete/)
 
-## Collaborating
-
-* `git clone <repository-url>` this repository
-* `cd ember-place-autocomplete`
-* `yarn install`
-
-
-Compatibility
-------------------------------------------------------------------------------
-
-* Ember.js v2.18 or above
-* Ember CLI v2.13 or above
-
-
 ## Running Tests
 * `yarn test` (Runs `ember try:each` to test your addon against multiple Ember versions)
 * `ember test`

@@ -16,7 +16,6 @@ module.exports = function(environment) {
         Date: false
       }
     },
-
     'place-autocomplete': {
       key: process.env.AUTOCOMPLETE_API_KEY
     },
