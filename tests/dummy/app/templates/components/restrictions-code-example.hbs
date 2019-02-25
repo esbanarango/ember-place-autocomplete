@@ -1,0 +1,40 @@
+<h3 class="f5">application.js</h3>
+{{#code-block language="js"}}
+  ...
+
+  import Controller from '@ember/controller';
+  import { run } from "@ember/runloop"
+  import $ from 'jquery';
+
+  export default Controller.extend({
+    init() {
+      this._super(...arguments);
+      this.setProperties({ googleAuto: null, restrictions: { country: 'co' } });
+    },
+
+    actions: {
+      placeChangedSecondInput(place){
+        this.set('placeJSONSecondInput', JSON.stringify(place, undefined, 2));
+      }
+    }
+  });
+
+
+  ...
+
+{{/code-block}}
+<h3 class="f5">application.hbs</h3>
+{{#code-block language="handlebars"}}
+  ...
+
+  &lt;div class="test-place-autocomplete-container"&gt;
+    &lcub;&lcub;place-autocomplete-field
+      value= model.address2
+      inputClass= 'place-autocomplete--input-2'
+      placeChangedCallback=(action "placeChangedSecondInput")
+      restrictions=restrictions
+    &rcub;&rcub;
+  &lt;div&gt;
+
+  ...
+{{/code-block}}

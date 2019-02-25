@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = {
-  name: 'ember-place-autocomplete',
+  name: require('./package').name,
+
   contentFor: function(type, config) {
     var content = '';
     if (type === 'head') {

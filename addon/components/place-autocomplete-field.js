@@ -1,7 +1,13 @@
 import layout from '../templates/components/place-autocomplete-field';
 import Component from '@ember/component';
 import { isArray } from '@ember/array';
-import { isEmpty, isPresent, typeOf, isEqual, isBlank } from '@ember/utils';
+import {
+  isEmpty,
+  isPresent,
+  typeOf,
+  isEqual,
+  isBlank
+} from '@ember/utils';
 import { scheduleOnce, run } from "@ember/runloop";
 
 export default Component.extend({
