@@ -1,12 +1,15 @@
 <h2 class="f2 mt0">Configuration</h2>
+
+<h3 class="f3">Options</h3>
 <p>
-  Just by installing the addon you can start to use it without extra configuration steps. The following information is to perform addition configurations, like adding your own Google API Key or Client ID.
+  Just by installing the addon it is possible to start to use it without extra configuration steps. The following information is to add additional configurations, like adding a Google API Key or Client ID.
 </p>
-<h3 class="f3">Set your own API Key or Client ID</h3>
 <p>
-  You can supply your own Google API key or client ID in {{#code-inline}} config/environment.js {{/code-inline}}. You may also choose to exclude the Google API from the page if it is already loaded in your app. You may also choose to set the specific version of the google api.
+  In order to supply a Google API key or client ID, or choose to exclude the Google API, etc. Add the supported configuration instructions in the {{#code-inline}} config/environment.js {{/code-inline}} as the following example shows.
 </p>
 {{#code-block language='js'}}
+  ...
+
   ENV['place-autocomplete'] = {
     exclude: true,
     key: 'AIZ...',
@@ -15,4 +18,22 @@
     language: 'en', // Optional - be default will be based on your browser language
     region: 'GB' // Optional
   };
+
+  ...
+{{/code-block}}
+
+<h3 class="f3">Content Security Policy</h3>
+<p>
+  When using {{#code-inline}}ember-cli-content-security-policy{{/code-inline}}, it is required to add google maps to
+  the application allowed sources
+</p>
+{{#code-block language="javascript"}}
+  contentSecurityPolicy: {
+    'default-src': "'none'",
+    'script-src': "'self' 'unsafe-eval' *.googleapis.com maps.gstatic.com",
+    'font-src': "'self' fonts.gstatic.com",
+    'connect-src': "'self' maps.gstatic.com",
+    'img-src': "'self' *.googleapis.com maps.gstatic.com csi.gstatic.com data:",
+    'style-src': "'self' 'unsafe-inline' fonts.googleapis.com maps.gstatic.com assets-cdn.github.com"
+  },
 {{/code-block}}

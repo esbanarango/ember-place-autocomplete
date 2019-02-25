@@ -1,1 +1,31 @@
 @import "ember-power-select";
+
+.input-field-example{
+  padding: 10px;
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  width: 100%;
+}
+
+.nav-sidebar-item{
+  a{
+    &,
+    &:active,
+    &:link,
+    &:focus,
+    &:hover{
+      transition: color 1s linear;
+    }
+  }
+  &.current{
+    a{
+      &,
+      &:hover,
+      &:link,
+      &:focus{
+        font-weight: 700;
+        color: #222;
+      }
+    }
+  }
+}

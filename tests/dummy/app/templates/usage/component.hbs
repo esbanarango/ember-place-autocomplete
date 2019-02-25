@@ -1,7 +1,9 @@
-
 <h2 class="f2 mt0">How to use as component</h2>
 <p>
-  For more information go to <a href="https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform" target="_blank">this documentation</a>
+  When there is only a need to have a simple autocomplete text field to find an address, it is possible to use this component to enable all the power of google without much effort. It easy to setup and use.
+</p>
+<p>
+  Google provides further documentation about what is happening behind the scenes. More information about the section of the Google places API that powers this component can be found <a href="https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform" target="_blank">here</a>
 </p>
 <h3 class="f3">Basic example</h3>
 <p>
@@ -11,16 +13,16 @@
 <p>
   This example assumes two actions are defined in the controller: <strong>done</strong> and <strong>placeChanged</strong>.
   the model.address assumes that the current route loads an object with a property <strong>address</strong>, which is
-  going to be bind to the field value.
+  going to be set using the callback function provided.
 </p>
+<h5 class="f4">Code:</h5>
+{{partial 'partials/basic-code-example'}}
+
 <h5 class="f4">Result:</h5>
 <p id="message">Message: {{message}}</p>
-<p>Full adddress from JSON sent to the callback: {{{fullAddress}}}</p>
-<p>Clean string: {{cleanFullAddress}}</p>
 <p> Model address: {{model.address}}</p>
 <div class="test-place-autocomplete-container" data-google-auto="{{googleAuto}}">
   {{place-autocomplete-field
-    value= model.address
     inputClass= 'place-autocomplete--input input-field-example'
     focusOutCallback=(action "done")
     placeChangedCallback=(action "placeChanged")
@@ -28,33 +30,270 @@
     preventSubmit=true
   }}
 </div>
+<p>
+  <i class="dark-red f6">
+    Autocompletion could stop working on this example, because it uses a GOOGLE API KEY with limited number of request per day
+  </i>
+</p>
+
 {{#if placeJSON}}
   <p>Google response</p>
-  <pre class="json-result">
+  {{#code-block language='js'}}
     {{placeJSON}}
-  </pre>
+  {{/code-block}}
 {{/if}}
-<h5 class="f4">Code:</h5>
-{{partial 'partials/basic-code-example'}}
 
 <h4 class="f3">Restrictions options</h4>
-<p>This place autocomplete field only returns places from Colombia. It happens because a restrictions object is
-being passed</p>
+<p>
+  This place autocomplete field only returns places from Colombia. It happens because a restrictions object is
+  being passed to the component using the {{#code-inline}}restrictions{{/code-inline}} property
+</p>
 <h5 class="f4">Result:</h5>
 <div class="test-place-autocomplete-container">
   {{place-autocomplete-field
-    value= model.address2
     inputClass= 'place-autocomplete--input-2 input-field-example'
     placeChangedCallback=(action "placeChangedSecondInput")
     restrictions=restrictions
   }}
 </div>
+<p>
+  <i class="dark-red f6">
+    Autocompletion could stop working on this example, because it uses a GOOGLE API KEY with limited number of request per day
+  </i>
+</p>
 {{#if placeJSONSecondInput}}
   <p>Google response</p>
-  <pre class="json-result">
+  {{#code-block language='js'}}
     {{placeJSONSecondInput}}
-  </pre>
+  {{/code-block}}
 {{/if}}
 
 <h5 class="f4">Code:</h5>
 {{partial 'partials/restrictions-code-example'}}
+
+<h3 class="f3">Component options</h3>
+<table class="collapse w-100 ba br2 b--black-10 pv2 ph3 mt4">
+  <tbody>
+    <tr class="striped--near-white">
+      <th class="pv3 ph3 tl f6 fw6 ttu">Option</th>
+      <th class="pv3 ph3 tl f6 fw6 ttu">Param type</th>
+      <th class="tl f6 ttu fw6 pv3 ph3">Description</th>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">focusOutCallback</td>
+      <td class="pv3 ph3">String/action</td>
+      <td class="pv3 ph3">Name of the function or function that is going to be executed after focus out in the address input</td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">placeChangedCallback</td>
+      <td class="pv3 ph3">String/action</td>
+      <td class="pv3 ph3">Name of the function or function that is going to be executed when address changed</td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">inputClass</td>
+      <td class="pv3 ph3">String</td>
+      <td class="pv3 ph3">CSS class for the input.</td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">types</td>
+      <td class="pv3 ph3">String</td>
+      <td class="pv3 ph3">
+        eatured types separate by comma describing the given result, for more info <a href="https://developers.google.com/places/supported_types#table3" target="_blank">here</a>
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">restrictions</td>
+      <td class="pv3 ph3">Object</td>
+      <td class="pv3 ph3">
+        Example. {{#code-inline}}{ country: "us" }{{/code-inline}}, more info <a href="https://developers.google.com/maps/documentation/javascript/examples/geocoding-component-restriction" target="_blank">here</a>
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">placeIdOnly</td>
+      <td class="pv3 ph3">Boolean</td>
+      <td class="pv3 ph3">
+        Defaults to false, only fetches the Place ID when calling the Google Places API, more information can be found  <a href="https://developers.google.com/maps/documentation/javascript/places-autocomplete#get_place_information" target="_blank">here</a>
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">withGeoLocate</td>
+      <td class="pv3 ph3">Boolean</td>
+      <td class="pv3 ph3">
+        It allows searching places near by the coordinates given into browser. more info  <a href="https://developers.google.com/maps/documentation/javascript/places-autocomplete#add_autocomplete" target="_blank">See attribute options.bounds</a>
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">setValueWithProperty</td>
+      <td class="pv3 ph3">String</td>
+      <td class="pv3 ph3">
+        Name of the property returned by Google to set the input field value after selection. More info about properties available <a href="https://developers.google.com/maps/documentation/javascript/3.exp/reference#PlaceResult" target="_blank">here</a>
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">latLngBounds</td>
+      <td class="pv3 ph3">Object</td>
+      <td class="pv3 ph3">
+        Ex. {{#code-inline}}{sw: {lat: -34, lng: 151}, ne: {lat: -33, lng: 152}}{{/code-inline}}, It allows searching places near by the given coordinates. more info <a href="https://developers.google.com/maps/documentation/javascript/3.exp/reference#PlaceResult" target="_blank">See attribute options.bounds</a>
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">preventSubmit</td>
+      <td class="pv3 ph3">Boolean</td>
+      <td class="pv3 ph3">
+        Ex. true, allows to prevent the form to be submitted if the user selects a location and hit ENTER
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="pv3 ph3">value</td>
+      <td class="pv3 ph3">Object</td>
+      <td class="pv3 ph3">Model property where the address is going to be stored. It is recommended to avoid using this propoerty and use the placeChangedCallback to set the value to the desired property</td>
+    </tr>
+  </tbody>
+</table>
+<h3 class="f3">PlaceChangedCallback</h3>
+<p>
+  This function is going to receive a javascript object with the response from Google Places API (Response details). You can use the information as you wish.
+</p>
+<p>
+  In order to prevent double binding, it is possible to don't use the {{#code-inline}}value{{/code-inline}} and set the value using the action passed here.
+</p>
+<p>This is an example of the Google Place response that is going to be passed to the placeChangedCallback function</p>
+{{#code-block language='js'}}
+{
+  "address_components": [
+    {
+      "long_name": "Envigado",
+      "short_name": "Envigado",
+      "types": [
+        "locality",
+        "political"
+      ]
+    },
+    {
+      "long_name": "Envigado",
+      "short_name": "Envigado",
+      "types": [
+        "administrative_area_level_2",
+        "political"
+      ]
+    },
+    {
+      "long_name": "Antioquia",
+      "short_name": "Antioquia",
+      "types": [
+        "administrative_area_level_1",
+        "political"
+      ]
+    },
+    {
+      "long_name": "Colombia",
+      "short_name": "CO",
+      "types": [
+        "country",
+        "political"
+      ]
+    }
+  ],
+  "adr_address": "&lt;span class=\"locality\"&gtEnvigado&lt;/span&gt, &lt;span class=\"region\"&gtAntioquia&lt;/span&gt, &lt;span class=\"country-name\"&gtColombia&lt;/span&gt",
+  "formatted_address": "Envigado, Antioquia, Colombia",
+  "geometry": {
+    "location": {
+      "lat": 6.169610899999999,
+      "lng": -75.5873636
+    },
+    "viewport": {
+      "south": 6.14373,
+      "west": -75.60567300000002,
+      "north": 6.188894,
+      "east": -75.55818599999998
+    }
+  },
+  "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+  "id": "4e834846f3fb1ca479e96c5314f290118f1b9bf0",
+  "name": "Envigado",
+  "photos": [
+    {
+      "height": 3096,
+      "html_attributions": [
+        "&lt;a href=\"https://maps.google.com/maps/contrib/101945991158254756248/photos\"&gtjohn quiñones guerra&lt;/a&gt"
+      ],
+      "width": 4128
+    },
+    {
+      "height": 2304,
+      "html_attributions": [
+        "&lt;a href=\"https://maps.google.com/maps/contrib/106219120350967162195/photos\"&gtManuel Diaz&lt;/a&gt"
+      ],
+      "width": 4096
+    },
+    {
+      "height": 2988,
+      "html_attributions": [
+        "&lt;a href=\"https://maps.google.com/maps/contrib/115477487537827301126/photos\"&gtGabriel Posada&lt;/a&gt"
+      ],
+      "width": 5312
+    },
+    {
+      "height": 1836,
+      "html_attributions": [
+        "&lt;a href=\"https://maps.google.com/maps/contrib/110076590900807932347/photos\"&gtAndrés Rojas&lt;/a&gt"
+      ],
+      "width": 3264
+    },
+    {
+      "height": 2988,
+      "html_attributions": [
+        "&lt;a href=\"https://maps.google.com/maps/contrib/108368816314430990652/photos\"&gtJuan Carlos Henao&lt;/a&gt"
+      ],
+      "width": 5312
+    },
+    {
+      "height": 960,
+      "html_attributions": [
+        "&lt;a href=\"https://maps.google.com/maps/contrib/106447634521422345910/photos\"&gtJorge Jasbon&lt;/a&gt"
+      ],
+      "width": 1280
+    },
+    {
+      "height": 766,
+      "html_attributions": [
+        "&lt;a href=\"https://maps.google.com/maps/contrib/114082124994415197083/photos\"&gtTobias Sippl instagram.com/tobiassippl&lt;/a&gt"
+      ],
+      "width": 1149
+    },
+    {
+      "height": 3456,
+      "html_attributions": [
+        "&lt;a href=\"https://maps.google.com/maps/contrib/105596113233405399927/photos\"&gtMARIO OSPINA&lt;/a&gt"
+      ],
+      "width": 5184
+    },
+    {
+      "height": 2997,
+      "html_attributions": [
+        "&lt;a href=\"https://maps.google.com/maps/contrib/103389356863170608296/photos\"&gtMateo Velez&lt;/a&gt"
+      ],
+      "width": 5338
+    },
+    {
+      "height": 2448,
+      "html_attributions": [
+        "&lt;a href=\"https://maps.google.com/maps/contrib/114700999269485238865/photos\"&gtJavier dosman acevedo&lt;/a&gt"
+      ],
+      "width": 3264
+    }
+  ],
+  "place_id": "ChIJYa6GO0mCRo4RtAqEiD4bOg4",
+  "reference": "ChIJYa6GO0mCRo4RtAqEiD4bOg4",
+  "scope": "GOOGLE",
+  "types": [
+    "locality",
+    "political"
+  ],
+  "url": "https://maps.google.com/?q=Envigado,+Antioquia,+Colombia&ftid=0x8e4682493b86ae61:0xe3a1b3e88840ab4",
+  "utc_offset": -300,
+  "vicinity": "Envigado",
+  "html_attributions": []
+}
+
+{{/code-block}}

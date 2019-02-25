@@ -5,11 +5,6 @@ import { isBlank } from '@ember/utils';
 export default Controller.extend({
   googlePlaceAutocompleteService: service('google-place-autocomplete'),
 
-  init() {
-    this._super(...arguments);
-    this.setProperties({ fullAddress: null, googleAuto: null, restrictions: { country: 'co' } });
-  },
-
   _getPlaceDetails(placeId) {
     let googleRequest = {
       placeId: placeId,

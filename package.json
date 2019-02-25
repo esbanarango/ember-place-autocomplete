@@ -10,7 +10,8 @@
     "build": "ember build",
     "start": "ember serve",
     "lint:js": "eslint ./*.js addon addon-test-support app config lib server test-support tests",
-    "test": "ember try:each"
+    "test": "ember try:each",
+    "deploy": "ember build --environment production && ember github-pages:commit --message \"Deploy gh-pages from commit $(git rev-parse HEAD)\" && git push origin gh-pages:gh-pages"
   },
   "repository": "https://github.com/dmuneras/ember-place-autocomplete",
   "author": "Daniel Múnera Sánchez",
@@ -27,6 +28,7 @@
     "ember-cli-dependency-checker": "^2.0.0",
     "ember-cli-dotenv": "2.0.0",
     "ember-cli-eslint": "^4.2.1",
+    "ember-cli-github-pages": "^0.2.1",
     "ember-cli-htmlbars-inline-precompile": "^1.0.0",
     "ember-cli-inject-live-reload": "^1.4.1",
     "ember-cli-mocha": "0.15.0",
@@ -44,6 +46,7 @@
     "ember-prism": "^0.4.0",
     "ember-resolver": "^4.0.0",
     "ember-source": "~2.12.0",
+    "ember-truth-helpers": "^2.1.0",
     "ember-uuid": "^1.0.1",
     "eslint-plugin-ember": "^5.0.0",
     "eslint-plugin-node": "^5.2.1",

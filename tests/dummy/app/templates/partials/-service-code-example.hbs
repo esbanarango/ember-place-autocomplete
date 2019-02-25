@@ -1,17 +1,11 @@
 <h3 class="f5">application.js</h3>
 {{#code-block language='js'}}
   import Controller from '@ember/controller';
-  import Controller from '@ember/controller';
   import { inject as service } from '@ember/service';
   import { isBlank } from '@ember/utils';
 
   export default Controller.extend({
     googlePlaceAutocompleteService: service('google-place-autocomplete'),
-
-    init() {
-      this._super(...arguments);
-      this.setProperties({ fullAddress: null, googleAuto: null, restrictions: { country: 'co' } });
-    },
 
     _getPlaceDetails(placeId) {
       let googleRequest = {
@@ -53,7 +47,7 @@
   });
 {{/code-block}}
 <h3 class="f5">application.hbs</h3>
-{{#code-block language='html'}}
+{{#code-block language='handlebars'}}
   ...
 
   &lcub;&lcub;#power-select
