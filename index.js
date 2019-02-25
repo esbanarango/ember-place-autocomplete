@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = {
-  name: require('./package').name
+  name: require('./package').name,
+
   contentFor: function(type, config) {
     var content = '';
     if (type === 'head') {

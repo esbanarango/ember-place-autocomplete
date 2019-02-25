@@ -1,4 +1,11 @@
-import { describe, it, beforeEach, afterEach, context } from 'mocha';
+import { visit } from '@ember/test-helpers';
+import {
+  describe,
+  it,
+  beforeEach,
+  afterEach,
+  context
+} from 'mocha';
 import { expect } from 'chai';
 import destroyApp from './../helpers/destroy-app';
 import startApp from './../helpers/start-app';
@@ -22,12 +29,10 @@ describe('Acceptance | place autocomplete', function() {
   });
 
   context('place_changed is fired', function() {
-    it('event listener works as expected', function() {
-      visit('/');
-      andThen(() =>{
-        expect($('.place-autocomplete--input').val('El Poblado, Medellín - Antioquia, Colombia'));
-        expect($('div[data-google-auto="done"]').length, 1);
-      });
+    it('event listener works as expected', async function() {
+      await visit('/');
+      expect($('.place-autocomplete--input').val('El Poblado, Medellín - Antioquia, Colombia'));
+      expect($('div[data-google-auto="done"]').length, 1);
     });
   });
 });
