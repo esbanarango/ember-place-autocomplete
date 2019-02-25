@@ -17,25 +17,19 @@ All documentation can be found in the addon website [https://dmuneras.github.io/
 
 ## Collaborating
 
-
-## Installation
-
 * `git clone <repository-url>` this repository
 * `cd ember-place-autocomplete`
 * `yarn install`
 
-## Running
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+Compatibility
+------------------------------------------------------------------------------
+
+* Ember.js v2.18 or above
+* Ember CLI v2.13 or above
+
 
 ## Running Tests
 * `yarn test` (Runs `ember try:each` to test your addon against multiple Ember versions)
 * `ember test`
 * `ember test --server`
-
-## Building
-
-* `ember build`
-
-For more information on using ember-cli, visit [https://ember-cli.com/](https://ember-cli.com/).
