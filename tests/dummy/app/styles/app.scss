@@ -8,17 +8,23 @@
 }
 
 .nav-sidebar-item{
+  a{
+    &,
+    &:active,
+    &:link,
+    &:focus,
+    &:hover{
+      transition: color 1s linear;
+    }
+  }
   &.current{
-    margin-bottom: 1em;
-    border-bottom: 2px solid #222;
     a{
       &,
       &:hover,
       &:link,
       &:focus{
-        color: #222;
-        transition: none;
         font-weight: 700;
+        color: #222;
       }
     }
   }

@@ -35,11 +35,10 @@
 
 {{#if placeServiceResultJSON}}
   <p>Google response</p>
-  <pre class="json-result">
+  {{#code-block language="javascript"}}
     {{placeServiceResultJSON}}
-  </pre>
+  {{/code-block}}
 {{/if}}
-
 <h3 class="f4">Code:</h3>
 {{partial "partials/service-code-example"}}
 

@@ -13,7 +13,7 @@
 <p>
   This example assumes two actions are defined in the controller: <strong>done</strong> and <strong>placeChanged</strong>.
   the model.address assumes that the current route loads an object with a property <strong>address</strong>, which is
-  going to be bind to the field value.
+  going to be set using the callback function provided.
 </p>
 <h5 class="f4">Code:</h5>
 {{partial 'partials/basic-code-example'}}
@@ -44,8 +44,10 @@
 {{/if}}
 
 <h4 class="f3">Restrictions options</h4>
-<p>This place autocomplete field only returns places from Colombia. It happens because a restrictions object is
-being passed</p>
+<p>
+  This place autocomplete field only returns places from Colombia. It happens because a restrictions object is
+  being passed to the component using the {{#code-inline}}restrictions{{/code-inline}} property
+</p>
 <h5 class="f4">Result:</h5>
 <div class="test-place-autocomplete-container">
   {{place-autocomplete-field
