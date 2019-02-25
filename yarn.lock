@@ -631,16 +631,7 @@
     silent-error "^1.1.0"
     util.promisify "^1.0.0"
 
-"@ember/test-helpers@^0.7.16":
-  version "0.7.17"
-  resolved "https://registry.yarnpkg.com/@ember/test-helpers/-/test-helpers-0.7.17.tgz#17ff5f1d005d8b6331585e99013d66626a8d8068"
-  integrity sha512-pLz4FV8IGty+9CEGttEl6clLiQkap4w7T0So8lbCb4XO38OxGfjhfz8uKpI+UH6fgaTeboh8myixqOdfXvklfA==
-  dependencies:
-    broccoli-funnel "^2.0.1"
-    ember-cli-babel "^6.10.0"
-    ember-cli-htmlbars-inline-precompile "^1.0.0"
-
-"@ember/test-helpers@^0.7.26":
+"@ember/test-helpers@^0.7.18", "@ember/test-helpers@^0.7.26":
   version "0.7.27"
   resolved "https://registry.yarnpkg.com/@ember/test-helpers/-/test-helpers-0.7.27.tgz#c622cabd0cbb95b34efc1e1b6274ab5a14edc138"
   integrity sha512-AQESk0FTFxRY6GyZ8PharR4SC7Fju0rXqNkfNYIntAjzefZ8xEqEM4iXDj5h7gAvfx/8dA69AQ9+p7ubc+KvJg==
@@ -3559,7 +3550,7 @@ ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.12.0, ember-cli-babel@^6.16.0,
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^6.10.0, ember-cli-babel@^6.6.0:
+ember-cli-babel@^6.6.0:
   version "6.11.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.11.0.tgz#79cb184bac3c05bfe181ddc306bac100ab1f9493"
   integrity sha512-lHQyl30lbAsMmMq2it1GO85HKrqr2gMpK5CFxmOgTJ3moBqOGMKsdV3Z0qXWpgh8Asy7pB9AACMShdgfQvSGPg==
@@ -3746,13 +3737,6 @@ ember-cli-lodash-subset@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/ember-cli-lodash-subset/-/ember-cli-lodash-subset-2.0.1.tgz#20cb68a790fe0fde2488ddfd8efbb7df6fe766f2"
   integrity sha1-IMtop5D+D94kiN39jvu332/nZvI=
-
-ember-cli-mocha@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/ember-cli-mocha/-/ember-cli-mocha-0.15.0.tgz#483b25a2c631b2b1913344686f497a81ced669b6"
-  integrity sha1-SDslosYxsrGRM0Rob0l6gc7WabY=
-  dependencies:
-    ember-mocha "^0.13.0"
 
 ember-cli-node-assets@^0.2.2:
   version "0.2.2"
@@ -4076,12 +4060,12 @@ ember-maybe-in-element@^0.2.0:
   dependencies:
     ember-cli-babel "^7.1.0"
 
-ember-mocha@^0.13.0:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/ember-mocha/-/ember-mocha-0.13.1.tgz#6c42d76fc7e5579a1ca8499621317b6cde7b4381"
-  integrity sha1-bELXb8flV5ocqEmWITF7bN57Q4E=
+ember-mocha@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/ember-mocha/-/ember-mocha-0.14.0.tgz#5c14cc1fa7545fe262461856c4ffaf9a662db721"
+  integrity sha1-XBTMH6dUX+JiRhhWxP+vmmYttyE=
   dependencies:
-    "@ember/test-helpers" "^0.7.16"
+    "@ember/test-helpers" "^0.7.18"
     broccoli-funnel "^2.0.1"
     broccoli-merge-trees "^2.0.0"
     common-tags "^1.5.1"

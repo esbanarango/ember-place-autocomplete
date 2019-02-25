@@ -14,8 +14,8 @@
   <div class="w-20-ns w-100 pa4">
     <nav class="dt w-100 center">
       <div class="flex flex-column">
-        <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath 'about') 'current'}}">
-          {{#link-to 'about' class="fw5 no-underline link gray f5 dib"}}
+        <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath "about") "current"}}">
+          {{#link-to "about" class="fw5 no-underline link gray f5 dib"}}
             About
           {{/link-to}}
         </div>
@@ -40,7 +40,7 @@
           {{/link-to}}
         </div>
         <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath "tests.mocks") "current"}}">
-          {{#link-to 'tests.mocks' class="fw5 no-underline link gray f5 dib"}}
+          {{#link-to "tests.mocks" class="fw5 no-underline link gray f5 dib"}}
             Test Mocks
           {{/link-to}}
         </div>

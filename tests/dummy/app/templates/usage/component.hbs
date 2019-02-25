@@ -23,7 +23,7 @@
 <p> Model address: {{model.address}}</p>
 <div class="test-place-autocomplete-container" data-google-auto={{googleAuto}}>
   {{place-autocomplete-field
-    inputClass= 'place-autocomplete--input input-field-example'
+    inputClass= "place-autocomplete--input input-field-example"
     focusOutCallback=(action "done")
     placeChangedCallback=(action "placeChanged")
     placeholder="Custom placeholder"
@@ -38,7 +38,7 @@
 
 {{#if placeJSON}}
   <p>Google response</p>
-  {{#code-block language='js'}}
+  {{#code-block language="js"}}
     {{placeJSON}}
   {{/code-block}}
 {{/if}}
@@ -51,7 +51,7 @@
 <h5 class="f4">Result:</h5>
 <div class="test-place-autocomplete-container">
   {{place-autocomplete-field
-    inputClass= 'place-autocomplete--input-2 input-field-example'
+    inputClass= "place-autocomplete--input-2 input-field-example"
     placeChangedCallback=(action "placeChangedSecondInput")
     restrictions=restrictions
   }}
@@ -63,7 +63,7 @@
 </p>
 {{#if placeJSONSecondInput}}
   <p>Google response</p>
-  {{#code-block language='js'}}
+  {{#code-block language="js"}}
     {{placeJSONSecondInput}}
   {{/code-block}}
 {{/if}}
@@ -158,7 +158,7 @@
   In order to prevent double binding, it is possible to don't use the {{#code-inline}}value{{/code-inline}} and set the value using the action passed here.
 </p>
 <p>This is an example of the Google Place response that is going to be passed to the placeChangedCallback function</p>
-{{#code-block language='js'}}
+{{#code-block language="js"}}
   {
     "address_components": [
       {
