@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { run } from "@ember/runloop"
+import { run, next } from "@ember/runloop"
 import $ from 'jquery';
 
 export default Controller.extend({
@@ -8,23 +8,29 @@ export default Controller.extend({
     this.setProperties({ googleAuto: null, restrictions: { country: 'co' } });
   },
 
+  _refreshPrettyResponse(blockProperty, placeDetails) {
+    this.set(blockProperty, null);
+    next(() => {
+      this.set(blockProperty, JSON.stringify(placeDetails, undefined, 2));
+    });
+  },
+
   actions: {
     done() {
-      $('#message').fadeOut(500, () => {
-        run(() => this.set('message', 'Focus out'));
-      }).fadeIn(500);
+      let messageElement = document.getElementById('message');
+      messageElement.classList.add('fade-in-element');
+      run.later(() => messageElement.classList.remove('fade-in-element'), 2000);
+      this.set('message', 'blur blur blur');
     },
 
     placeChanged(place) {
-      this.setProperties({
-        placeJSON: JSON.stringify(place, undefined, 2),
-        googleAuto: 'done'
-      });
+      this._refreshPrettyResponse('placeJSON', place);
+      this.set('googleAuto', 'done');
       this.set('model.address', place.formatted_address);
     },
 
-    placeChangedSecondInput(place){
-      this.set('placeJSONSecondInput', JSON.stringify(place, undefined, 2));
+    placeChangedSecondInput(place) {
+      this._refreshPrettyResponse('placeJSONSecondInput', place);
     }
   }
 });

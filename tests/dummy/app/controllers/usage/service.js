@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { isBlank } from '@ember/utils';
+import { next } from '@ember/runloop';
 
 export default Controller.extend({
   googlePlaceAutocompleteService: service('google-place-autocomplete'),
@@ -11,7 +12,14 @@ export default Controller.extend({
       fields: ['address_components', 'formatted_address', 'place_id', 'rating']
     };
     let placeDetails = await this.get('googlePlaceAutocompleteService').getDetails(googleRequest);
-    this.set('placeServiceResultJSON', JSON.stringify(placeDetails, undefined, 2));
+    this._refreshPrettyResponse(placeDetails);
+  },
+
+  _refreshPrettyResponse(placeDetails) {
+    this.set('placeServiceResultJSON', null);
+    next(() => {
+      this.set('placeServiceResultJSON', JSON.stringify(placeDetails, undefined, 2));
+    });
   },
 
   actions: {
@@ -24,6 +32,7 @@ export default Controller.extend({
         });
         return;
       }
+
       this._getPlaceDetails(selectedPlace.place_id);
       this.setProperties({
         selectedPlace: selectedPlace,

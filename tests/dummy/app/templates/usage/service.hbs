@@ -19,7 +19,6 @@
 {{#power-select
   options=predictions
   onchange=(action "findPlaceDetails")
-  oninput=(action "findPlaceDetails")
   selected=selectedPlace
   search=(action "requestPredictions")
   allowClear=true
@@ -40,6 +39,7 @@
     {{placeServiceResultJSON}}
   {{/code-block}}
 {{/if}}
+
 <h3 class="f4">Code:</h3>
 {{examples/service-code-example}}
 

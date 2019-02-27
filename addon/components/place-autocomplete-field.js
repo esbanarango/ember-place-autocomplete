@@ -132,6 +132,8 @@ export default Component.extend({
     if (isEqual(typeOf(callbackFn), 'function')) {
       callbackFn(place);
     }
+
+    return this.bubbles ? true : false;
   },
 
   _typesToArray() {
