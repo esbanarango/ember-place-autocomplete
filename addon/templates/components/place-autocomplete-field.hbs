@@ -1,14 +1,14 @@
 {{#if hasBlock}}
   {{yield this}}
 {{else}}
-  {{input
-    value=value
-    classBinding="inputClass"
-    name=name
-    tabindex=tabindex
-    disabled=disabled
-    focus-out=(action "focusOut")
-    placeholder=placeholder
-    bubbles=true
-  }}
+  <input
+    value={{value}}
+    name={{name}}
+    tabindex={{tabindex}}
+    disabled={{disabled}}
+    onblur={{action "onBlur" value="target.value"}}
+    oninput={{action (mut value) value="target.value"}}
+    placeholder={{placeholder}}
+    class={{inputClass}}
+  >
 {{/if}}

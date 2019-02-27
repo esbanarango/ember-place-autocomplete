@@ -5,7 +5,7 @@ import { isBlank } from '@ember/utils';
 export default Service.extend({
   init() {
     this._super(...arguments);
-    const google = this.get('google') || ((window) ? window.google : null);
+    const google = this.google || ((window) ? window.google : null);
     if (google && document) {
       let googlePlaces = google.maps.places;
       let autocompleteService = new googlePlaces.AutocompleteService();
@@ -32,10 +32,10 @@ export default Service.extend({
       return EmberPromise.resolve([]);
     }
 
-    properties.sessionToken = this.get('sessionToken');
+    properties.sessionToken = this.sessionToken;
 
     return new EmberPromise((resolve) => {
-      this.get('autocompleteService').getPlacePredictions(
+      this.autocompleteService.getPlacePredictions(
         properties,
         this._googleResponseCallback.bind(this, [resolve], [])
       );
@@ -54,7 +54,7 @@ export default Service.extend({
     }
 
     return new EmberPromise((resolve) => {
-      this.get('autocompleteService').getQueryPredictions(
+      this.autocompleteService.getQueryPredictions(
         properties,
         this._googleResponseCallback.bind(this, [resolve], [])
       );
@@ -62,7 +62,7 @@ export default Service.extend({
   },
 
   getDetails(request) {
-    request.sessionToken = this.get('sessionToken');
+    request.sessionToken = this.sessionToken;
     if (!request.hasOwnProperty('fields') && !request.hasOwnProperty('placeId')) {
       return EmberPromise.reject(
         new Error(
@@ -74,7 +74,7 @@ export default Service.extend({
     this.updateSessionToken();
 
     return new EmberPromise((resolve) => {
-      this.get('placesService').getDetails(
+      this.placesService.getDetails(
         request,
         this._googleResponseCallback.bind(this, [resolve], {})
       );
@@ -82,8 +82,9 @@ export default Service.extend({
   },
 
   _googleResponseCallback(promiseCallbacks, failResponseReturnValue, requestResult, status) {
-    const google = this.get('google') || ((window) ? window.google : null);
+    const google = this.google || ((window) ? window.google : null);
     const [resolve] = promiseCallbacks;
+
     if (status === google.maps.places.PlacesServiceStatus.OK) {
       return resolve(requestResult);
     }
@@ -91,7 +92,7 @@ export default Service.extend({
   },
 
   updateSessionToken() {
-    let googlePlaces = this.get('google').maps.places;
+    let googlePlaces = this.google.maps.places;
     this.set('sessionToken', new googlePlaces.AutocompleteSessionToken());
   }
 });

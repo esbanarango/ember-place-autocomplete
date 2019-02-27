@@ -41,23 +41,19 @@ export default Component.extend({
    * Returns an object containing any options that are to be passed to the autocomplete instance.
    */
   getOptions() {
-    const google = this.get('google') || ((window) ? window.google : null);
-    const placeIdOnly = this.get('placeIdOnly') || false;
+    const google = this.google || ((window) ? window.google : null);
+    const placeIdOnly = this.placeIdOnly || false;
 
     const options = { types: this._typesToArray(), placeIdOnly };
 
-    const latLngBnds = this.get('latLngBounds');
-
-    if (latLngBnds && Object.keys(latLngBnds).length === 2){
+    if (this.latLngBnds && Object.keys(this.latLngBnds).length === 2){
       // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
-      const { sw, ne } = latLngBnds;
+      const { sw, ne } = this.latLngBnds;
       options.bounds = new google.maps.LatLngBounds(sw, ne);
     }
 
-    const restrictions = this.get('restrictions');
-
-    if (restrictions && Object.keys(restrictions).length > 0) {
-      options.componentRestrictions = restrictions;
+    if (this.restrictions && Object.keys(this.restrictions).length > 0) {
+      options.componentRestrictions = this.restrictions;
     }
 
     return options;
@@ -68,7 +64,7 @@ export default Component.extend({
   setupComponent() {
     if (document && window && window.google && window.google.maps) {
       this.setAutocomplete();
-      if (this.get('withGeoLocate')) {
+      if (this.withGeoLocate) {
         this.geolocateAndSetBounds();
       }
       this.autocomplete.addListener('place_changed', () => {
@@ -83,14 +79,14 @@ export default Component.extend({
   },
 
   keyDown(e) {
-    if (this.get('preventSubmit') && isEqual(e.keyCode, 13)) {
+    if (this.preventSubmit && isEqual(e.keyCode, 13)) {
       e.preventDefault();
     }
   },
 
   willDestroy() {
     if (isPresent(this.autocomplete)) {
-      let google = this.get('google') || ((window) ? window.google : null);
+      let google = this.google || ((window) ? window.google : null);
       if(google && google.maps && google.maps.event) {
         google.maps.event.clearInstanceListeners(this.autocomplete);
       }
@@ -100,7 +96,7 @@ export default Component.extend({
   setAutocomplete() {
     if (isEmpty(this.autocomplete)) {
       const inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
-            google = this.get('google') || window.google; //TODO: check how to use the inyected google object
+            google = this.google || window.google; //TODO: check how to use the inyected google object
 
       let autocomplete = new google.maps.places.Autocomplete(inputElement, this.getOptions());
       this.set('autocomplete', autocomplete);
@@ -109,11 +105,11 @@ export default Component.extend({
 
   // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
   geolocateAndSetBounds() {
-    let navigator = this.get('navigator') || ((window) ? window.navigator : null);
+    let navigator = this.navigator || ((window) ? window.navigator : null);
     let autocomplete = this.autocomplete;
     if (navigator && navigator.geolocation && isPresent(autocomplete)) {
       navigator.geolocation.getCurrentPosition((position) => {
-        const google = this.get('google') || window.google;
+        const google = this.google || window.google;
         const geolocation = { lat: position.coords.latitude, lng: position.coords.longitude };
         const circle = new google.maps.Circle({ center: geolocation, radius: position.coords.accuracy });
         autocomplete.setBounds(circle.getBounds());
@@ -126,8 +122,8 @@ export default Component.extend({
     this._callCallback('placeChangedCallback', place);
 
     // If setValueWithProperty is undefined, use Google Autocomplete default behavior
-    if (place[this.get('setValueWithProperty')] !== undefined) {
-      this.set('value', place[this.get('setValueWithProperty')]);
+    if (place[this.setValueWithProperty] !== undefined) {
+      this.set('value', place[this.setValueWithProperty]);
     }
   },
 
@@ -136,10 +132,12 @@ export default Component.extend({
     if (isEqual(typeOf(callbackFn), 'function')) {
       callbackFn(place);
     }
+
+    return this.bubbles ? true : false;
   },
 
   _typesToArray() {
-    let types = this.get('types');
+    let types = this.types;
 
     if (isArray(types)) {
       return types;
@@ -184,8 +182,8 @@ export default Component.extend({
   },
 
   actions: {
-    focusOut() {
-      this._callCallback('focusOutCallback');
+    onBlur() {
+      this._callCallback('onBlurCallback');
     }
   }
 });

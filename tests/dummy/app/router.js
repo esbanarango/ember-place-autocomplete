@@ -15,7 +15,7 @@ AppRouter.map(function() {
   this.route('configuration');
   this.route('installation');
 
-  this.route('tests', function() {
+  this.route('addon-tests', function() {
     this.route('mocks');
   });
 });

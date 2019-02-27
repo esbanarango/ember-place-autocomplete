@@ -4,11 +4,10 @@
   {{#code-inline}}place-autocomplete-field{{/code-inline}} or the service, it will be needed to mock Google's Autocomplete.
 </p>
 <p>
-  The before each function of your acceptance test is a good place to do it.
+  The before each function of your acceptance/integration test is a good place to do it.
 </p>
 <p>
-  This addon provides a mock Google response that can be imported and used in your acceptance tests in case a fully working
-  autocomplete field is required in the test. The mock code answer is <a href="https://github.com/dmuneras/ember-place-autocomplete/blob/master/tests/helpers/google-place-autocomplete-response-mock.js" target="_blank" rel="noopener">here</a>.
+  This addon provides a <a href="https://github.com/dmuneras/ember-place-autocomplete/blob/master/tests/helpers/google-place-autocomplete-response-mock.js" target="_blank" rel="noopener">mocked Google response</a>.
 </p>
 <p>
   The following example shows how to use the Mock with a Mocha as testing framework.
@@ -19,7 +18,6 @@
   import { expect } from 'chai';
   import destroyApp from './../helpers/destroy-app';
   import startApp from './../helpers/start-app';
-  import $ from 'jquery';
   import GooglePlaceAutocompleteMockedObject from './../helpers/google-place-autocomplete-object';
 
   describe('Acceptance | place autocomplete', function() {
@@ -34,18 +32,6 @@
       window.google.maps.places.Autocomplete = GooglePlaceAutocompleteMockedObject;
     });
 
-    afterEach(function() {
-      destroyApp(application);
-    });
-
-    context('place_changed is fired', function() {
-      it('event listener works as expected', function() {
-        visit('/');
-        andThen(() =>{
-          expect($('.place-autocomplete--input').val('El Poblado, Medellín - Antioquia, Colombia'));
-          expect($('div[data-google-auto="done"]').length, 1);
-        });
-      });
-    });
+    ...
   });
 {{/code-block}}
