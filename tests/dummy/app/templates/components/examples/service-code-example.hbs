@@ -1,0 +1,80 @@
+<h3 class="f5">application.js</h3>
+{{#code-block language="js"}}
+  import Controller from '@ember/controller';
+  import { inject as service } from '@ember/service';
+  import { isBlank } from '@ember/utils';
+  import { next } from '@ember/runloop';
+
+  export default Controller.extend({
+    googlePlaceAutocompleteService: service('google-place-autocomplete'),
+
+    async _getPlaceDetails(placeId) {
+      let googleRequest = {
+        placeId: placeId,
+        fields: ['address_components', 'formatted_address', 'place_id', 'rating']
+      };
+      let placeDetails = await this.get('googlePlaceAutocompleteService').getDetails(googleRequest);
+      this._refreshPrettyResponse(placeDetails);
+    },
+
+    _refreshPrettyResponse(placeDetails) {
+      this.set('placeServiceResultJSON', null);
+      next(() => {
+        this.set('placeServiceResultJSON', JSON.stringify(placeDetails, undefined, 2));
+      });
+    },
+
+    actions: {
+      findPlaceDetails(selectedPlace) {
+        if (isBlank(selectedPlace)) {
+          this.setProperties({
+            selectedPlace: null,
+            predictions: [],
+            placeServiceResultJSON: null
+          });
+          return;
+        }
+
+        this._getPlaceDetails(selectedPlace.place_id);
+        this.setProperties({
+          selectedPlace: selectedPlace,
+          predictions: []
+        });
+      },
+
+      async requestPredictions(placeServiceInput) {
+        if (isBlank(placeServiceInput)) {
+          this.setProperties({ predictions: [], placeServiceResultJSON: null });
+        }
+        let properties = { input: placeServiceInput };
+        let predictions = await this.get('googlePlaceAutocompleteService').getPlacePredictions(properties);
+        this.set('predictions', predictions);
+      }
+    }
+  });
+{{/code-block}}
+<h3 class="f5">application.hbs</h3>
+{{#code-block language="handlebars"}}
+  ...
+
+  &lcub;&lcub;#power-select
+    options=predictions
+    onchange=(action "findPlaceDetails")
+    selected=selectedPlace
+    search=(action "requestPredictions")
+    allowClear=true
+    as |prediction|
+  &rcub;&rcub;
+
+    &lcub;&lcub;prediction.description&rcub;&rcub;
+  &lcub;&lcub;/power-select&rcub;&rcub;
+
+  &lcub;&lcub;#if placeServiceResultJSON&rcub;&rcub;
+    &lt;p>Google response&lt;/p&gt;
+    &lt;pre class="json-result"&gt;
+      &lcub;&lcub;placeServiceResultJSON&rcub;&rcub;
+    &lt;/pre&gt;
+  &lcub;&lcub;/if&rcub;&rcub;
+
+  ...
+{{/code-block}}

@@ -24,7 +24,7 @@
 <div class="test-place-autocomplete-container" data-google-auto={{googleAuto}}>
   {{place-autocomplete-field
     inputClass= "place-autocomplete--input input-field-example"
-    focusOutCallback=(action "done")
+    onBlurCallback=(action "done")
     placeChangedCallback=(action "placeChanged")
     placeholder="Custom placeholder"
     preventSubmit=true
@@ -80,7 +80,7 @@
       <th class="tl f6 ttu fw6 pv3 ph3">Description</th>
     </tr>
     <tr class="striped--near-white">
-      <td class="pv3 ph3">focusOutCallback</td>
+      <td class="pv3 ph3">onBlurCallback</td>
       <td class="pv3 ph3">String/action</td>
       <td class="pv3 ph3">Name of the function or function that is going to be executed after focus out in the address input</td>
     </tr>

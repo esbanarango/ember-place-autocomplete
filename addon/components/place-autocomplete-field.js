@@ -182,8 +182,8 @@ export default Component.extend({
   },
 
   actions: {
-    focusOut() {
-      this._callCallback('focusOutCallback');
+    onBlur() {
+      this._callCallback('onBlurCallback');
     }
   }
 });

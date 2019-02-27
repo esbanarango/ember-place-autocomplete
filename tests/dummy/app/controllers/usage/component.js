@@ -1,6 +1,5 @@
 import Controller from '@ember/controller';
-import { run, next } from "@ember/runloop"
-import $ from 'jquery';
+import { later, next } from "@ember/runloop"
 
 export default Controller.extend({
   init() {
@@ -19,7 +18,7 @@ export default Controller.extend({
     done() {
       let messageElement = document.getElementById('message');
       messageElement.classList.add('fade-in-element');
-      run.later(() => messageElement.classList.remove('fade-in-element'), 2000);
+      later(() => messageElement.classList.remove('fade-in-element'), 2000);
       this.set('message', 'blur blur blur');
     },
 
