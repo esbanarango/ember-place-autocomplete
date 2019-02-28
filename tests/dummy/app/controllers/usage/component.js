@@ -18,8 +18,9 @@ export default Controller.extend({
     done() {
       let messageElement = document.getElementById('message');
       messageElement.classList.add('fade-in-element');
-      later(() => messageElement.classList.remove('fade-in-element'), 2000);
       this.set('message', 'blur blur blur');
+      later(() => messageElement.classList.remove('fade-in-element'), 2000);
+      later(() => this.set('message', null), 2100);
     },
 
     placeChanged(place) {

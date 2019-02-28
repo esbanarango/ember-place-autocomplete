@@ -1,25 +1,25 @@
 <h2 class="f2 mt0">How to use as component</h2>
 <p>
-  When there is only a need to have a simple autocomplete text field to find an address, it is possible to use this component to enable all the power of google without much effort. It easy to setup and use.
+  When there is only a need to have an autocomplete text field to find an address, it is possible to use this component to enable all the power of Google.
 </p>
 <p>
   Google provides further documentation about what is happening behind the scenes. More information about the section of the Google places API that powers this component can be found <a href="https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform" target="_blank" rel="noopener">here</a>
 </p>
-<h3 class="f3">Basic example</h3>
+<h3 class="f3">Examples</h3>
+<h4 class="f4">Basic usage</h4>
 <p>
-  The following example shows how to use the place autocomplete field with a place change callback function and a focus out
+  The following example shows how to use the place autocomplete field with a place change callback function and a on blur
   callback function.
 </p>
 <p>
   This example assumes two actions are defined in the controller: <strong>done</strong> and <strong>placeChanged</strong>.
-  the model.address assumes that the current route loads an object with a property <strong>address</strong>, which is
-  going to be set using the callback function provided.
+  The usage of <strong>model.address</strong> assumes that the current route loads an object with a property <strong>address</strong>, which is going to be set using the callback function provided.
 </p>
 <h5 class="f4">Code:</h5>
 {{examples/basic-code-example}}
 
 <h5 class="f4">Result:</h5>
-<p id="message">Message: {{message}}</p>
+<p id="message">{{message}}</p>
 <p> Model address: {{model.address}}</p>
 <div class="test-place-autocomplete-container" data-google-auto={{googleAuto}}>
   {{place-autocomplete-field
@@ -43,7 +43,7 @@
   {{/code-block}}
 {{/if}}
 
-<h4 class="f3">Restrictions options</h4>
+<h4 class="f4">Example with Restrictions options</h4>
 <p>
   This place autocomplete field only returns places from Colombia. It happens because a restrictions object is
   being passed to the component using the {{#code-inline}}restrictions{{/code-inline}} property

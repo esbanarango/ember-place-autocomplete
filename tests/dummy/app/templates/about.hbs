@@ -2,14 +2,18 @@
 <div class="flex flex-inline">
   <img class="mr2" alt="badge" src="https://img.shields.io/npm/dt/ember-place-autocomplete.svg">
   <img class="mr2" alt="badge" src="https://travis-ci.org/dmuneras/ember-place-autocomplete.svg?branch=master">
-  <img class="mr2" alt="badge" src="http://emberobserver.com/badges/ember-place-autocomplete.svg">
-  <img class="mr2" alt="badge" src="https://badge.fury.io/js/ember-place-autocomplete.svg">
+  <a href="https://emberobserver.com/addons/ember-place-autocomplete" target="_blank" rel="noopener">
+    <img class="mr2" alt="badge" src="http://emberobserver.com/badges/ember-place-autocomplete.svg">
+  </a>
+  <a href="https://www.npmjs.com/package/ember-place-autocomplete" target="_blank" rel="noopener">
+    <img class="mr2" alt="badge" src="https://badge.fury.io/js/ember-place-autocomplete.svg">
+  </a>
 </div>
 <p class="mt4">
   Ember addon that provides a component which uses Google Places API to autocomplete place information when someone writes an address in a text field.
 </p>
 <p>
-  It is very simple and gives you all the information of a place from Google, you can do whatever you want with that information using a callback function or using the service functions.
+  It gives you all the information of a place from Google. You can do whatever you want with that information using a callback function or using the service functions.
 </p>
 <img alt="example" src="http://i.imgur.com/wzGgfiY.gif">
 <p>
@@ -18,12 +22,18 @@
 <ul>
   <li>
     <h3 class="f5">place-autocomplete-field component</h3>
-    <p>This component is a input text field that fetches google place predictions while the user is typing.</p>
+    <p>This component is a input text field that fetches Google place predictions while the user is typing.</p>
+    <p>
+      More information: {{#link-to "usage.component"}}here{{/link-to}}
+    </p>
   </li>
   <li>
     <h3 class="f5">google-place-autocomplete service</h3>
     <p>
-      Instead of using the well known Google place autocomplete service, it is possible to use a google service which provides more flexibility when communicating with Google Places API. This services use the <strong><i>sessionToken</i></strong> by default in order to try to reduce the cost of paid services when getting places information.
+      Instead of using the standard Google place autocomplete component, which delegates to google the responsibility of adding the UI elements to intereact with place predictions. It is possible to use a Google service that you can call to get the information in JSON format. The service provides more flexibility when communicating with Google Places API. One advantage of usin the service is the possibility to use <strong><i>sessionTokens</i></strong> in order to reduce the cost of paid services when getting places information.
+    </p>
+    <p>
+      More information: {{#link-to "usage.service"}}here{{/link-to}}
     </p>
   </li>
 </ul>
