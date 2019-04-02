@@ -89,6 +89,9 @@ export default Component.extend({
       let google = this.google || ((window) ? window.google : null);
       if(google && google.maps && google.maps.event) {
         google.maps.event.clearInstanceListeners(this.autocomplete);
+        
+        // remove googles autocomplete drop down containers from the dom
+        this._removePlacesAutoCompleteContainers();
       }
     }
   },
@@ -179,6 +182,13 @@ export default Component.extend({
     let properties = Object.keys(this).filter((prop) => prop.indexOf('data-') >= 0) || [];
     let input = document.getElementById(this.elementId).getElementsByTagName('input')[0];
     properties.forEach((property) => input.setAttribute(property, this.get(property)));
+  },
+
+  _removePlacesAutoCompleteContainers() {
+    const pacContainers = document.querySelectorAll('.pac-container');
+    for (let i = 0; pacContainers.length > i; i++) {
+      pacContainers[i].parentNode.removeChild(pacContainers[i]);
+    }
   },
 
   actions: {
