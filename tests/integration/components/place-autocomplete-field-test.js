@@ -49,6 +49,20 @@ describe('Integration | Component | Place Autocomplete Field', function() {
     expect(this.get('fakeModel.address')).to.equal('Cra. 65, Medellín, Antioquia, Colombia');
   });
 
+  it("removes googles pac-container elements from the dom", async function() {
+    // Mock only google places
+    window.google.maps.__gjsload__ = function() {
+      return true;
+    };
+    window.google.maps.places.Autocomplete = GooglePlaceAutocompleteMockedObject;
+    let fakeModel = EmberObject.extend({ address: 'fake address'}).create();
+    this.set('fakeModel', fakeModel);
+    await render(hbs`{{place-autocomplete-field value=fakeModel.address}}`);
+    const pacContainers = window.document.querySelectorAll('.pac-container');
+    expect(this.get('fakeModel.address')).to.equal('fake address');
+    expect(pacContainers).to.be.empty;
+  });
+
   it('accepts data attributes to input', async function() {
     await render(hbs`{{place-autocomplete-field data-independiente-medellin='what is that'}}`);
     expect(find('input[data-independiente-medellin]')).to.be.ok
