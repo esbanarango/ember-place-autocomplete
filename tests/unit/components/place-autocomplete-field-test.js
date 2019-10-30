@@ -37,6 +37,19 @@ describe('Unit | Component | PlaceAutocompleteField', function() {
     expect(component._typesToArray()).to.eql(['geocode', 'establishment']);
   });
 
+  it('converts fields option to array', function(){
+    let component = this.container.owner.lookup('component:place-autocomplete-field');
+    component.set('fields', 'place_id,name,types');
+    expect(component._fieldsToArray()).to.eql(['place_id', 'name', 'types']);
+  });
+
+  it('populates the fields option when placeIdOnly is specified', function(){
+    let component = this.container.owner.lookup('component:place-autocomplete-field');
+    component.set('placeIdOnly', true);
+    const options = component.getOptions();
+    expect(options.fields).to.eql(['place_id', 'name', 'types']);
+  });
+
   it('get geolocate is not available', function(){
     let component = this.container.owner.lookup('component:place-autocomplete-field');
     let navigator = {

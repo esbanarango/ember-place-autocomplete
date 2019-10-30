@@ -44,7 +44,7 @@ export default Component.extend({
     const google = this.google || ((window) ? window.google : null);
     const placeIdOnly = this.placeIdOnly || false;
 
-    const options = { types: this._typesToArray(), placeIdOnly };
+    const options = { types: this._typesToArray() };
 
     if (this.latLngBnds && Object.keys(this.latLngBnds).length === 2){
       // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
@@ -54,6 +54,12 @@ export default Component.extend({
 
     if (this.restrictions && Object.keys(this.restrictions).length > 0) {
       options.componentRestrictions = this.restrictions;
+    }
+
+    if (this.fields) {
+      options.fields = this.this._fieldsToArray();
+    } else if (placeIdOnly) {
+      options.fields = ['place_id', 'name', 'types'];
     }
 
     return options;
@@ -139,23 +145,29 @@ export default Component.extend({
     return this.bubbles ? true : false;
   },
 
-  _typesToArray() {
-    let types = this.types;
-
-    if (isArray(types)) {
-      return types;
+  _toArray(value) {
+    if (isArray(value)) {
+      return value;
     }
-    else if (typeOf(types) === 'string') {
-      if (types.trim() === '') {
+    else if (typeOf(value) === 'string') {
+      if (value.trim() === '') {
         return [];
       }
       else {
-        return types.split(',');
+        return value.split(',');
       }
     }
     else {
       return [];
     }
+  },
+
+  _typesToArray() {
+    return this._toArray(this.types);
+  },
+
+  _fieldsToArray() {
+    return this._toArray(this.fields);
   },
 
   _applyDefaults() {
