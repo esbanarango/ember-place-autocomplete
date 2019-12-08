@@ -1,6 +1,6 @@
 {
   "name": "ember-place-autocomplete",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Ember cli addon to provide a component that uses Google Places API to autocomplete place information when someone writes an address in a text field",
   "scripts": {
     "build": "ember build",
