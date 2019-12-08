@@ -31,7 +31,7 @@ describe('Integration | Component | Place Autocomplete Field', function() {
       return true;
     };
     window.google.maps.places.Autocomplete = GooglePlaceAutocompleteMockedObject;
-    let fakeModel = EmberObject.extend({ address: 'fake address'}).create();
+    let fakeModel = EmberObject.create({ address: 'fake address'});
 
     this.set('fakeModel', fakeModel);
 
@@ -46,7 +46,7 @@ describe('Integration | Component | Place Autocomplete Field', function() {
       return true;
     };
     window.google.maps.places.Autocomplete = GooglePlaceAutocompleteMockedObject;
-    let fakeModel = EmberObject.extend({ address: 'fake address'}).create();
+    let fakeModel = EmberObject.create({ address: 'fake address'});
 
     this.set('fakeModel', fakeModel);
 
@@ -63,7 +63,7 @@ describe('Integration | Component | Place Autocomplete Field', function() {
       return true;
     };
     window.google.maps.places.Autocomplete = GooglePlaceAutocompleteMockedObject;
-    let fakeModel = EmberObject.extend({ address: 'fake address'}).create();
+    let fakeModel = EmberObject.create({ address: 'fake address'});
     this.set('fakeModel', fakeModel);
     await render(hbs`{{place-autocomplete-field value=fakeModel.address}}`);
     const pacContainers = window.document.querySelectorAll('.pac-container');
