@@ -36,7 +36,7 @@ module.exports = {
         }
 
         if (region) {
-          params.push('region=' + encodeURIComponent(language));
+          params.push('region=' + encodeURIComponent(region));
         }
 
         src += '?' + params.join('&') + "&libraries=places";
