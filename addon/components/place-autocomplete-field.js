@@ -95,7 +95,7 @@ export default Component.extend({
       let google = this.google || ((window) ? window.google : null);
       if(google && google.maps && google.maps.event) {
         google.maps.event.clearInstanceListeners(this.autocomplete);
-        
+
         // remove googles autocomplete drop down containers from the dom
         this._removePlacesAutoCompleteContainers();
       }
