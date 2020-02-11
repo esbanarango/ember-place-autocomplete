@@ -5,9 +5,10 @@ module.exports = {
 
   contentFor: function(type, config) {
     var content = '';
-    if (type === 'head') {
-      var placeAutocompleteConfig = config['place-autocomplete'] || {},
-         src = placeAutocompleteConfig.src || '//maps.googleapis.com/maps/api/js',
+    var placeAutocompleteConfig = config['place-autocomplete'] || {};
+
+    if (type === (placeAutocompleteConfig.contentForType || 'head')) {
+      var src = placeAutocompleteConfig.src || '//maps.googleapis.com/maps/api/js',
          params = [],
          exclude = placeAutocompleteConfig.exclude,
          client = placeAutocompleteConfig.client,
