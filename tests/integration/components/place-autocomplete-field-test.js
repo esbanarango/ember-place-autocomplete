@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { describe, it, context } from 'mocha';
 import { setupRenderingTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
-import GooglePlaceAutocompleteMockedObject from './../../helpers/google-place-autocomplete-object';
+import { GooglePlaceAutocompleteMockedObject } from 'ember-place-autocomplete/test-support';
 import { find } from 'ember-native-dom-helpers';
 import { render } from '@ember/test-helpers';
 

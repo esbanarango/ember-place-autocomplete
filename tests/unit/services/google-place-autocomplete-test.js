@@ -1,9 +1,11 @@
 import { expect } from 'chai';
 import { describe, it, beforeEach, context } from 'mocha';
 import { setupTest } from 'ember-mocha';
-import GoogleAutocompleteServiceMock from './../../helpers/google-autocomplete-service-class-mock';
-import GooglePlacesServiceMock from './../../helpers/google-places-service-mock';
-import GoogleAutocompleteSessionToken from './../../helpers/google-autocomplete-session-token';
+import {
+  GoogleAutocompleteServiceMock,
+  GooglePlacesServiceMock,
+  GoogleAutocompleteSessionToken
+} from 'ember-place-autocomplete/test-support';
 
 describe('Unit | Service | google place autocomplete', function() {
   setupTest('service:google-place-autocomplete');
