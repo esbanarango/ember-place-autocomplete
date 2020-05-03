@@ -29,3 +29,7 @@
 
 #nvm
 .nvmrc
+
+# VSCODE
+
+.vscode/
