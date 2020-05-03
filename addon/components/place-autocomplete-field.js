@@ -9,8 +9,16 @@ import {
   isBlank
 } from '@ember/utils';
 import { scheduleOnce, run } from "@ember/runloop";
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
+  /* SERVICES
+  ---------------------------------------------------------------------------*/
+  placeAutocompleteManagerService: service('google-place-autocomplete/manager'),
+
+
+  /* HOOKS
+  ---------------------------------------------------------------------------*/
   /**
    * Set default values in component init
    */
@@ -25,6 +33,20 @@ export default Component.extend({
     // the data attributes
     this._bindDataAttributesToInput();
     scheduleOnce('afterRender', this, 'setupComponent');
+
+    this.get('placeAutocompleteManagerService').register();
+  },
+
+  willDestroy() {
+    if (isPresent(this.autocomplete)) {
+      let google = this.google || ((window) ? window.google : null);
+      this.get('placeAutocompleteManagerService').register();
+
+      if(google && google.maps && google.maps.event) {
+        google.maps.event.clearInstanceListeners(this.autocomplete);
+        this.get('placeAutocompleteManagerService').removePlacesAutoCompleteContainersIfRequired();
+      }
+    }
   },
 
   /**
@@ -87,18 +109,6 @@ export default Component.extend({
   keyDown(e) {
     if (this.preventSubmit && isEqual(e.keyCode, 13)) {
       e.preventDefault();
-    }
-  },
-
-  willDestroy() {
-    if (isPresent(this.autocomplete)) {
-      let google = this.google || ((window) ? window.google : null);
-      if(google && google.maps && google.maps.event) {
-        google.maps.event.clearInstanceListeners(this.autocomplete);
-
-        // remove googles autocomplete drop down containers from the dom
-        this._removePlacesAutoCompleteContainers();
-      }
     }
   },
 
@@ -194,13 +204,6 @@ export default Component.extend({
     let properties = Object.keys(this).filter((prop) => prop.indexOf('data-') >= 0) || [];
     let input = document.getElementById(this.elementId).getElementsByTagName('input')[0];
     properties.forEach((property) => input.setAttribute(property, this.get(property)));
-  },
-
-  _removePlacesAutoCompleteContainers() {
-    const pacContainers = document.querySelectorAll('.pac-container');
-    for (let i = 0; pacContainers.length > i; i++) {
-      pacContainers[i].parentNode.removeChild(pacContainers[i]);
-    }
   },
 
   actions: {

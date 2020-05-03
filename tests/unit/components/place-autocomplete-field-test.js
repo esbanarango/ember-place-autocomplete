@@ -6,7 +6,7 @@ describe('Unit | Component | PlaceAutocompleteField', function() {
   setupTest('component:place-autocomplete-field');
 
   it('returns empty array on undefined/null', function(){
-    let component = this.container.owner.lookup('component:place-autocomplete-field');
+    let component = this.owner.lookup('component:place-autocomplete-field');
     expect(component._typesToArray()).to.eql([]);
 
     component.set('types', null);
@@ -14,44 +14,44 @@ describe('Unit | Component | PlaceAutocompleteField', function() {
   });
 
   it('converts types option to array', function(){
-    let component = this.container.owner.lookup('component:place-autocomplete-field');
+    let component = this.owner.lookup('component:place-autocomplete-field');
     component.set('types', 'geocode');
     expect(component._typesToArray()).to.eql(['geocode']);
   });
 
   it('converts types option to array more two elements', function(){
-    let component = this.container.owner.lookup('component:place-autocomplete-field');
+    let component = this.owner.lookup('component:place-autocomplete-field');
     component.set('types', 'geocode,establishment');
     expect(component._typesToArray()).to.eql(['geocode','establishment']);
   });
 
   it('converts types in an empty string', function(){
-    let component = this.container.owner.lookup('component:place-autocomplete-field');
+    let component = this.owner.lookup('component:place-autocomplete-field');
     component.set('types', '');
     expect(component._typesToArray()).to.eql([]);
   });
 
   it('supports array passed as types option', function() {
-    let component = this.container.owner.lookup('component:place-autocomplete-field');
+    let component = this.owner.lookup('component:place-autocomplete-field');
     component.set('types', ['geocode', 'establishment']);
     expect(component._typesToArray()).to.eql(['geocode', 'establishment']);
   });
 
   it('converts fields option to array', function(){
-    let component = this.container.owner.lookup('component:place-autocomplete-field');
+    let component = this.owner.lookup('component:place-autocomplete-field');
     component.set('fields', 'place_id,name,types');
     expect(component._fieldsToArray()).to.eql(['place_id', 'name', 'types']);
   });
 
   it('populates the fields option when placeIdOnly is specified', function(){
-    let component = this.container.owner.lookup('component:place-autocomplete-field');
+    let component = this.owner.lookup('component:place-autocomplete-field');
     component.set('placeIdOnly', true);
     const options = component.getOptions();
     expect(options.fields).to.eql(['place_id', 'name', 'types']);
   });
 
   it('get geolocate is not available', function(){
-    let component = this.container.owner.lookup('component:place-autocomplete-field');
+    let component = this.owner.lookup('component:place-autocomplete-field');
     let navigator = {
       geolocation: false
     };
@@ -67,7 +67,7 @@ describe('Unit | Component | PlaceAutocompleteField', function() {
   });
 
   it('get geolocate is available', function() {
-    let component = this.container.owner.lookup('component:place-autocomplete-field');
+    let component = this.owner.lookup('component:place-autocomplete-field');
     let google = {};
     google.maps = {
       Circle(center, radio) {
