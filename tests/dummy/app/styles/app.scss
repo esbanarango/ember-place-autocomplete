@@ -1,4 +1,7 @@
 @import "ember-power-select";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 .input-field-example{
   padding: 10px;
