@@ -1,11 +1,13 @@
 {{#docs-viewer as |viewer|}}
   {{#viewer.nav as |nav|}}
-    {{nav.item "Introduction" "docs.index"}}
-    {{nav.item "Instalation" "docs.installation"}}
-    {{nav.item "Configuration" "docs.configuration"}}
-    {{nav.item "Usage | Component" "docs.usage.component"}}
-    {{nav.item "Usage | Service" "docs.usage.service"}}
-    {{nav.item "Tests support" "docs.addon-tests.mocks"}}
+    <aside class="pt-16">
+      {{nav.item "Introduction" "docs.index"}}
+      {{nav.item "Instalation" "docs.installation"}}
+      {{nav.item "Configuration" "docs.configuration"}}
+      {{nav.item "Usage | Component" "docs.usage.component"}}
+      {{nav.item "Usage | Service" "docs.usage.service"}}
+      {{nav.item "Tests support" "docs.addon-tests.mocks"}}
+    </aside>
   {{/viewer.nav}}
 
   {{#viewer.main}}

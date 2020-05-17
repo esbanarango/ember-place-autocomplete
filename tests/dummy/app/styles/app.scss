@@ -3,6 +3,31 @@
 @tailwind components;
 @tailwind utilities;
 
+p {
+  @apply py-2;
+}
+
+h2 {
+  @apply text-3xl;
+  @apply py-4;
+}
+
+h4,
+h3 {
+  @apply text-2xl;
+  @apply py-4;
+}
+
+a {
+  @apply no-underline;
+  @apply text-red-700;
+  @apply text-lg;
+
+  &:hover {
+    @apply underline;
+  }
+}
+
 .input-field-example{
   padding: 10px;
   border-radius: 3px;

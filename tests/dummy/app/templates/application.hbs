@@ -1,70 +1,37 @@
 {{docs-header}}
+<article class="pb-20">
+  {{outlet}}
+</article>
 
-{{outlet}}
-
-{{!-- <header class="sans-serif">
-  <div class="cover bg-left bg-center-l">
-    <div class="bg-black-80 pb4">
-      <div class="tc-l ph3">
-        <h1 class="f2 f1-l fw2 white-90 mb0 mt0 pt4 lh-title">Ember place autocomplete</h1>
-        <h2 class="fw1 f3 white-80 mt3 mb4">
-          Wrapper for Google Places API
-        </h2>
-      </div>
-    </div>
+<footer class="py-20 px-10 grid grid-cols-2">
+  <div>
+    Made with love by
+    <a
+      href="https://github.com/dmuneras"
+      target="_blank"
+      rel="noopener">
+      @dmuneras
+      </a>,
+      <a
+        href="https://github.com/esbanarango"
+        target="_blank"
+        rel="noopener">
+        @esbanarango
+      </a>
+      and many others
+      <a
+        href="https://github.com/dmuneras/ember-place-autocomplete/graphs/contributors"
+        target="_blank"
+        rel="noopener">
+        great people
+      </a>
   </div>
-</header>
-<div class="sans-serif flex flex-row flex-wrap items-flex-start mw9 center">
-  <div class="w-20-ns w-100 pa4">
-    <nav class="dt w-100 center">
-      <div class="flex flex-column">
-        <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath "about") "current"}}">
-          {{#link-to "about" class="fw5 no-underline link gray f5 dib"}}
-            About
-          {{/link-to}}
-        </div>
-        <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath "installation") "current"}}">
-          {{#link-to "installation" class="fw5 no-underline link gray f5 dib"}}
-            Installation
-          {{/link-to}}
-        </div>
-        <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath "configuration") "current"}}">
-          {{#link-to "configuration" class="fw5 no-underline link  gray f5 dib"}}
-            Configuration
-          {{/link-to}}
-        </div>
-        <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath "usage.component") "current"}}">
-          {{#link-to "usage.component" class="fw5 no-underline link gray f5 dib"}}
-            How to use component
-          {{/link-to}}
-        </div>
-        <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath "usage.service") "current"}}">
-          {{#link-to "usage.service" class="fw5 no-underline link gray f5 dib"}}
-            How to use service
-          {{/link-to}}
-        </div>
-        <div class="w-100 pa2 nav-sidebar-item {{if (eq currentPath "addon-tests.mocks") "current"}}">
-          {{#link-to "addon-tests.mocks" class="fw5 no-underline link gray f5 dib"}}
-            Test Mocks
-          {{/link-to}}
-        </div>
-      </div>
-    </nav>
-  </div>
-  <div class="w-100 w-80-ns pa4">
-    {{outlet}}
-  </div>
-</div>
-<footer class="ph3 ph4-ns pv4 bt b--black-10 black-70 mw9 center">
-  <div class="mt3">
-    Made with love by <a href="https://github.com/dmuneras" target="_blank" rel="noopener">@dmuneras</a>, <a href="https://github.com/esbanarango" target="_blank" rel="noopener">@esbanarango</a> and many other <a href="https://github.com/dmuneras/ember-place-autocomplete/graphs/contributors" target="_blank" rel="noopener">great people</a>
-  </div>
-  <div class="mt3 mb3">
-    <a href="https://github.com/dmuneras/ember-place-autocomplete" title="Github repo" class="f6 dib pr2 mid-gray dim" target="_blank" rel="noopener">
+  <div class="text-right">
+    <a href="https://github.com/dmuneras/ember-place-autocomplete" title="Github repo" target="_blank" rel="noopener">
       Github repository
     </a>
-    <a href="https://www.npmjs.com/package/ember-place-autocomplete" title="NPM page" class="f6 dib pr2 mid-gray dim" target="_blank" rel="noopener">
+    <a href="https://www.npmjs.com/package/ember-place-autocomplete" title="NPM page" target="_blank" rel="noopener">
       NPM page
     </a>
   </div>
-</footer> --}}
+</footer>

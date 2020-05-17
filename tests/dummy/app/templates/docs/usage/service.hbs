@@ -1,4 +1,4 @@
-<h2 class="f2 mt0">How to use as service</h2>
+<h2>How to use as service</h2>
 <p>
   Sometimes there is not need to get the full information of a place everytime a user types a word inside the input, that
   is why this service exists. This service interacts with the Google Place Autocomplete API and uses benefits like the usage of the <i>sessionToken</i>.
@@ -18,22 +18,26 @@
   For more information about {{#code-inline}}ember-power-select{{/code-inline}} go <a href="https://ember-power-select.com/docs" target="_blank" rel="noopener">here</a>.
 </p>
 
-<h3 class="f4">Result:</h3>
-{{#power-select
-  options=predictions
-  onchange=(action "findPlaceDetails")
-  selected=selectedPlace
-  search=(action "requestPredictions")
-  allowClear=true
-  as |prediction|
-}}
+{{#docs-demo as |demo|}}
+  {{demo.snippet "service-example-with-power-select.hbs" label="primary"}}
+{{/docs-demo}}
 
-  {{prediction.description}}
-{{/power-select}}
-<p>
-  <i class="dark-red f6">
-    Autocompletion could stop working on this example, because it uses a GOOGLE API KEY with limited number of request per day
-  </i>
+{{#docs-demo as |demo|}}
+  {{#demo.example name="service-example-with-power-select.hbs"}}
+    <PowerSelect
+      @options={{predictions}}
+      @onchange={{action "findPlaceDetails"}}
+      @selected={{selectedPlace}}
+      @search={{action "requestPredictions"}}
+      @allowClear={{true}}
+      as |prediction|
+    >
+      {{prediction.description}}
+    </PowerSelect>
+  {{/demo.example}}
+{{/docs-demo}}
+<p class="text-red-400 text-sm">
+  Autocompletion could stop working on this example, because it uses a GOOGLE API KEY with limited number of request per day
 </p>
 
 {{#if placeServiceResultJSON}}
@@ -43,31 +47,115 @@
   {{/code-block}}
 {{/if}}
 
-<h3 class="f4">Code:</h3>
-{{examples/service-code-example}}
+{{#docs-demo as |demo|}}
+  {{demo.snippet "application-full.js" label="controllers/application.js"}}
+  {{demo.snippet "application-full.hbs" label="templates/application.hbs"}}
+{{/docs-demo}}
+{{#docs-demo as |demo|}}
+  {{#demo.example name="application-full.js" classNames="hidden"}}
+    import Controller from '@ember/controller';
+    import { inject as service } from '@ember/service';
+    import { isBlank } from '@ember/utils';
+    import { next } from '@ember/runloop';
 
-<h3 class="f3">Available functions</h3>
-<table class="collapse w-100 ba br2 b--black-10 pv2 ph3 mt4">
+    export default Controller.extend({
+      googlePlaceAutocompleteService: service('google-place-autocomplete'),
+
+      async _getPlaceDetails(placeId) {
+        let googleRequest = {
+          placeId: placeId,
+          fields: ['address_components', 'formatted_address', 'place_id', 'rating']
+        };
+        let placeDetails = await this.get('googlePlaceAutocompleteService').getDetails(googleRequest);
+        this._refreshPrettyResponse(placeDetails);
+      },
+
+      _refreshPrettyResponse(placeDetails) {
+        this.set('placeServiceResultJSON', null);
+        next(() => {
+          this.set('placeServiceResultJSON', JSON.stringify(placeDetails, undefined, 2));
+        });
+      },
+
+      actions: {
+        findPlaceDetails(selectedPlace) {
+          if (isBlank(selectedPlace)) {
+            this.setProperties({
+              selectedPlace: null,
+              predictions: [],
+              placeServiceResultJSON: null
+            });
+            return;
+          }
+
+          this._getPlaceDetails(selectedPlace.place_id);
+          this.setProperties({
+            selectedPlace: selectedPlace,
+            predictions: []
+          });
+        },
+
+        async requestPredictions(placeServiceInput) {
+          if (isBlank(placeServiceInput)) {
+            this.setProperties({ predictions: [], placeServiceResultJSON: null });
+          }
+          let properties = { input: placeServiceInput };
+          let predictions = await this.get('googlePlaceAutocompleteService').getPlacePredictions(properties);
+          this.set('predictions', predictions);
+        }
+      }
+    });
+  {{/demo.example}}
+  {{#demo.example name="application-full.hbs"}}
+    {{!-- MORE CODE HERE --}}
+
+    <PowerSelect
+      @options={{predictions}}
+      @onchange={{action "findPlaceDetails"}}
+      @selected={{selectedPlace}}
+      @search={{action "requestPredictions"}}
+      @allowClear={{true}}
+      as |prediction|
+    >
+
+      {{prediction.description}}
+    </PowerSelect>
+
+    {{#if placeServiceResultJSON}}
+      <p>Google response</p>;
+      <pre class="json-result">
+        {{placeServiceResultJSON}}
+      </pre>
+    {{/if}}
+
+    {{!-- MORE CODE HERE --}}
+  {{/demo.example}}
+{{/docs-demo}}
+
+<h3>Available functions</h3>
+<table class="table-auto">
+  <thead>
+    <tr>
+      <th class="px-4 py-2">Function</th>
+      <th class="px-4 py-2">Return</th>
+    </tr>
+  </thead>
   <tbody>
-    <tr class="striped--near-white">
-      <th class="pv3 ph3 tl">Function</th>
-      <th class="pv3 ph3 tl">Return</th>
+    <tr>
+      <td class="border px-4 py-2">getPlacePredictions</td>
+      <td class="border px-4 py-2">Promise</td>
     </tr>
-    <tr class="striped--near-white">
-      <td class="pv3 ph3">getPlacePredictions</td>
-      <td class="pv3 ph3">Promise</td>
+    <tr>
+      <td class="border px-4 py-2">getQueryPredictions</td>
+      <td class="border px-4 py-2">Promise</td>
     </tr>
-    <tr class="striped--near-white">
-      <td class="pv3 ph3">getQueryPredictions</td>
-      <td class="pv3 ph3">Promise</td>
+    <tr>
+      <td class="border px-4 py-2">getDetails</td>
+      <td class="border px-4 py-2">Promise</td>
     </tr>
-    <tr class="striped--near-white">
-      <td class="pv3 ph3">getDetails</td>
-      <td class="pv3 ph3">Promise</td>
-    </tr>
-    <tr class="striped--near-white">
-      <td class="pv3 ph3">updateSessionToken</td>
-      <td class="pv3 ph3">Void</td>
+    <tr>
+      <td class="border px-4 py-2">updateSessionToken</td>
+      <td class="border px-4 py-2">Void</td>
     </tr>
   </tbody>
 </table>
