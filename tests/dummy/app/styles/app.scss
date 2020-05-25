@@ -73,3 +73,12 @@ a {
   animation-name: fadein;
   animation-iteration-count: infinite;
 }
+
+.main-sidebar {
+  min-height: 70vh;
+}
+
+// Override addon styles while I learn how it works
+.documentation-hero .docs-max-w-sm.docs-mx-auto{
+  max-width: 100%;
+}
