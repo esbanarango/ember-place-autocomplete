@@ -19,6 +19,7 @@
     "@csstools/postcss-sass": "^4.0.0",
     "@ember/optional-features": "^0.6.3",
     "broccoli-asset-rev": "^2.7.0",
+    "ember-angle-bracket-invocation-polyfill": "^2.0.2",
     "ember-cli": "~3.7.1",
     "ember-cli-addon-docs": "^0.6.16",
     "ember-cli-chai": "^0.4.0",
