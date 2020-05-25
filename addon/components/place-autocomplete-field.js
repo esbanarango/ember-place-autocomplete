@@ -8,14 +8,27 @@ import {
   isEqual,
   isBlank
 } from '@ember/utils';
-import { scheduleOnce, run } from "@ember/runloop";
+import { later } from '@ember/runloop';
 import { inject as service } from '@ember/service';
+import { computed } from '@ember/object';
+import { getOwner }  from '@ember/application';
+
+const RETRY_WINDOW = 100;
 
 export default Component.extend({
   /* SERVICES
   ---------------------------------------------------------------------------*/
   placeAutocompleteManagerService: service('google-place-autocomplete/manager'),
 
+  /* COMPUTED PROPERTIES
+  ---------------------------------------------------------------------------*/
+  isGoogleAvailable: computed('google', function() {
+    return !!this.google;
+  }),
+
+  isGoogleMapsAvailable: computed('isGoogleAvailable', function() {
+    return this.isGoogleAvailable && this.google.maps;
+  }),
 
   /* HOOKS
   ---------------------------------------------------------------------------*/
@@ -25,32 +38,46 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this._applyDefaults();
+
+    const owner = getOwner(this);
+    const google = owner.lookup('google:main');
+    const navigator = owner.lookup('navigator:main');
+
+    this.setProperties({ google, navigator });
   },
 
+  /**
+   * @description Initialize component after is has been added to the DOM
+   */
   didInsertElement() {
     this._super(...arguments);
-    // TODO: check if a block was passed to avoid trying to set
-    // the data attributes
     this._bindDataAttributesToInput();
-    scheduleOnce('afterRender', this, 'setupComponent');
+    this.setupComponent();
 
     this.get('placeAutocompleteManagerService').register();
   },
 
+  /**
+   * @description Clean up component before removing it from the DOM
+   */
   willDestroy() {
     if (isPresent(this.autocomplete)) {
-      let google = this.google || ((window) ? window.google : null);
-      this.get('placeAutocompleteManagerService').register();
+      const google = this.google;
+
+      this.get('placeAutocompleteManagerService').unregister();
 
       if(google && google.maps && google.maps.event) {
         google.maps.event.clearInstanceListeners(this.autocomplete);
-        this.get('placeAutocompleteManagerService').removePlacesAutoCompleteContainersIfRequired();
+
+        this
+          .get('placeAutocompleteManagerService')
+          .removePlacesAutoCompleteContainersIfRequired();
       }
     }
   },
 
   /**
-   * Acts as an observer an updates the autocomplete instance with any
+   * @description Acts as an observer an updates the autocomplete instance with any
    * updated options that have been passed into the component.
    */
   didReceiveAttrs() {
@@ -60,16 +87,15 @@ export default Component.extend({
   },
 
   /**
-   * Returns an object containing any options that are to be passed to the autocomplete instance.
+   * @description Returns an object containing any options that are
+   * to be passed to the autocomplete instance.
+   * @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
    */
   getOptions() {
-    const google = this.google || ((window) ? window.google : null);
-    const placeIdOnly = this.placeIdOnly || false;
-
+    const google = this.google;
     const options = { types: this._typesToArray() };
 
     if (this.latLngBnds && Object.keys(this.latLngBnds).length === 2){
-      // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
       const { sw, ne } = this.latLngBnds;
       options.bounds = new google.maps.LatLngBounds(sw, ne);
     }
@@ -80,7 +106,7 @@ export default Component.extend({
 
     if (this.fields) {
       options.fields = this.this._fieldsToArray();
-    } else if (placeIdOnly) {
+    } else if (this.placeIdOnly) {
       options.fields = ['place_id', 'name', 'types'];
     }
 
@@ -90,18 +116,18 @@ export default Component.extend({
   // Wait until the google library is loaded by calling this method
   // every 100ms
   setupComponent() {
-    if (document && window && window.google && window.google.maps) {
+    if (document && this.isGoogleAvailable && this.isGoogleMapsAvailable) {
       this.setAutocomplete();
       if (this.withGeoLocate) {
         this.geolocateAndSetBounds();
       }
       this.autocomplete.addListener('place_changed', () => {
-        run(() => this.placeChanged());
+        this.placeChanged();
       });
 
     } else {
       if (!this.isDestroyed && !this.isDestroying) {
-        run.later(this, 'setupComponent', 100);
+        later(this, 'setupComponent', RETRY_WINDOW);
       }
     }
   },
@@ -122,15 +148,25 @@ export default Component.extend({
     }
   },
 
-  // @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
+  /**
+   * @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
+   */
   geolocateAndSetBounds() {
-    let navigator = this.navigator || ((window) ? window.navigator : null);
-    let autocomplete = this.autocomplete;
-    if (navigator && navigator.geolocation && isPresent(autocomplete)) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const google = this.google || window.google;
-        const geolocation = { lat: position.coords.latitude, lng: position.coords.longitude };
-        const circle = new google.maps.Circle({ center: geolocation, radius: position.coords.accuracy });
+    const { autocomplete } = this;
+
+    if (this.navigator && this.navigator.geolocation && isPresent(autocomplete)) {
+      this.navigator.geolocation.getCurrentPosition((position) => {
+        const google = this.google;
+        const geolocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        };
+
+        const circle = new google.maps.Circle({
+          center: geolocation,
+          radius: position.coords.accuracy
+        });
+
         autocomplete.setBounds(circle.getBounds());
       });
     }
@@ -182,7 +218,7 @@ export default Component.extend({
 
   _applyDefaults() {
     const defaultProperties = {
-      layout: layout,
+      layout,
       disabled: false,
       inputClass: 'place-autocomplete--input',
       types: undefined,
@@ -190,7 +226,8 @@ export default Component.extend({
       tabindex: 0,
       withGeoLocate: false,
       setValueWithProperty: undefined,
-      preventSubmit: false
+      preventSubmit: false,
+      placeIdOnly: false
     };
 
     for(let property in defaultProperties) {
@@ -201,9 +238,17 @@ export default Component.extend({
   },
 
   _bindDataAttributesToInput() {
-    let properties = Object.keys(this).filter((prop) => prop.indexOf('data-') >= 0) || [];
-    let input = document.getElementById(this.elementId).getElementsByTagName('input')[0];
+    if (!window || !document) {
+      return false;
+    }
+
+    const componentProperties = Object.keys(this) || [];
+    const properties = componentProperties.filter((prop) => prop.indexOf('data-') >= 0);
+    const input = document.getElementById(this.elementId).getElementsByTagName('input')[0];
+
     properties.forEach((property) => input.setAttribute(property, this.get(property)));
+
+    return true;
   },
 
   actions: {

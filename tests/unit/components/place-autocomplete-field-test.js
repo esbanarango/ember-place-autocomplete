@@ -56,7 +56,7 @@ describe('Unit | Component | PlaceAutocompleteField', function() {
       geolocation: false
     };
     component.setProperties({
-      navigator: navigator,
+      navigator,
       autocomplete: {
         setBounds() {
           expect().fail();
@@ -67,22 +67,25 @@ describe('Unit | Component | PlaceAutocompleteField', function() {
   });
 
   it('get geolocate is available', function() {
-    let component = this.owner.lookup('component:place-autocomplete-field');
-    let google = {};
+    const component = this.owner.lookup('component:place-autocomplete-field');
+    const google = {};
+    const Circle = function(center, radio) {
+      this.center = center;
+      this.radio = radio;
+      return {
+        getBounds() {
+          return {c: this.center, r: this.radio};
+        }
+      };
+    };
+
     google.maps = {
-      Circle(center, radio) {
-        this.center = center;
-        this.radio = radio;
-        return {
-          getBounds() {
-            return {c: this.center, r: this.radio};
-          }
-        };
-      },
+      Circle,
       __gjsload__() {
         return true;
       }
     };
+
     component.set('google', google);
     component.set('autocomplete', {
       setBounds: function (circle) {
@@ -95,6 +98,7 @@ describe('Unit | Component | PlaceAutocompleteField', function() {
         expect(circle).to.be.ok;
       }
     });
+
     component.geolocateAndSetBounds();
   });
 });
