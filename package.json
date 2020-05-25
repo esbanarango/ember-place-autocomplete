@@ -46,7 +46,7 @@
     "ember-prism": "^0.4.0",
     "ember-qunit": "^4.6.0",
     "ember-resolver": "^5.0.1",
-    "ember-source": "~3.7.0",
+    "ember-source": "https://s3.amazonaws.com/builds.emberjs.com/release/shas/9f308d82a7b496a7c9fa9712bb0f4aafe6a6a2b1.tgz",
     "ember-source-channel-url": "^1.1.0",
     "ember-truth-helpers": "^2.1.0",
     "ember-try": "^1.0.0",
