@@ -1,0 +1,385 @@
+<h2 class="text-3xl py-4">How to use as component</h2>
+<p class="py-4">
+  When there is only a need to have an autocomplete text field to find an address, it is possible to
+  use this component to enable all the power of Google.
+</p>
+<p>
+  Google provides further documentation about what is happening behind the scenes
+  <a
+    href="https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform"
+    target="_blank"
+    rel="noopener"
+    >
+    here
+  </a>
+</p>
+<h4>Basic usage</h4>
+<p>
+  The following example shows how to use the place autocomplete field with a place change callback function and a on blur
+  callback function.
+</p>
+<p>
+  This example assumes two actions are defined in the controller: <strong>done</strong> and <strong>placeChanged</strong>.
+  The usage of <strong>model.address</strong> assumes that the current route loads an object with a property <strong>address</strong>, which is going to be set using the callback function provided.
+</p>
+{{#docs-demo as |demo|}}
+  {{demo.snippet "place-autocomplete-field.hbs" label="primary"}}
+{{/docs-demo}}
+
+{{#docs-demo as |demo|}}
+  {{#demo.example name="place-autocomplete-field.hbs"}}
+    <p id="message">{{message}}</p>
+    <p> Model address: {{model.address}}</p>
+    <div class="test-place-autocomplete-container" data-google-auto={{googleAuto}}>
+      <PlaceAutocompleteField
+        @inputClass= "place-autocomplete--input input-field-example"
+        @onBlurCallback={{action "done"}}
+        @placeChangedCallback={{action "placeChanged"}}
+        @placeholder="Custom placeholder"
+        @preventSubmit={{true}}
+      />
+    </div>
+  {{/demo.example}}
+{{/docs-demo}}
+<p class="text-red-400 text-sm">
+  Autocompletion could stop working on this example, because it uses a GOOGLE API KEY with limited number of request per day.
+</p>
+
+{{#if placeJSON}}
+  <p>Google response</p>
+  {{#code-block language="js"}}
+    {{placeJSON}}
+  {{/code-block}}
+{{/if}}
+
+<h4>Component usage with restrictions</h4>
+<p>
+  This place autocomplete field only returns places from Colombia. It happens because a restrictions object is
+  being passed to the component using the restrictions property.
+</p>
+{{#docs-demo as |demo|}}
+  {{demo.snippet "place-autocomplete-field-with-restrictions.hbs" label="primary"}}
+{{/docs-demo}}
+{{#docs-demo as |demo|}}
+  {{#demo.example name="place-autocomplete-field-with-restrictions.hbs"}}
+    <p id="message">{{message}}</p>
+    <p> Model address: {{model.address}}</p>
+    <div class="test-place-autocomplete-container">
+      <PlaceAutocompleteField
+        @inputClass="place-autocomplete--input-2 input-field-example"
+        @placeChangedCallback={{action "placeChangedSecondInput"}}
+        @restrictions={{restrictions}}
+      />
+    </div>
+  {{/demo.example}}
+{{/docs-demo}}
+<p class="text-red-400 text-sm">
+  Autocompletion could stop working on this example, because it uses a GOOGLE API KEY with limited number of request per day.
+</p>
+{{#if placeJSONSecondInput}}
+  <p>Google response</p>
+  {{#code-block language="js"}}
+    {{placeJSONSecondInput}}
+  {{/code-block}}
+{{/if}}
+
+{{#docs-demo as |demo|}}
+  {{demo.snippet "application.js" label="controllers/application.js"}}
+  {{demo.snippet "application.hbs" label="templates/application.hbs"}}
+{{/docs-demo}}
+{{#docs-demo as |demo|}}
+  {{#demo.example name="application.js" classNames="hidden"}}
+    import Controller from '@ember/controller';
+
+    export default Controller.extend({
+      init() {
+        this._super(...arguments);
+        this.setProperties({ googleAuto: null, restrictions: { country: 'co' } });
+      },
+
+      actions: {
+        placeChangedSecondInput(place){
+          this.set('placeJSONSecondInput', JSON.stringify(place, undefined, 2));
+        }
+      }
+    });
+  {{/demo.example}}
+  {{#demo.example name="application.hbs"}}
+    {{!-- MORE CODE HERE --}}
+
+    <div class="test-place-autocomplete-container">
+      <PlaceAutocompleteField
+        @value={{model.address2}}
+        @inputClass="place-autocomplete--input-2 input-field-example"
+        @placeChangedCallback={{action "placeChangedSecondInput"}}
+        @restrictions={{restrictions}} />
+    </div>
+
+    {{!-- MORE CODE HERE --}}
+  {{/demo.example}}
+{{/docs-demo}}
+<h3 class="text-2xl py-4">Component options</h3>
+<table class="table-auto">
+  <thead>
+    <tr>
+      <th class="px-4 py-2">Option</th>
+      <th class="px-4 py-2">Param type</th>
+      <th class="px-4 py-2">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="border px-4 py-2">onBlurCallback</td>
+      <td class="border px-4 py-2">String/action</td>
+      <td class="border px-4 py-2">Name of the function or function that is going to be executed after focus out in the address input</td>
+    </tr>
+    <tr>
+      <td class="border px-4 py-2">placeChangedCallback</td>
+      <td class="border px-4 py-2">String/action</td>
+      <td class="border px-4 py-2">Name of the function or function that is going to be executed when address changed</td>
+    </tr>
+    <tr>
+      <td class="border px-4 py-2">inputClass</td>
+      <td class="border px-4 py-2">String</td>
+      <td class="border px-4 py-2">CSS class for the input.</td>
+    </tr>
+    <tr>
+      <td class="border px-4 py-2">types</td>
+      <td class="border px-4 py-2">String</td>
+      <td class="border px-4 py-2">
+        featured types separate by comma describing the given result, for more info
+        <a href="https://developers.google.com/places/supported_types#table3" target="_blank" rel="noopener">here</a>
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="border px-4 py-2">restrictions</td>
+      <td class="border px-4 py-2">Object</td>
+      <td class="border px-4 py-2">
+        Example. <i>{ country: "us" }</i>, more info
+        <a
+          href="https://developers.google.com/maps/documentation/javascript/examples/geocoding-component-restriction"
+          target="_blank"
+          rel="noopener">
+          here
+        </a>
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="border px-4 py-2">placeIdOnly</td>
+      <td class="border px-4 py-2">Boolean</td>
+      <td class="border px-4 py-2">
+        Defaults to false, only fetches the Place ID when calling the Google Places API, more information can be found
+        <a
+          href="https://developers.google.com/maps/documentation/javascript/places-autocomplete#get_place_information"
+          target="_blank"
+          rel="noopener">
+          here
+        </a>
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="border px-4 py-2">withGeoLocate</td>
+      <td class="border px-4 py-2">Boolean</td>
+      <td class="border px-4 py-2">
+        It allows searching places near by the coordinates given into browser. more info
+        <a
+          href="https://developers.google.com/maps/documentation/javascript/places-autocomplete#add_autocomplete"
+          target="_blank"
+          rel="noopener">
+          See attribute options.bounds
+        </a>
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="border px-4 py-2">setValueWithProperty</td>
+      <td class="border px-4 py-2">String</td>
+      <td class="border px-4 py-2">
+        Name of the property returned by Google to set the input field value after selection. More info about properties available
+        <a
+          href="https://developers.google.com/maps/documentation/javascript/3.exp/reference#PlaceResult"
+          target="_blank"
+          rel="noopener">
+          here
+        </a>
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="border px-4 py-2">latLngBounds</td>
+      <td class="border px-4 py-2">Object</td>
+      <td class="border px-4 py-2">
+        Ex. <i>{sw: {lat: -34, lng: 151}, ne: {lat: -33, lng: 152}}</i>, It allows searching places near by the given coordinates. More info
+        <a
+          href="https://developers.google.com/maps/documentation/javascript/3.exp/reference#PlaceResult"
+          target="_blank"
+          rel="noopener">
+          See attribute options.bounds
+        </a>
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="border px-4 py-2">preventSubmit</td>
+      <td class="border px-4 py-2">Boolean</td>
+      <td class="border px-4 py-2">
+        Ex. true, allows to prevent the form to be submitted if the user selects a location and hit ENTER
+      </td>
+    </tr>
+    <tr class="striped--near-white">
+      <td class="border px-4 py-2">value</td>
+      <td class="border px-4 py-2">Object</td>
+      <td class="border px-4 py-2">
+        Model property where the address is going to be stored. It is recommended to avoid using this propoerty and use
+        the placeChangedCallback to set the value to the desired property
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h3 class="text-2xl py-4">Details about the PlaceChangedCallback option</h3>
+<p>
+  This function is going to receive a javascript object with the response from Google Places API (Response details). You can
+  use the information as you wish.
+</p>
+<p>
+  In order to prevent double binding, it is possible to don't use the <i>value</i> and set the value using the action passed here.
+</p>
+<p>This is an example of the Google Place response that is going to be passed to the placeChangedCallback function</p>
+{{#docs-demo as |demo|}}
+  {{#demo.example name="payloadExample.js" classNames="hidden"}}
+    {
+        "address_components": [
+          {
+            "long_name": "Envigado",
+            "short_name": "Envigado",
+            "types": [
+              "locality",
+              "political"
+            ]
+          },
+          {
+            "long_name": "Envigado",
+            "short_name": "Envigado",
+            "types": [
+              "administrative_area_level_2",
+              "political"
+            ]
+          },
+          {
+            "long_name": "Antioquia",
+            "short_name": "Antioquia",
+            "types": [
+              "administrative_area_level_1",
+              "political"
+            ]
+          },
+          {
+            "long_name": "Colombia",
+            "short_name": "CO",
+            "types": [
+              "country",
+              "political"
+            ]
+          }
+        ],
+        "adr_address": "&lt;span class=\"locality\"&gtEnvigado&lt;/span&gt, &lt;span class=\"region\"&gtAntioquia&lt;/span&gt, &lt;span class=\"country-name\"&gtColombia&lt;/span&gt",
+        "formatted_address": "Envigado, Antioquia, Colombia",
+        "geometry": {
+          "location": {
+            "lat": 6.169610899999999,
+            "lng": -75.5873636
+          },
+          "viewport": {
+            "south": 6.14373,
+            "west": -75.60567300000002,
+            "north": 6.188894,
+            "east": -75.55818599999998
+          }
+        },
+        "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+        "id": "4e834846f3fb1ca479e96c5314f290118f1b9bf0",
+        "name": "Envigado",
+        "photos": [
+          {
+            "height": 3096,
+            "html_attributions": [
+              "&lt;a href=\"https://maps.google.com/maps/contrib/101945991158254756248/photos\"&gtjohn quiñones guerra&lt;/a&gt"
+            ],
+            "width": 4128
+          },
+          {
+            "height": 2304,
+            "html_attributions": [
+              "&lt;a href=\"https://maps.google.com/maps/contrib/106219120350967162195/photos\"&gtManuel Diaz&lt;/a&gt"
+            ],
+            "width": 4096
+          },
+          {
+            "height": 2988,
+            "html_attributions": [
+              "&lt;a href=\"https://maps.google.com/maps/contrib/115477487537827301126/photos\"&gtGabriel Posada&lt;/a&gt"
+            ],
+            "width": 5312
+          },
+          {
+            "height": 1836,
+            "html_attributions": [
+              "&lt;a href=\"https://maps.google.com/maps/contrib/110076590900807932347/photos\"&gtAndrés Rojas&lt;/a&gt"
+            ],
+            "width": 3264
+          },
+          {
+            "height": 2988,
+            "html_attributions": [
+              "&lt;a href=\"https://maps.google.com/maps/contrib/108368816314430990652/photos\"&gtJuan Carlos Henao&lt;/a&gt"
+            ],
+            "width": 5312
+          },
+          {
+            "height": 960,
+            "html_attributions": [
+              "&lt;a href=\"https://maps.google.com/maps/contrib/106447634521422345910/photos\"&gtJorge Jasbon&lt;/a&gt"
+            ],
+            "width": 1280
+          },
+          {
+            "height": 766,
+            "html_attributions": [
+              "&lt;a href=\"https://maps.google.com/maps/contrib/114082124994415197083/photos\"&gtTobias Sippl instagram.com/tobiassippl&lt;/a&gt"
+            ],
+            "width": 1149
+          },
+          {
+            "height": 3456,
+            "html_attributions": [
+              "&lt;a href=\"https://maps.google.com/maps/contrib/105596113233405399927/photos\"&gtMARIO OSPINA&lt;/a&gt"
+            ],
+            "width": 5184
+          },
+          {
+            "height": 2997,
+            "html_attributions": [
+              "&lt;a href=\"https://maps.google.com/maps/contrib/103389356863170608296/photos\"&gtMateo Velez&lt;/a&gt"
+            ],
+            "width": 5338
+          },
+          {
+            "height": 2448,
+            "html_attributions": [
+              "&lt;a href=\"https://maps.google.com/maps/contrib/114700999269485238865/photos\"&gtJavier dosman acevedo&lt;/a&gt"
+            ],
+            "width": 3264
+          }
+        ],
+        "place_id": "ChIJYa6GO0mCRo4RtAqEiD4bOg4",
+        "reference": "ChIJYa6GO0mCRo4RtAqEiD4bOg4",
+        "scope": "GOOGLE",
+        "types": [
+          "locality",
+          "political"
+        ],
+        "url": "https://maps.google.com/?q=Envigado,+Antioquia,+Colombia&ftid=0x8e4682493b86ae61:0xe3a1b3e88840ab4",
+        "utc_offset": -300,
+        "vicinity": "Envigado",
+        "html_attributions": []
+      }
+  {{/demo.example}}
+  {{demo.snippet "payloadExample.js" label="payloadExample.js" language="js"}}
+{{/docs-demo}}

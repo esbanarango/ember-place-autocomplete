@@ -1,23 +1,24 @@
-import Router from '@ember/routing/router';
+import AddonDocsRouter, { docsRoute } from 'ember-cli-addon-docs/router';
 import config from './config/environment';
 
-const AppRouter = Router.extend({
+const Router = AddonDocsRouter.extend({
   location: config.locationType,
-  rootURL: config.rootURL
+  rootURL: config.rootURL,
 });
 
-AppRouter.map(function() {
-  this.route('about', { path: '/' });
-  this.route('usage', function() {
-    this.route('component');
-    this.route('service');
-  });
-  this.route('configuration');
-  this.route('installation');
+Router.map(function() {
+  docsRoute(this, function() {
+    this.route('usage', function() {
+      this.route('component');
+      this.route('service');
+    });
+    this.route('configuration');
+    this.route('installation');
 
-  this.route('addon-tests', function() {
-    this.route('mocks');
+    this.route('addon-tests', function() {
+      this.route('mocks');
+    });
   });
 });
 
-export default AppRouter;
+export default Router;

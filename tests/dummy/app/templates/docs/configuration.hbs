@@ -1,0 +1,54 @@
+<h2>Configuration</h2>
+
+<h3>Options</h3>
+<p>
+  The following information is to add additional configurations, like adding a Google API Key or Client ID.
+</p>
+<p>
+  In order to supply a Google API key or client ID, or choose to exclude the Google API, etc.
+  Add the supported configuration instructions in the {{#code-inline}} config/environment.js {{/code-inline}}
+  as the following example shows.
+</p>
+{{#docs-demo as |demo|}}
+  {{demo.snippet "config-environment.js" label="primary"}}
+{{/docs-demo}}
+
+{{#docs-demo as |demo|}}
+  {{#demo.example name="config-environment.js" classNames="hidden"}}
+    ...
+    ENV['place-autocomplete'] = {
+      exclude: true,
+      key: 'AIZ...',
+      client: 'gme-myclientid',
+      version: 3.27, // Optional - if client is set version must be above 3.24
+      language: 'en', // Optional - be default will be based on your browser language
+      region: 'GB', // Optional
+      contentForType: 'head' // Optional - Specifies which content-for tag the script will be injected into, defaults to 'head'
+    };
+    ...
+  {{/demo.example}}
+{{/docs-demo}}
+<h3>Content Security Policy</h3>
+<p>
+  When using {{#code-inline}}ember-cli-content-security-policy{{/code-inline}}, it is required to add google maps to
+  the application allowed sources
+</p>
+{{#docs-demo as |demo|}}
+  {{demo.snippet "content-security-policy.js" label="primary"}}
+{{/docs-demo}}
+
+{{#docs-demo as |demo|}}
+  {{#demo.example name="content-security-policy.js" classNames="hidden"}}
+    /* More code here */
+    contentSecurityPolicy: {
+      'default-src': "'none'",
+      'script-src': "'self' 'unsafe-eval' *.googleapis.com maps.gstatic.com",
+      'font-src': "'self' fonts.gstatic.com",
+      'connect-src': "'self' maps.gstatic.com",
+      'img-src': "'self' *.googleapis.com maps.gstatic.com csi.gstatic.com data:",
+      'style-src': "'self' 'unsafe-inline' fonts.googleapis.com maps.gstatic.com assets-cdn.github.com"
+    },
+
+    /* More code here */
+  {{/demo.example}}
+{{/docs-demo}}

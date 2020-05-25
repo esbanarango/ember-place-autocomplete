@@ -1,0 +1,31 @@
+<section class="docs-intro">
+  <ul>
+    <li>
+      <h3 class="text-3xl py-4">Usage as component</h3>
+      <p>This component is a input text field that fetches Google place predictions while the user is typing.</p>
+      <p class="py-4">
+        More information: {{#link-to "docs.usage.component" class="no-underline hover:underline text-red-700 text-lg"}}here{{/link-to}}
+      </p>
+    </li>
+    <li>
+      <h3 class="text-3xl py-4">Usage as a service</h3>
+      <p>
+        Instead of using the standard Google place autocomplete component, which delegates to google the responsibility
+        of adding the UI elements to interact with place predictions. It is possible to use a Google service that you
+        can call to get the information in JSON format. The service provides more flexibility when communicating with
+        Google Places API. One advantage of usin the service is the possibility to use <strong><i>sessionTokens</i></strong>
+        in order to reduce the cost of paid services when getting places information.
+      </p>
+      <p class="py-4">
+        More information: {{#link-to "docs.usage.service" class="no-underline hover:underline text-red-700 text-lg"}}here{{/link-to}}
+      </p>
+    </li>
+  </ul>
+  <h2 class="text-3xl py-4">Issues</h2>
+  <p>
+    You can report any issue you find <a href="https://github.com/dmuneras/ember-place-autocomplete/issues" target="_blank" rel="noopener">here</a>
+  </p>
+  <p class="py-4">
+    This addon provides two strategies to be able to communicate with Google place autocomplete services.
+  </p>
+</section>

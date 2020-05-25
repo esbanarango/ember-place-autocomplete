@@ -1,4 +1,32 @@
 @import "ember-power-select";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+p {
+  @apply py-2;
+}
+
+h2 {
+  @apply text-3xl;
+  @apply py-4;
+}
+
+h4,
+h3 {
+  @apply text-2xl;
+  @apply py-4;
+}
+
+a {
+  @apply no-underline;
+  @apply text-red-700;
+  @apply text-lg;
+
+  &:hover {
+    @apply underline;
+  }
+}
 
 .input-field-example{
   padding: 10px;
@@ -44,4 +72,13 @@
   animation-duration: 2s;
   animation-name: fadein;
   animation-iteration-count: infinite;
+}
+
+.main-sidebar {
+  min-height: 70vh;
+}
+
+// Override addon styles while I learn how it works
+.documentation-hero .docs-max-w-sm.docs-mx-auto{
+  max-width: 100%;
 }
