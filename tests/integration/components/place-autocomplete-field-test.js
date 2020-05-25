@@ -1,122 +1,66 @@
 import EmberObject from '@ember/object';
-import { expect } from 'chai';
-import { describe, it, context } from 'mocha';
-import { setupRenderingTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { GooglePlaceAutocompleteMockedObject } from 'ember-place-autocomplete/test-support';
-import { find } from 'ember-native-dom-helpers';
-import { render } from '@ember/test-helpers';
+import { render, find, settled } from '@ember/test-helpers';
 
-describe('Integration | Component | Place Autocomplete Field', function() {
-  setupRenderingTest();
+module('Integration | place-autocomplete-field', function(hooks) {
+  setupRenderingTest(hooks);
 
-  it("accepts 'placeholder' option", async function() {
-    await render(hbs`{{place-autocomplete-field placeholder='fake placeholder'}}`);
-    expect(find('input').getAttribute('placeholder').trim()).to.equal('fake placeholder');
-  });
-
-  it("accepts 'name' option", async function() {
-    await render(hbs`{{place-autocomplete-field name='fake-name'}}`);
-    expect(find('input').getAttribute('name').trim()).to.equal('fake-name');
-  });
-
-  it("accepts 'inputClass' option", async function() {
-    await render(hbs`{{place-autocomplete-field inputClass='fake-input-class'}}`);
-    expect(find('input').classList.contains('fake-input-class')).to.equal(true);
-  });
-
-  it("unset 'setValueWithProperty' option does not affect entered address", async function() {
-    // Mock only google places
-    window.google.maps.__gjsload__ = function() {
-      return true;
-    };
-    window.google.maps.places.Autocomplete = GooglePlaceAutocompleteMockedObject;
-    let fakeModel = EmberObject.create({ address: 'fake address'});
-
-    this.set('fakeModel', fakeModel);
-
-    await render(hbs`{{place-autocomplete-field value=fakeModel.address}}`);
-
-    expect(this.get('fakeModel.address')).to.equal('fake address');
-  });
-
-  it.skip("accepts 'value' option and updates with google autocomplete response", async function() {
-    // Mock only google places
-    window.google.maps.__gjsload__ = function() {
-      return true;
-    };
-    window.google.maps.places.Autocomplete = GooglePlaceAutocompleteMockedObject;
-    let fakeModel = EmberObject.create({ address: 'fake address'});
-
-    this.set('fakeModel', fakeModel);
-
-    await render(hbs`{{place-autocomplete-field value=fakeModel.address setValueWithProperty='formatted_address'}}`);
-
-
-
-    expect(this.get('fakeModel.address')).to.equal('Cra. 65, Medellín, Antioquia, Colombia');
-  });
-
-  it.skip("removes googles pac-container elements from the dom", async function() {
-    // Mock only google places
-    window.google.maps.__gjsload__ = function() {
-      return true;
-    };
-    window.google.maps.places.Autocomplete = GooglePlaceAutocompleteMockedObject;
-    let fakeModel = EmberObject.create({ address: 'fake address'});
-    this.set('fakeModel', fakeModel);
-    await render(hbs`{{place-autocomplete-field value=fakeModel.address}}`);
-    const pacContainers = window.document.querySelectorAll('.pac-container');
-    expect(this.get('fakeModel.address')).to.equal('fake address');
-    expect(pacContainers).to.be.empty;
-  });
-
-  it('accepts data attributes to input', async function() {
-    await render(hbs`{{place-autocomplete-field data-independiente-medellin='what is that'}}`);
-    expect(find('input[data-independiente-medellin]')).to.be.ok
-  });
-
-  context('when entered value is not found in google', function() {
-    it.skip('sets the value of the not found place to the passed property', async function() {
-      // Mock only google places
-      window.google = {
-        maps: {
-          __gjsload__() {
-            return true;
-          },
-          places: {
-            Autocomplete() {
-              return {
-                addListener(event, f) {
-                  f.call();
-                },
-                getPlace() {
-                  return { name: 'james is not a city is just ja ja james' };
-                },
-                Circle(center, radio) {
-                  this.center = center;
-                  this.radio = radio;
-                  return {
-                    getBounds() {
-                      return {c: this.center, r: this.radio};
-                    }
-                  };
-                },
-                __gjsload__() {
-                  return true;
-                },
-                setBounds(circle) {
-                  return circle;
-                }
-              };
-            }
-          }
-        }
-      }
-      let fakeModel = EmberObject.extend({ address: 'james is not a city is just ja ja james'}).create();
-      this.set('fakeModel', fakeModel);
-      await render(hbs`{{place-autocomplete-field value=fakeModel.address}}`);
-      expect(this.get('fakeModel.address')).to.equal('james is not a city is just ja ja james');
+  test('renders passed attributes properly', async function(assert) {
+    const fakeModel = EmberObject.create({ address: 'fake address'});
+    const passedProperties = EmberObject.create({
+      placeholder: 'fake placeholder',
+      name: 'fake-name',
+      inputClass: 'fake-input-class',
+      fakeModel,
+      setValueWithProperty: null
     });
+
+    this.set('passedProperties', passedProperties);
+
+    await render(hbs`
+      {{place-autocomplete-field
+        placeholder=passedProperties.placeholder
+        name=passedProperties.name
+        inputClass=passedProperties.inputClass
+        value=fakeModel.address
+        setValueWithProperty=passedProperties.setValueWithProperty
+        data-independiente-medellin='what is that'
+      }}
+    `);
+
+    assert.strictEqual(find('input').getAttribute('placeholder').trim(), 'fake placeholder', 'Renders passed input placeholder');
+    assert.strictEqual(find('input').getAttribute('name').trim(), 'fake-name', 'Renders passed input name');
+    assert.strictEqual(find('input').classList.contains('fake-input-class'), true, 'Adds passed inputClass to input classes');
+    assert.strictEqual(fakeModel.address, 'fake address', "unset 'setValueWithProperty' option does not affect entered address");
+    assert.ok(find('input[data-independiente-medellin]'));
+  });
+
+  test( "sets value when 'setValueWithProperty' option it present", async function(assert) {
+    // Mock only google places
+    window.google.maps.__gjsload__ = function() {
+      return true;
+    };
+
+    window.google.maps.places.Autocomplete = GooglePlaceAutocompleteMockedObject;
+    const fakeModel = EmberObject.create({ address: 'fake address'});
+
+    this.set('fakeModel', fakeModel);
+
+    await render(hbs`
+      {{place-autocomplete-field
+        value=fakeModel.address
+        setValueWithProperty="formatted_address"
+      }}
+    `);
+
+    await settled();
+
+    assert.strictEqual(
+      fakeModel.address,
+      'Cra. 65, Medellín, Antioquia, Colombia'
+    );
   });
 });

@@ -1,73 +1,73 @@
-import { expect } from 'chai';
-import { it, describe } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Component | PlaceAutocompleteField', function() {
-  setupTest('component:place-autocomplete-field');
+module('Unit | Component | PlaceAutocompleteField', function(hooks) {
+  setupTest(hooks);
 
-  it('returns empty array on undefined/null', function(){
-    let component = this.owner.lookup('component:place-autocomplete-field');
-    expect(component._typesToArray()).to.eql([]);
+  test('_typesToArray', function(assert){
+    const component = this.owner.lookup('component:place-autocomplete-field');
+
+    assert.deepEqual(component._typesToArray(), [], 'Returns empty array when undefined/null');
 
     component.set('types', null);
-    expect(component._typesToArray()).to.eql([]);
-  });
 
-  it('converts types option to array', function(){
-    let component = this.owner.lookup('component:place-autocomplete-field');
-    component.set('types', 'geocode');
-    expect(component._typesToArray()).to.eql(['geocode']);
-  });
+    assert.deepEqual(component._typesToArray(), [], 'Returns empty array when type is undefined/null');
 
-  it('converts types option to array more two elements', function(){
-    let component = this.owner.lookup('component:place-autocomplete-field');
-    component.set('types', 'geocode,establishment');
-    expect(component._typesToArray()).to.eql(['geocode','establishment']);
-  });
-
-  it('converts types in an empty string', function(){
-    let component = this.owner.lookup('component:place-autocomplete-field');
     component.set('types', '');
-    expect(component._typesToArray()).to.eql([]);
+
+    assert.deepEqual(component._typesToArray(), [], 'Returns empty array when empty string as types');
+
+    component.set('types', 'geocode');
+
+    assert.deepEqual(component._typesToArray(), ['geocode'], 'Returns geocode when types includes `geocode`');
+
+
+    component.set('types', 'geocode,establishment');
+
+    assert.deepEqual(
+      component._typesToArray(),
+      ['geocode','establishment'],
+      'Returns geocode when types includes `geocode`'
+    );
+
+    component.set('types', 'place_id,name,types');
+
+    assert.deepEqual(component._typesToArray(), ['place_id', 'name', 'types'], 'Parses correctly types');
   });
 
-  it('supports array passed as types option', function() {
-    let component = this.owner.lookup('component:place-autocomplete-field');
-    component.set('types', ['geocode', 'establishment']);
-    expect(component._typesToArray()).to.eql(['geocode', 'establishment']);
-  });
+  test('#getOptions', function(assert){
+    const component = this.owner.lookup('component:place-autocomplete-field');
 
-  it('converts fields option to array', function(){
-    let component = this.owner.lookup('component:place-autocomplete-field');
-    component.set('fields', 'place_id,name,types');
-    expect(component._fieldsToArray()).to.eql(['place_id', 'name', 'types']);
-  });
-
-  it('populates the fields option when placeIdOnly is specified', function(){
-    let component = this.owner.lookup('component:place-autocomplete-field');
     component.set('placeIdOnly', true);
+
     const options = component.getOptions();
-    expect(options.fields).to.eql(['place_id', 'name', 'types']);
+
+    assert.deepEqual(
+      options.fields,
+      ['place_id', 'name', 'types'],
+      'populates the fields option when placeIdOnly is specified'
+    );
   });
 
-  it('get geolocate is not available', function(){
+  test('#geolocateAndSetBounds', function(assert) {
+    assert.expect(1);
+
     let component = this.owner.lookup('component:place-autocomplete-field');
     let navigator = {
       geolocation: false
     };
+
     component.setProperties({
       navigator,
       autocomplete: {
         setBounds() {
-          expect().fail();
+          assert.notOk(false, 'Called setBounds, but it shouldnt because geolocation is false');
         }
       }
     });
-    component.geolocateAndSetBounds();
-  });
 
-  it('get geolocate is available', function() {
-    const component = this.owner.lookup('component:place-autocomplete-field');
+    component.geolocateAndSetBounds();
+
     const google = {};
     const Circle = function(center, radio) {
       this.center = center;
@@ -79,6 +79,22 @@ describe('Unit | Component | PlaceAutocompleteField', function() {
       };
     };
 
+    navigator = {
+      geolocation: {
+        getCurrentPosition: function(fb) {
+          const position = {
+            coords: {
+              latitude: 0,
+              longitude: 0,
+              accuracy: 100
+            }
+          };
+
+          fb(position);
+        }
+      }
+    };
+
     google.maps = {
       Circle,
       __gjsload__() {
@@ -86,16 +102,19 @@ describe('Unit | Component | PlaceAutocompleteField', function() {
       }
     };
 
-    component.set('google', google);
-    component.set('autocomplete', {
-      setBounds: function (circle) {
-        if (!component.isDestroyed) {
-          component.setProperties({
-            navigator: null,
-            google: null
-          });
+    component.setProperties({
+      google,
+      navigator,
+      autocomplete: {
+        setBounds: function () {
+          if (!component.isDestroyed) {
+            component.setProperties({
+              navigator: null,
+              google: null
+            });
+          }
+          assert.ok(true, 'Calls setBounds because geolocation is enabled');
         }
-        expect(circle).to.be.ok;
       }
     });
 
