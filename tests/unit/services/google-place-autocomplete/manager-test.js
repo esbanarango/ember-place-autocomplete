@@ -1,13 +1,12 @@
-import { expect } from 'chai';
-import { describe, it } from 'mocha';
-import { setupTest } from 'ember-mocha';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-describe('Unit | Service | google-place-autocomplete/manager', function() {
-  setupTest();
+module('Unit | Service | google-place-autocomplete/manager', function(hooks) {
+  setupTest(hooks);
 
-  // Replace this with your real tests.
-  it('exists', function() {
-    let service = this.owner.lookup('service:google-place-autocomplete/manager');
-    expect(service).to.be.ok;
+  test('exists', function(assert) {
+    const service = this.owner.lookup('service:google-place-autocomplete/manager');
+
+    assert.ok(service);
   });
 });

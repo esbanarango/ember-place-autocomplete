@@ -153,7 +153,6 @@ export default Component.extend({
    */
   geolocateAndSetBounds() {
     const { autocomplete } = this;
-
     if (this.navigator && this.navigator.geolocation && isPresent(autocomplete)) {
       this.navigator.geolocation.getCurrentPosition((position) => {
         const google = this.google;
@@ -176,7 +175,6 @@ export default Component.extend({
     let place = this.autocomplete.getPlace();
     this._callCallback('placeChangedCallback', place);
 
-    // If setValueWithProperty is undefined, use Google Autocomplete default behavior
     if (place[this.setValueWithProperty] !== undefined) {
       this.set('value', place[this.setValueWithProperty]);
     }

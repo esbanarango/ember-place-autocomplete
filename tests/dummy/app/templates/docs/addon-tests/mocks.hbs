@@ -23,26 +23,3 @@
 {{#docs-demo as |demo|}}
   {{demo.snippet "tests-example.js" label="primary"}}
 {{/docs-demo}}
-
-{{#docs-demo as |demo|}}
-  {{#demo.example name="tests-example.js" classNames="hidden"}}
-    import { describe, it } from 'mocha';
-    import { expect } from 'chai';
-    import {
-      GooglePlaceAutocompleteMockedObject
-    } from 'ember-place-autocomplete/test-support';
-
-    it("does something", async function() {
-      // Mock only google places
-      window.google.maps.__gjsload__ = function() {
-        return true;
-      };
-      window.google.maps.places.Autocomplete = GooglePlaceAutocompleteMockedObject;
-      const fakeModel = EmberObject.create({ address: 'fake address'});
-
-      // expects something
-
-      expect(this.get('fakeModel.address')).to.equal('fake address');
-    });
-  {{/demo.example}}
-{{/docs-demo}}
