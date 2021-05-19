@@ -105,7 +105,7 @@ export default Component.extend({
     }
 
     if (this.fields) {
-      options.fields = this.this._fieldsToArray();
+      options.fields = this._fieldsToArray();
     } else if (this.placeIdOnly) {
       options.fields = ['place_id', 'name', 'types'];
     }
