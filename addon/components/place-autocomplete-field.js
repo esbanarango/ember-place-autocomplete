@@ -1,4 +1,4 @@
-import layout from '../templates/components/place-autocomplete-field';
+import layout from '../components/place-autocomplete-field';
 import Component from '@ember/component';
 import { isArray } from '@ember/array';
 import {
@@ -10,25 +10,22 @@ import {
 } from '@ember/utils';
 import { later } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { getOwner }  from '@ember/application';
 
 const RETRY_WINDOW = 100;
 
-export default Component.extend({
-  /* SERVICES
-  ---------------------------------------------------------------------------*/
-  placeAutocompleteManagerService: service('google-place-autocomplete/manager'),
-
-  /* COMPUTED PROPERTIES
-  ---------------------------------------------------------------------------*/
-  isGoogleAvailable: computed('google', function() {
+export default class PlaceAutocompleteFieldComponent extends Component {
+  @service('google-place-autocomplete/manager') placeAutocompleteManagerService;
+  @computed('google')
+  get isGoogleAvailable() {
     return !!this.google;
-  }),
+  }
 
-  isGoogleMapsAvailable: computed('isGoogleAvailable', function() {
+  @computed('isGoogleAvailable')
+  get isGoogleMapsAvailable() {
     return this.isGoogleAvailable && this.google.maps;
-  }),
+  }
 
   /* HOOKS
   ---------------------------------------------------------------------------*/
@@ -36,7 +33,7 @@ export default Component.extend({
    * Set default values in component init
    */
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this._applyDefaults();
 
     const owner = getOwner(this);
@@ -44,7 +41,7 @@ export default Component.extend({
     const navigator = owner.lookup('navigator:main');
 
     this.setProperties({ google, navigator });
-  },
+  }
 
   /**
    * @description Initialize component after is has been added to the DOM
@@ -55,7 +52,7 @@ export default Component.extend({
     this.setupComponent();
 
     this.get('placeAutocompleteManagerService').register();
-  },
+  }
 
   /**
    * @description Clean up component before removing it from the DOM
@@ -74,7 +71,8 @@ export default Component.extend({
           .removePlacesAutoCompleteContainersIfRequired();
       }
     }
-  },
+  }
+
 
   /**
    * @description Acts as an observer an updates the autocomplete instance with any
@@ -84,7 +82,7 @@ export default Component.extend({
     if (this.autocomplete) {
       this.autocomplete.setOptions(this.getOptions());
     }
-  },
+  }
 
   /**
    * @description Returns an object containing any options that are
@@ -111,7 +109,7 @@ export default Component.extend({
     }
 
     return options;
-  },
+  }
 
   // Wait until the google library is loaded by calling this method
   // every 100ms
@@ -130,23 +128,23 @@ export default Component.extend({
         later(this, 'setupComponent', RETRY_WINDOW);
       }
     }
-  },
+  }
 
   keyDown(e) {
     if (this.preventSubmit && isEqual(e.keyCode, 13)) {
       e.preventDefault();
     }
-  },
+  }
 
   setAutocomplete() {
     if (isEmpty(this.autocomplete)) {
       const inputElement = document.getElementById(this.elementId).getElementsByTagName('input')[0],
-            google = this.google || window.google; //TODO: check how to use the inyected google object
+        google = this.google || window.google; //TODO: check how to use the inyected google object
 
       let autocomplete = new google.maps.places.Autocomplete(inputElement, this.getOptions());
       this.set('autocomplete', autocomplete);
     }
-  },
+  }
 
   /**
    * @see https://developers.google.com/maps/documentation/javascript/places-autocomplete#set_search_area
@@ -169,7 +167,7 @@ export default Component.extend({
         autocomplete.setBounds(circle.getBounds());
       });
     }
-  },
+  }
 
   placeChanged() {
     let place = this.autocomplete.getPlace();
@@ -178,7 +176,7 @@ export default Component.extend({
     if (place[this.setValueWithProperty] !== undefined) {
       this.set('value', place[this.setValueWithProperty]);
     }
-  },
+  }
 
   _callCallback(callback, place) {
     let callbackFn = this.get(callback);
@@ -187,7 +185,7 @@ export default Component.extend({
     }
 
     return this.bubbles ? true : false;
-  },
+  }
 
   _toArray(value) {
     if (isArray(value)) {
@@ -204,15 +202,15 @@ export default Component.extend({
     else {
       return [];
     }
-  },
+  }
 
   _typesToArray() {
     return this._toArray(this.types);
-  },
+  }
 
   _fieldsToArray() {
     return this._toArray(this.fields);
-  },
+  }
 
   _applyDefaults() {
     const defaultProperties = {
@@ -233,7 +231,7 @@ export default Component.extend({
         this.set(property, defaultProperties[property]);
       }
     }
-  },
+  }
 
   _bindDataAttributesToInput() {
     if (!window || !document) {
@@ -247,11 +245,9 @@ export default Component.extend({
     properties.forEach((property) => input.setAttribute(property, this.get(property)));
 
     return true;
-  },
-
-  actions: {
-    onBlur() {
-      this._callCallback('onBlurCallback');
-    }
   }
-});
+  @action
+  onBlur(event) {
+    this._callCallback('onBlurCallback', event.target.value);
+  }
+}

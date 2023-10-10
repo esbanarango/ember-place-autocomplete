@@ -29,7 +29,7 @@ export default Service.extend({
    * @description Cleanup DOM when ALL component instances of place-autocomplete-field
    * are removed from the DOM. If there are still components active, it does nothing.
    *
-   * @returns { Boolean } - Indicates whether the DOM was cleaned or not.
+   * @return boolean - Indicates whether the DOM was cleaned or not.
    */
   removePlacesAutoCompleteContainersIfRequired() {
     if (!document || this.numberOfActiveAutoCompleteFields > 0) {
