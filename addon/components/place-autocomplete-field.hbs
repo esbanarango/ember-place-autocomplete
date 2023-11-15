@@ -1,0 +1,14 @@
+{{#if (has-block)}}
+  {{yield this}}
+{{else}}
+  <input
+    value={{@value}}
+    name={{@name}}
+    tabindex={{@tabindex}}
+    disabled={{@disabled}}
+    placeholder={{@placeholder}}
+    class={{@inputClass}}
+    {{on 'blur' this.onBlur}}
+    {{on 'input' (action (mut @value) value='target.value')}}
+  >
+{{/if}}
